@@ -1,0 +1,88 @@
+<div class="login-container">
+  <div class="right-panel">
+    <div class="login-card">
+      <div class="logo">
+        <img src="assets/logo.svg" alt="Logo" />
+      </div>
+      <h2>Sign in</h2>
+
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          formControlName="email"
+          type="email"
+          placeholder="Enter your email"
+        />
+        <div
+          *ngIf="
+            loginForm.get('email')?.invalid &&
+            (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)
+          "
+        >
+          <small
+            class="error-message"
+            *ngIf="loginForm.get('email')?.errors?.['required']"
+            >Email is required.</small
+          >
+          <small
+            class="error-message"
+            *ngIf="loginForm.get('email')?.errors?.['email']"
+            >Enter a valid email format.</small
+          >
+          <small
+            class="error-message"
+            *ngIf="loginForm.get('email')?.errors?.['pattern']"
+            >Invalid email pattern.</small
+          >
+        </div>
+
+        <label for="password">Password</label>
+        <input
+          id="password"
+          formControlName="password"
+          type="password"
+          placeholder="Enter your password"
+        />
+
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.touched ||
+              loginForm.get('password')?.dirty)
+          "
+        >
+          <small
+            class="error-message"
+            *ngIf="loginForm.get('password')?.errors?.['required']"
+            >Password is required.</small
+          >
+          <small
+            class="error-message"
+            *ngIf="loginForm.get('password')?.errors?.['minlength']"
+            >Minimum 6 characters required.</small
+          >
+          <small
+            class="error-message"
+            *ngIf="loginForm.get('password')?.errors?.['pattern']"
+          >
+            Password must contain at least one uppercase letter and one number.
+          </small>
+        </div>
+
+        <button type="submit" [disabled]="loginForm.invalid">Login</button>
+      </form>
+
+      <p class="register-text">
+        Not Registered Yet?
+        <a routerLink="/register">Create an account</a>
+      </p>
+
+     
+    </div>
+  </div>
+
+  <div class="left-panel">
+    <img src="assets/loginImg.png" />
+  </div>
+</div>
