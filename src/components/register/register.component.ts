@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { RouterModule } from '@angular/router'; 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -17,12 +17,21 @@ export class RegisterComponent {
       {
         fullName: ['', [Validators.required, Validators.minLength(3)]],
         phoneNumber: ['', [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)]],
-        email: ['', [Validators.required, Validators.email]],
-        region: [''],
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        region: ['',Validators.minLength(7)],
+        email: ['', [
+          Validators.required,
+          Validators.email,
+          Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+        ]],
+        password: ['', [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(/^(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*\d).+$/)
+        ]],
+        
         confirmPassword: ['', Validators.required],
         address: [''],
-        dateOfBirth: [''],
+        dateOfBirth: ['',Validators.required],
         gender: ['', Validators.required],
         role: ['', Validators.required],
 

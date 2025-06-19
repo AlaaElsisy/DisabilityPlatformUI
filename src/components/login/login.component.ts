@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports:[ReactiveFormsModule,CommonModule]
+  imports:[ReactiveFormsModule,CommonModule,RouterModule]
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
