@@ -1,0 +1,136 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  
+  .register-container {
+    display: flex;
+    height: 90vh;
+  }
+  
+  
+  .left-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9fafb; 
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .register-img {
+    height: 90%;
+    width: auto;
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  
+  
+  .right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #ffffff;
+    overflow: hidden;
+  }
+  
+  .register-card {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 560px;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .register-card h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+    color: #2d3748;
+  }
+  
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .form-grid input,
+  .form-grid select,
+  .form-grid textarea {
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    width: 100%;
+    background-color: #f9fafb;
+    box-sizing: border-box;
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .col-span-2 {
+    grid-column: span 2;
+  }
+  
+  button[type='submit'] {
+    grid-column: span 2;
+    padding: 12px;
+    background-color: #2b6cb0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  button[type='submit']:hover {
+    background-color: #2c5282;
+  }
+  
+  .register-text {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .register-text a {
+    color: #2b6cb0;
+    text-decoration: none;
+  }
+  
+  .register-text a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  .error-message {
+    color: #e53e3e;
+    font-size: 13px;
+    margin-top: 4px;
+    display: block;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
