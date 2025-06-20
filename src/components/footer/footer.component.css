@@ -1,0 +1,90 @@
+.custom-footer {
+  background-color: #e6f0ff; 
+  padding: 50px 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-column {
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.footer-column h4 {
+  margin-bottom: 15px;
+  font-weight: 600;
+  font-size: 18px;
+  color: #003366;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.footer-column ul li a i {
+  margin-right: 8px;
+  color: #007acc;
+}
+
+.footer-column ul li a:hover {
+  color: #007acc;
+}
+
+.social-icons a {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #007acc;
+  transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+}
+
+.message-box {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.message-box input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+
+.message-box button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #007acc;
+  color: white;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.message-box button:hover {
+  background-color: #005999;
+}
