@@ -14,3 +14,6 @@ import { MainhomenavbarComponent } from "../components/mainhomenavbar/mainhomena
 export class AppComponent {
   title = 'EaseAid';
 }
+
+
+

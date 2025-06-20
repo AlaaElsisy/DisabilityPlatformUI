@@ -1,1 +1,118 @@
-<p>register works!</p>
+
+<div class="register-container">
+    <div class="left-panel">
+      <img src="assets/registerImg.png" alt="Illustration" class="register-img" />
+    </div>
+  
+    <div class="right-panel">
+      <div class="register-card">
+        <h2>Create Your Account</h2>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-grid">
+          <!-- Full Name -->
+          <div class="form-group">
+            <input type="text" formControlName="fullName" placeholder="Full Name" />
+            <small *ngIf="signupForm.get('fullName')?.touched && signupForm.get('fullName')?.hasError('required')" class="error-message">Full Name is required.</small>
+            <small *ngIf="signupForm.get('fullName')?.hasError('minlength')" class="error-message">Minimum 3 characters.</small>
+          </div>
+  
+          <!-- Phone Number -->
+          <div class="form-group">
+            <input type="text" formControlName="phoneNumber" placeholder="Phone Number" />
+            <small *ngIf="signupForm.get('phoneNumber')?.touched && signupForm.get('phoneNumber')?.hasError('required')" class="error-message">Phone number is required.</small>
+            <small *ngIf="signupForm.get('phoneNumber')?.hasError('pattern')" class="error-message">Enter valid Egyptian number.</small>
+          </div>
+  
+          <!-- Email -->
+          <div class="form-group">
+            <input type="email" formControlName="email" placeholder="Email" />
+            <small *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.hasError('required')" class="error-message">Email is required.</small>
+            <small *ngIf="signupForm.get('email')?.hasError('email')" class="error-message">Invalid email format.</small>
+            <small *ngIf="signupForm.get('email')?.hasError('pattern')" class="error-message">Invalid email pattern.</small>
+          </div>
+  
+          <!-- Region -->
+          <div class="form-group">
+            <input type="text" formControlName="region" placeholder="Region / Zone" />
+          </div>
+  
+          <!-- Password -->
+          <div class="form-group">
+            <input type="password" formControlName="password" placeholder="Password" />
+            <small *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.hasError('required')" class="error-message">Password is required.</small>
+            <small *ngIf="signupForm.get('password')?.hasError('minlength')" class="error-message">Minimum 6 characters required.</small>
+            <small *ngIf="signupForm.get('password')?.hasError('pattern')" class="error-message">Password must contain at least one uppercase letter and one number.</small>
+          </div>
+  
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <input type="password" formControlName="confirmPassword" placeholder="Confirm Password" />
+            <small *ngIf="signupForm.errors?.['passwordMismatch'] && signupForm.get('confirmPassword')?.touched" class="error-message">Passwords do not match.</small>
+          </div>
+  
+          <!-- Address -->
+          <div class="form-group col-span-2">
+            <input type="text" formControlName="address" placeholder="Address" />
+          </div>
+  
+          <!-- Date of Birth -->
+          <div class="form-group">
+            <input type="date" formControlName="dateOfBirth" />
+          </div>
+  
+          <!-- Gender -->
+          <div class="form-group">
+            <select formControlName="gender">
+              <option disabled selected value="">Gender</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+            <small *ngIf="signupForm.get('gender')?.touched && signupForm.get('gender')?.hasError('required')" class="error-message">Gender is required.</small>
+          </div>
+  
+          <!-- Role -->
+          <div class="form-group">
+            <select formControlName="role">
+              <option disabled selected value="">Choose Role</option>
+              <option value="patient">Patient</option>
+              <option value="helper">Helper</option>
+            </select>
+            <small *ngIf="signupForm.get('role')?.touched && signupForm.get('role')?.hasError('required')" class="error-message">Role is required.</small>
+          </div>
+  
+          <!-- Patient Fields -->
+          <ng-container *ngIf="role === 'patient'">
+            <div class="form-group">
+              <input type="text" formControlName="disabilityType" placeholder="Disability Type" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="medicalConditionDescription" placeholder="Medical Condition Description" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="emergencyContactName" placeholder="Emergency Contact Name" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="emergencyContactRelation" placeholder="Emergency Contact Relation" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="emergencyContactPhone" placeholder="Emergency Contact Phone" />
+            </div>
+          </ng-container>
+  
+          <!-- Helper Fields -->
+          <ng-container *ngIf="role === 'helper'">
+            <div class="form-group col-span-2">
+              <textarea formControlName="bio" placeholder="Bio"></textarea>
+            </div>
+          </ng-container>
+  
+          <button type="submit" [disabled]="signupForm.invalid">Register</button>
+        </form>
+  
+        <p class="register-text">
+          Already have an account?
+          <a routerLink='/login' style="cursor: pointer;">Login</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  
