@@ -1,12 +1,13 @@
 import { Component, AfterViewInit, ElementRef, ViewEncapsulation } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterModule } from '@angular/router';
+import { MainhomenavbarComponent } from "../mainhomenavbar/mainhomenavbar.component";
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  imports: [FooterComponent, RouterModule],
+  imports: [FooterComponent, RouterModule, MainhomenavbarComponent],
   encapsulation: ViewEncapsulation.None, 
 })
 export class HomeComponent implements AfterViewInit {
