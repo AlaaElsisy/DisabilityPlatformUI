@@ -1,1 +1,121 @@
-<p>patienthome works!</p>
+<app-patientnavbar></app-patientnavbar>
+
+<!-- Hero Section -->
+<section id="home" class="mySection section-hidden" style="background-color: #EFF7FD;">
+  <div class="mainSection d-flex justify-content-evenly flex-wrap align-items-center py-5 px-3">
+    <div class="textbox">
+      <h2>
+        Welcome Back,<br />
+        <span>Your Support Hub Awaits</span>
+      </h2>
+      <p>
+        Get the help you need with just a few clicks – whether it's medical assistance, delivery, drivers, or public service.
+      </p>
+      <div class="my-4">
+        <img src="https://udservices.org/wp-content/uploads/2020/04/swoop-blue.svg" alt="">
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <a class="btn primary-btn rounded-4 px-4 py-2" routerLink="/new-request">
+          <i class="fas fa-plus-circle me-2"></i> Create New Request
+        </a>
+      </div>
+    </div>
+
+    <div class="image">
+      <img src="./registerImg2.png" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="mt-5 mySection section-hidden">
+  <div class="container mt-5">
+    <h2 class="text-center MainTitle mt-5">Our Services</h2>
+    <div class="container">
+      <div class="row gy-3 mt-4">
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="icon-wrapper">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <h4>Medical Service</h4>
+            <p>Emergency and routine medical assistance at your doorstep.</p>
+            <button routerLink="/new-request">Request Now</button>
+          </div>
+
+          <div class="service-card">
+            <div class="icon-wrapper">
+              <i class="fas fa-motorcycle"></i>
+            </div>
+            <h4>Delivery Service</h4>
+            <p>Essential items delivered to you with care and speed.</p>
+            <button routerLink="/new-request">Request Now</button>
+          </div>
+
+          <div class="service-card">
+            <div class="icon-wrapper">
+              <i class="fas fa-car"></i>
+            </div>
+            <h4>Driver Service</h4>
+            <p>Accessible transportation when and where you need it.</p>
+            <button routerLink="/new-request">Request Now</button>
+          </div>
+
+          <div class="service-card">
+            <div class="icon-wrapper">
+              <i class="fas fa-tools"></i>
+            </div>
+            <h4>Public Services</h4>
+            <p>Help with government paperwork and community errands.</p>
+            <button routerLink="/new-request">Request Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission -->
+<section id="OurMission" class="mt-5 mySection section-hidden">
+  <div class="container mt-5">
+    <h2 class="text-center MainTitle mt-5">Our Mission</h2>
+    <div class="w-75 mx-auto mt-4 text-center">
+      <p>
+        We aim to make life easier for people with disabilities by providing trusted services and a supportive community. You are never alone – we’re here to help.
+      </p>
+    </div>
+    <div class="OurMission text-center">
+      <img src="./registerImg.png" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="mySection section-hidden">
+  <div class="container mt-5">
+    <h2 class="text-center MainTitle mt-5"><span style="color: #0876CD;">Get in Touch</span></h2>
+    <div class="w-25 mx-auto mt-4">
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" placeholder="Your name..">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" placeholder="Your email..">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Message</label>
+        <textarea class="form-control" rows="3"></textarea>
+      </div>
+      <div class="d-flex flex-row-reverse">
+        <button type="submit" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<section id="footer" class="mt-5 mySection section-hidden">
+  <app-footer></app-footer>
+</section>

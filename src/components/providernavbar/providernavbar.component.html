@@ -1,1 +1,46 @@
-<p>providernavbar works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a class="navbar-brand mt-1 ms-4" routerLink="home">
+      <img src="./mainlogo.jpg" class="logo-img" alt="Talabat Logo"> 
+     <span class="logo"><span>Helper</span></span>
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+ 
+   
+      
+     
+      <ul class="navbar-nav mx-auto ">
+      <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" href="#home">
+               <i class="fas fa-home me-1"></i>    home
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" href="#services">
+               <i class="fas fa-info-circle me-1"></i>servicrs
+
+          </a>
+        </li>
+       <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" href="#contact">
+            
+          <i class="fas fa-envelope me-1"></i> Contact
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/register">
+       <i class="fas fa-user-plus me-1"></i> Register
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
