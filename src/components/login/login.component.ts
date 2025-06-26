@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,11 @@ import { Router, RouterModule } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -37,26 +42,46 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  decodeToken(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      const decodedPayload = atob(payload);
+      return JSON.parse(decodedPayload);
+    } catch (error) {
+      console.error('Token decode error:', error);
+      return null;
+    }
+  }
+
   onSubmit(): void {
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
-      console.log('Login data:', loginData);
+      this.authService.login(loginData).subscribe({
+        next: (res) => {
+          const token = res.token;
+          localStorage.setItem('authToken', token);
 
-      
-      const mockResponse = {
-        token: '',
-        role: 'patient' 
-      };
+          const decodedToken = this.decodeToken(token);
+          console.log('Decoded Token:', decodedToken); 
 
-      const role = mockResponse.role;
+          const rawRole = decodedToken?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+          const role = rawRole?.toLowerCase();
 
-      if (role === 'patient') {
-        this.router.navigate(['/patienthome']);
-      } else if (role === 'helper') {
-        this.router.navigate(['/providerhome']);
-      } else {
-        console.warn('Unknown role');
-      }
+          console.log('Extracted Role:', role); 
+
+          if (role === 'patient') {
+            this.router.navigate(['/patienthome']);
+          } else if (role === 'helper') {
+            this.router.navigate(['/providerhome']);
+          } else {
+            console.warn('Unknown role:', role);
+          }
+        },
+        error: (err) => {
+          console.error('Login error:', err);
+          alert('Invalid email or password!');
+        }
+      });
     }
   }
 }
