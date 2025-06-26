@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { AuthService } from '@services/auth.service';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; 
@@ -14,7 +15,8 @@ export class RegisterComponent {
 
   signupForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+
     this.signupForm = this.fb.group(
       {
         fullName: ['', [Validators.required, Validators.minLength(3)]],
@@ -36,7 +38,6 @@ export class RegisterComponent {
         dateOfBirth: ['',Validators.required],
         gender: ['', Validators.required],
         role: ['', Validators.required],
-
         disabilityType: [''],
         medicalConditionDescription: [''],
         emergencyContactName: [''],
@@ -59,11 +60,23 @@ export class RegisterComponent {
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  onSubmit() {
-    if (this.signupForm.valid) {
-      console.log('Form submitted:', this.signupForm.value);
-    } else {
-      this.signupForm.markAllAsTouched();
-    }
+onSubmit() {
+  if (this.signupForm.valid) {
+    const formData = this.signupForm.value;
+
+    this.authService.register(formData).subscribe({
+      next: (res) => {
+        alert(res.message);
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Registration error:', err);
+        alert(err.error?.message || 'Registration failed');
+      }
+    });
+  } else {
+    this.signupForm.markAllAsTouched();
   }
+}
+
 }
