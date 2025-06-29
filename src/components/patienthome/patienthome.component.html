@@ -1,4 +1,3 @@
-
 <!-- Hero Section -->
 <section id="home" class="mySection section-hidden" style="background-color: #EFF7FD;">
   <div class="mainSection d-flex justify-content-evenly flex-wrap align-items-center py-5 px-3">
@@ -30,7 +29,7 @@
 <!-- Services -->
 <section id="services" class="mt-5 mySection section-hidden">
   <div class="container mt-5">
-    <h2 class="text-center MainTitle mt-5">Our Services</h2>
+    <h2 class="text-center MainTitle mt-5">Provider Service Categories</h2>
     <div class="container">
       <div class="row gy-3 mt-4">
         <div class="services-grid">
@@ -40,7 +39,7 @@
             </div>
             <h4>Medical Service</h4>
             <p>Emergency and routine medical assistance at your doorstep.</p>
-            <button routerLink="/new-request">Request Now</button>
+            <button [routerLink]="['/providerservices']" [queryParams]="{ category: 'Medical Service' }">Add Request</button>
           </div>
 
           <div class="service-card">
@@ -49,7 +48,7 @@
             </div>
             <h4>Delivery Service</h4>
             <p>Essential items delivered to you with care and speed.</p>
-            <button routerLink="/new-request">Request Now</button>
+            <button [routerLink]="['/providerservices']" [queryParams]="{ category: 'Delivery Service' }">Add Request</button>
           </div>
 
           <div class="service-card">
@@ -58,7 +57,7 @@
             </div>
             <h4>Driver Service</h4>
             <p>Accessible transportation when and where you need it.</p>
-            <button routerLink="/new-request">Request Now</button>
+            <button [routerLink]="['/providerservices']" [queryParams]="{ category: 'Driver Service' }">Add Request</button>
           </div>
 
           <div class="service-card">
@@ -67,7 +66,7 @@
             </div>
             <h4>Public Services</h4>
             <p>Help with government paperwork and community errands.</p>
-            <button routerLink="/new-request">Request Now</button>
+            <button [routerLink]="['/providerservices']" [queryParams]="{ category: 'Public Services' }">Add Request</button>
           </div>
         </div>
       </div>
@@ -81,7 +80,7 @@
     <h2 class="text-center MainTitle mt-5">Our Mission</h2>
     <div class="w-75 mx-auto mt-4 text-center">
       <p>
-        We aim to make life easier for people with disabilities by providing trusted services and a supportive community. You are never alone – we’re here to help.
+        We aim to make life easier for people with disabilities by providing trusted services and a supportive community. You are never alone – we're here to help.
       </p>
     </div>
     <div class="OurMission text-center">
@@ -114,7 +113,4 @@
   </div>
 </section>
 
-<!-- Footer -->
-<section id="footer" class="mt-5 mySection section-hidden">
-  <app-footer></app-footer>
-</section>
+

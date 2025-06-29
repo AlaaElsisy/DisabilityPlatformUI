@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl = 'https://localhost:7037/api/Authentication';
+  private baseUrl = 'https://localhost:44346/api/Authentication';
 
   constructor(private http: HttpClient) {}
 
   register(formData: any): Observable<any> {
+    console.log("aHMED");
     const role = formData.role;
     const params = new HttpParams().set('role', role);
 
@@ -34,7 +35,7 @@ export class AuthService {
     return this.http.post(this.baseUrl, payload, { params });
   }
 
-  
+
 login(credentials: { email: string; password: string }): Observable<any> {
   const url = `${this.baseUrl}/login`;
   return this.http.post(url, credentials);

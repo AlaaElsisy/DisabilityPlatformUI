@@ -3,7 +3,7 @@ import { AuthService } from '@services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -32,7 +32,7 @@ export class RegisterComponent {
           Validators.minLength(6),
           Validators.pattern(/^(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*\d).+$/)
         ]],
-        
+
         confirmPassword: ['', Validators.required],
         address: [''],
         dateOfBirth: ['',Validators.required],
@@ -79,4 +79,7 @@ onSubmit() {
   }
 }
 
+testClick() {
+  console.log("Button clicked!");
+}
 }

@@ -1,0 +1,50 @@
+
+
+
+<!-- Service Categories -->
+<section id="categories" class="m-5 ">
+  <div class="container mt-5">
+    <h2 class="text-center MainTitle mt-5">Service Categories</h2>
+    <div class="container">
+      <div class="row gy-3 mt-4">
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="icon-wrapper">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <h4>Medical Service</h4>
+            <p>Emergency and routine medical assistance at your doorstep.</p>
+            <button [routerLink]="['/provider-services']" [queryParams]="{ categoryId: 1 }">View Services</button>
+          </div>
+
+          <div class="service-card">
+            <div class="icon-wrapper">
+              <i class="fas fa-motorcycle"></i>
+            </div>
+            <h4>Delivery Service</h4>
+            <p>Essential items delivered to you with care and speed.</p>
+            <button [routerLink]="['/provider-services']" [queryParams]="{ categoryId: 2 }">View Services</button>
+          </div>
+
+          <div class="service-card">
+            <div class="icon-wrapper">
+              <i class="fas fa-car"></i>
+            </div>
+            <h4>Driver Service</h4>
+            <p>Accessible transportation when and where you need it.</p>
+            <button [routerLink]="['/provider-services']" [queryParams]="{ categoryId: 3 }">View Services</button>
+          </div>
+
+          <div class="service-card">
+            <div class="icon-wrapper">
+              <i class="fas fa-tools"></i>
+            </div>
+            <h4>Public Services</h4>
+            <p>Help with government paperwork and community errands.</p>
+            <button [routerLink]="['/provider-services']" [queryParams]="{ categoryId: 4 }">View Services</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
