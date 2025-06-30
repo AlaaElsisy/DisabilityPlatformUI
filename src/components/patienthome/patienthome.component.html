@@ -1,27 +1,40 @@
 <!-- Hero Section -->
-<section id="home" class="mySection section-hidden" style="background-color: #EFF7FD;">
-  <div class="mainSection d-flex justify-content-evenly flex-wrap align-items-center py-5 px-3">
+<section
+  id="home"
+  class="mySection section-hidden"
+  style="background-color: #eff7fd"
+>
+  <div
+    class="mainSection d-flex justify-content-evenly flex-wrap align-items-center py-5 px-3"
+  >
     <div class="textbox">
       <h2>
         Welcome Back,<br />
         <span>Your Support Hub Awaits</span>
       </h2>
       <p>
-        Get the help you need with just a few clicks – whether it's medical assistance, delivery, drivers, or public service.
+        Get the help you need with just a few clicks – whether it's medical
+        assistance, delivery, drivers, or public service.
       </p>
       <div class="my-4">
-        <img src="https://udservices.org/wp-content/uploads/2020/04/swoop-blue.svg" alt="">
+        <img
+          src="https://udservices.org/wp-content/uploads/2020/04/swoop-blue.svg"
+          alt=""
+        />
       </div>
 
       <div class="d-flex justify-content-center">
-        <a class="btn primary-btn rounded-4 px-4 py-2" routerLink="/new-request">
+        <a
+          class="btn primary-btn rounded-4 px-4 py-2"
+          routerLink="/new-request"
+        >
           <i class="fas fa-plus-circle me-2"></i> Create New Request
         </a>
       </div>
     </div>
 
     <div class="image">
-      <img src="./registerImg2.png" alt="">
+      <img src="./registerImg2.png" alt="" />
     </div>
   </div>
 </section>
@@ -39,7 +52,7 @@
             </div>
             <h4>Medical Service</h4>
             <p>Emergency and routine medical assistance at your doorstep.</p>
-            <button [routerLink]="['/providerservices']" [queryParams]="{ category: 'Medical Service' }">Add Request</button>
+            <button routerLink="/new-request">Request Now</button>
           </div>
 
           <div class="service-card">
@@ -48,7 +61,7 @@
             </div>
             <h4>Delivery Service</h4>
             <p>Essential items delivered to you with care and speed.</p>
-            <button [routerLink]="['/providerservices']" [queryParams]="{ category: 'Delivery Service' }">Add Request</button>
+            <button routerLink="/new-request">Request Now</button>
           </div>
 
           <div class="service-card">
@@ -57,7 +70,7 @@
             </div>
             <h4>Driver Service</h4>
             <p>Accessible transportation when and where you need it.</p>
-            <button [routerLink]="['/providerservices']" [queryParams]="{ category: 'Driver Service' }">Add Request</button>
+            <button routerLink="/new-request">Request Now</button>
           </div>
 
           <div class="service-card">
@@ -66,7 +79,7 @@
             </div>
             <h4>Public Services</h4>
             <p>Help with government paperwork and community errands.</p>
-            <button [routerLink]="['/providerservices']" [queryParams]="{ category: 'Public Services' }">Add Request</button>
+            <button routerLink="/new-request">Request Now</button>
           </div>
         </div>
       </div>
@@ -80,11 +93,13 @@
     <h2 class="text-center MainTitle mt-5">Our Mission</h2>
     <div class="w-75 mx-auto mt-4 text-center">
       <p>
-        We aim to make life easier for people with disabilities by providing trusted services and a supportive community. You are never alone – we're here to help.
+        We aim to make life easier for people with disabilities by providing
+        trusted services and a supportive community. You are never alone – we’re
+        here to help.
       </p>
     </div>
     <div class="OurMission text-center">
-      <img src="./registerImg.png" alt="">
+      <img src="./registerImg.png" alt="" />
     </div>
   </div>
 </section>
@@ -92,15 +107,17 @@
 <!-- Contact -->
 <section id="contact" class="mySection section-hidden">
   <div class="container mt-5">
-    <h2 class="text-center MainTitle mt-5"><span style="color: #0876CD;">Get in Touch</span></h2>
+    <h2 class="text-center MainTitle mt-5">
+      <span style="color: #0876cd">Get in Touch</span>
+    </h2>
     <div class="w-25 mx-auto mt-4">
       <div class="mb-3">
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" placeholder="Your name..">
+        <input type="text" class="form-control" placeholder="Your name.." />
       </div>
       <div class="mb-3">
         <label class="form-label">Email</label>
-        <input type="email" class="form-control" placeholder="Your email..">
+        <input type="email" class="form-control" placeholder="Your email.." />
       </div>
       <div class="mb-3">
         <label class="form-label">Message</label>
@@ -114,3 +131,7 @@
 </section>
 
 
+<!-- Footer -->
+<!-- <section id="footer" class="mt-5 mySection section-hidden">
+  <app-footer></app-footer>
+</section> -->
