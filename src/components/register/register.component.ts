@@ -61,6 +61,7 @@ export class RegisterComponent {
   }
 
 onSubmit() {
+  console.log('Aya');
   if (this.signupForm.valid) {
     const formData = this.signupForm.value;
 

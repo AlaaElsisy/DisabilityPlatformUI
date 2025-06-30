@@ -66,9 +66,12 @@
           </div>
           <!-- Right: Button -->
           <div class="ms-4 d-flex align-items-center">
-            <button class="provider-card-apply-btn d-flex align-items-center">
+            <a class="provider-card-apply-btn d-flex align-items-center" 
+               [routerLink]="['/add-patient-request']" 
+               [queryParams]="{ helperServiceId: service.id, helperName: service.helperName }"
+               title="Go to form page">
               Apply Now <i class="fas fa-arrow-right ms-2"></i>
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -87,4 +90,10 @@
       </nav>
     </div>
   </section>
+
+  <!-- Modal for Add Patient Request -->
+  <!-- (Modal removed) -->
+
+  <!-- DEBUG: Render form outside modal to test interactivity -->
+  <!-- <app-add-patient-request [helperServiceId]="1" [helperName]="'Debug Helper'"></app-add-patient-request> -->
 </div>
