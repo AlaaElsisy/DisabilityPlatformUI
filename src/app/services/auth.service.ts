@@ -1,11 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private baseUrl = 'https://localhost:7037/api/Authentication/register';
+  private baseUrl = `${environment.apiBaseUrl}/Authentication/register`;
 
   constructor(private http: HttpClient) {}
 
@@ -37,7 +38,7 @@ export class AuthService {
 
 
   login(credentials: { email: string; password: string }): Observable<any> {
-    const url = `https://localhost:7037/api/Authentication/login`;
+    const url = `${environment.apiBaseUrl}/Authentication/login`;
     return this.http.post(url, credentials);
   }
 }

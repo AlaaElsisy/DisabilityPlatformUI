@@ -8,6 +8,7 @@ import { PatienthomeComponent } from '../components/patienthome/patienthome.comp
 import { PatientProfileComponent } from '../components/patientProfile/patientProfile.component';
 import { ProviderServicesComponent } from 'components/provider-services/provider-services.component';
 import { ServiceCategoriesComponent } from 'components/service-categories/service-categories.component';
+import { AddPatientRequestComponent } from 'components/add-patient-request/add-patient-request.component';
 import { AddProposalComponent } from 'components/Patient/proposals/add-proposal/add-proposal/add-proposal.component';
 
 export const routes: Routes = [
@@ -24,8 +25,8 @@ export const routes: Routes = [
       { path: 'patientProfile', component: PatientProfileComponent, title: 'Profile' },
       { path: 'provider-services', component: ProviderServicesComponent, title: 'Provider Services' },
       { path: 'service-categories', component: ServiceCategoriesComponent, title: 'Service Categories' },
+      { path: 'add-patient-request', component: AddPatientRequestComponent, title: 'Add Patient Request'},
       { path: 'patient-add-proposal', component: AddProposalComponent, title: 'Proposal' },
-
     ]
   },
 

@@ -4,11 +4,13 @@ export interface ProviderService {
     pricePerHour?: number;
     availableDateFrom?: string | Date;
     availableDateTo?: string | Date;
+    helperImage?:string;
     helperId?: number;
     helperName?: string;
     serviceCategoryId: number;
     serviceCategoryName?: string;
 }
+
 
 export interface ProviderServiceQuery {
     helperId?: number;
