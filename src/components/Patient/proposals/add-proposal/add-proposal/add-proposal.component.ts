@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AddProposalServiceService } from '@services/add-proposal-service.service';
+import { ServiceRequest } from 'app/models/add-proposal.model';
 
 @Component({
   selector: 'app-add-proposal',
@@ -10,59 +12,53 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrls: ['./add-proposal.component.css']
 })
 export class AddProposalComponent {
-  serviceForm: FormGroup;
+  private formBuilder = inject(FormBuilder);
+  private addProposalServiceService = inject(AddProposalServiceService);
+
+  requestForm: FormGroup;
   isLoading = false;
-  isSubmitted = false;
+  error: string | null = null;
+  success = false;
 
-  services: string[] = [
-    'Personal Care',
-    'Companion Care',
-    'Medical Transportation',
-    'Sign Language Support',
-    'Mobility Assistance'
-  ];
-
-  constructor(private fb: FormBuilder) {
-    this.serviceForm = this.fb.group({
+  constructor() {
+    this.requestForm = this.formBuilder.group({
       serviceNeeded: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(20)]],
-      dateTime: ['', [Validators.required, this.futureDateValidator()]],
-      location: ['', [Validators.required, Validators.minLength(5)]],
-      estimatedHours: ['', [Validators.required, Validators.min(1), Validators.max(24)]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
+      dateTime: ['', Validators.required],
+      location: ['', Validators.required],
+      estimatedHours: ['', [Validators.required, Validators.min(1)]],
       expectedCost: ['', [Validators.required, Validators.min(0)]]
     });
   }
 
-  futureDateValidator() {
-    return (control: any) => {
-      const selectedDate = new Date(control.value);
-      const now = new Date();
-      return selectedDate > now ? null : { pastDate: true };
-    };
-  }
-
-  onSubmit() {
-    if (this.serviceForm.valid) {
-      this.isLoading = true;
-
-      // Simulate API call
-      setTimeout(() => {
-        console.log('Service Request:', this.serviceForm.value);
-        this.isLoading = false;
-        this.isSubmitted = true;
-        this.serviceForm.reset();
-
-        // Reset submission status after 5 seconds
-        setTimeout(() => {
-          this.isSubmitted = false;
-        }, 5000);
-      }, 1500);
+  onSubmit(): void {
+    if (this.requestForm.invalid) {
+      this.requestForm.markAllAsTouched();
+      return;
     }
-  }
 
-  // Helper method to check field validity
-  isFieldInvalid(field: string): boolean {
-    const control = this.serviceForm.get(field);
-    return !!control && control.invalid && (control.dirty || control.touched);
+    this.isLoading = true;
+    this.error = null;
+    this.success = false;
+
+    const formData: ServiceRequest = {
+      ...this.requestForm.value,
+      // Convert string dates to Date objects if needed
+      dateTime: new Date(this.requestForm.value.dateTime)
+    };
+
+    this.addProposalServiceService.createServiceRequest(formData).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.success = true;
+        this.requestForm.reset();
+        // You might want to navigate away or show a success message
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.error = 'Failed to submit request. Please try again.';
+        console.error('Submission error:', err);
+      }
+    });
   }
 }
