@@ -15,25 +15,40 @@ export class AddProposalComponent {
   private formBuilder = inject(FormBuilder);
   private addProposalServiceService = inject(AddProposalServiceService);
 
-  requestForm: FormGroup;
+  serviceForm: FormGroup;
   isLoading = false;
   error: string | null = null;
   success = false;
+  isSubmitted = false;
+
+  services: string[] = [
+    'Caregiving',
+    'Transportation',
+    'Medical Assistance',
+    'Grocery Shopping',
+    'Housekeeping',
+    'Companionship'
+  ];
 
   constructor() {
-    this.requestForm = this.formBuilder.group({
+    this.serviceForm = this.formBuilder.group({
       serviceNeeded: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(10)]],
       dateTime: ['', Validators.required],
-      location: ['', Validators.required],
-      estimatedHours: ['', [Validators.required, Validators.min(1)]],
+      location: ['', [Validators.required, Validators.minLength(5)]],
+      estimatedHours: ['', [Validators.required, Validators.min(1), Validators.max(24)]],
       expectedCost: ['', [Validators.required, Validators.min(0)]]
     });
   }
 
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.serviceForm.get(fieldName);
+    return !!field && field.invalid && (field.dirty || field.touched);
+  }
+
   onSubmit(): void {
-    if (this.requestForm.invalid) {
-      this.requestForm.markAllAsTouched();
+    if (this.serviceForm.invalid) {
+      this.serviceForm.markAllAsTouched();
       return;
     }
 
@@ -42,17 +57,16 @@ export class AddProposalComponent {
     this.success = false;
 
     const formData: ServiceRequest = {
-      ...this.requestForm.value,
-      // Convert string dates to Date objects if needed
-      dateTime: new Date(this.requestForm.value.dateTime)
+      ...this.serviceForm.value,
+      dateTime: new Date(this.serviceForm.value.dateTime)
     };
 
     this.addProposalServiceService.createServiceRequest(formData).subscribe({
       next: () => {
         this.isLoading = false;
         this.success = true;
-        this.requestForm.reset();
-        // You might want to navigate away or show a success message
+        this.isSubmitted = true;
+        this.serviceForm.reset();
       },
       error: (err) => {
         this.isLoading = false;
