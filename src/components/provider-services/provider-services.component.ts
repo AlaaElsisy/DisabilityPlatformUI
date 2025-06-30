@@ -133,15 +133,15 @@ export class ProviderServicesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openRequestModal(service: ProviderService) {
-    this.selectedServiceId = service.id ?? null;
-    this.selectedHelperName = service.helperName ?? undefined;
-    this.showRequestModal = true;
-  }
+  // openRequestModal(service: ProviderService) {
+  //   this.selectedServiceId = service.id ?? null;
+  //   this.selectedHelperName = service.helperName ?? undefined;
+  //   this.showRequestModal = true;
+  // }
 
-  closeRequestModal() {
-    this.showRequestModal = false;
-    this.selectedServiceId = null;
-    this.selectedHelperName = undefined;
-  }
+  // closeRequestModal() {
+  //   this.showRequestModal = false;
+  //   this.selectedServiceId = null;
+  //   this.selectedHelperName = undefined;
+  // }
 }
