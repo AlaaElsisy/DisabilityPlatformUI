@@ -8,7 +8,6 @@ import { PatienthomeComponent } from '../components/patienthome/patienthome.comp
 
 import { UserProfileComponent } from '../components/patientProfile/patientProfile.component';
 
-import { ProvidernavbarComponent } from '../components/providernavbar/providernavbar.component';
 import { ProviderhomeComponent } from '../components/providerhome/providerhome.component';
 import { ProviderLayoutComponent } from '../components/provider-layout/provider-layout.component';
 import { ProviderservicesComponent } from '../components/providerservices/providerservices.component';
@@ -20,14 +19,6 @@ import { ServiceCategoriesComponent } from 'components/service-categories/servic
 import { AddPatientRequestComponent } from 'components/add-patient-request/add-patient-request.component';
 import { AddProposalComponent } from 'components/Patient/proposals/add-proposal/add-proposal/add-proposal.component';
 
-export const routes: Routes = [
-   {path:'',redirectTo:'home',pathMatch:'full',title:'Home'}, 
-  {path:'login',component:LoginComponent, title:'Login'},
-  {path:'home',component:HomeComponent ,title:'Home'},
- 
-  {path:'register',component:RegisterComponent, title:'Register'},
-  {path:'patienthome',component:PatienthomeComponent, title:'Home'},
-  {path:'patientProfile',component:PatientProfileComponent, title:'Profile'},
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full', title: 'Home' },
@@ -35,7 +26,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, title: 'Login' },
   { path: 'register', component: RegisterComponent, title: 'Register' },
   { path: 'about', component: NotfoundComponent },
-    
+
    {path:'provider', component:ProviderLayoutComponent,children:[
  {path:'home',component:ProviderhomeComponent, title:'Home'},
   {path:'services',component:ProviderservicesComponent, title:'Services'},
@@ -43,7 +34,7 @@ export const routes: Routes = [
   { path: 'helperaddservice', component: HelperaddserviceComponent, title: 'Add Service' },
   { path: 'helperaddservice/:id', component: HelperaddserviceComponent, title: 'Edit Service' }
   ]},
-    
+
   {
     path: '',
     component: PatientLayoutComponent,
