@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FooterComponent } from 'components/footer/footer.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  UserProfileService } from '@services/patient-profile.service';
+import { PatientProfile } from 'app/models/patient-profile.model';
+import { HelperProfile } from 'app/models/helper-profile.model';
 
 
 @Component({
@@ -9,34 +11,31 @@ import { FooterComponent } from 'components/footer/footer.component';
   standalone: true,
   templateUrl: './patientProfile.component.html',
   styleUrls: ['./patientProfile.component.css'],
-  imports: [FooterComponent,CommonModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule]
 })
-export class PatientProfileComponent implements OnInit {
-  patient: any;
+export class UserProfileComponent implements OnInit {
+  disabledProfile?: PatientProfile;
+  helperProfile?: HelperProfile;
+  errorMessage = '';
+
+  constructor(private profileService: UserProfileService) {}
 
   ngOnInit(): void {
-    // take data from api
-    this.patient = {
-      fullName: 'Aya El-Zoghby',
-      gender: 'Female',
-      phone:'01034638294',
-      dateOfBirth: '1998-04-12',
-      region:'Giza',
-      address: '25 street Al-tahreir,Cairo,',
-      disabilityType: 'Mobility Impairment',
-      medicalConditionDescription: 'Needs assistance with daily activities.',
-      emergencyContactName: 'Eman El-Zoghby',
-      emergencyContactRelation: 'Sister',
-      emergencyContactPhone: '0102465743',
-      image: '/loginImg.png'
-    };
+    this.loadUserProfile();
   }
 
-  getAge(dob: string): number {
-    const birthDate = new Date(dob);
-    const diff = Date.now() - birthDate.getTime();
-    return new Date(diff).getUTCFullYear() - 1970;
+  loadUserProfile(): void {
+    // Try to load disabled user profile
+    this.profileService.getDisabledProfile().subscribe({
+      next: (data) => this.disabledProfile = data,
+      error: () => {
+        // If not found, try to load helper profile
+        this.profileService.getHelperProfile().subscribe({
+          next: (data) => this.helperProfile = data,
+          error: () => this.errorMessage = 'No user profile found.'
+        });
+      }
+    });
   }
 }
 
-  

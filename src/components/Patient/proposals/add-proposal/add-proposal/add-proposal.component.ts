@@ -72,7 +72,8 @@ export class AddProposalComponent {
         this.isLoading = false;
         this.error = 'Failed to submit request. Please try again.';
         console.error('Submission error:', err);
-      }
-    });
-  }
+      }
+    });
+  }
 }
+
