@@ -12,5 +12,10 @@ export class DisabledRequestService {
 
   createRequest(request: DisabledRequest): Observable<DisabledRequest> {
     return this.http.post<DisabledRequest>(this.apiUrl, request);
+    
+  }
+
+  getRequestsByDisabledId(disabledId: number): Observable<DisabledRequest[]> {
+    return this.http.get<DisabledRequest[]>(`${this.apiUrl}?disabledId=${disabledId}`);
   }
 } 

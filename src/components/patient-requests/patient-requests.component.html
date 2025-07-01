@@ -1,1 +1,67 @@
-<p>patient-requests works!</p>
+<h2>Patient Offers</h2>
+
+<!-- Filter -->
+<div class="filter-bar">
+  <label class="filter-label" for="statusFilter">
+    <svg width="20" height="20" fill="#0876CD" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    Status:
+  </label>
+  <div class="custom-select-wrapper">
+    <select id="statusFilter" [(ngModel)]="statusFilter" (change)="onFilterChange()" class="custom-select">
+      <option value="">All</option>
+      <option value="Pending">Pending</option>
+      <option value="Accepted">Accepted</option>
+      <option value="Rejected">Rejected</option>
+      <option value="open">open</option>
+      <option value="Completed">Completed</option>
+      <option value="Cancelled">Cancelled</option>
+      <!-- Add more statuses as needed -->
+    </select>
+    <span class="custom-arrow">&#9662;</span>
+  </div>
+</div>
+
+<!-- Offers List -->
+<div *ngIf="disabledOffers.length > 0; else noOffers" class="offer-card-grid">
+  <div *ngFor="let offer of disabledOffers" class="offer-card">
+    <div class="offer-accent"></div>
+    <span class="offer-status-badge offer-status-abs" [ngClass]="offer.status?.toLowerCase()">{{ offer.status }}</span>
+    <div class="offer-content">
+      <div class="offer-main">
+        <div class="offer-title">{{ offer.description }}</div>
+        <div class="offer-dates-row">
+          <span class="offer-date-label">
+            <svg width="18" height="18" fill="#0876CD" style="vertical-align:middle;margin-right:4px;" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1z"></path></svg>
+            <span>Post Date: {{ offer.offerPostDate | date:'mediumDate' }}</span>
+          </span>
+          <span class="offer-date-label">
+            <svg width="18" height="18" fill="#0876CD" style="vertical-align:middle;margin-right:4px;" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1z"></path></svg>
+            <span>Service Date: {{ offer.serviceTime | date:'mediumDate' }}</span>
+          </span>
+        </div>
+        <div class="offer-divider"></div>
+        <div class="offer-price-row">
+          <span class="offer-price-label">Price:</span>
+          <span class="offer-price-value">{{ offer.budget }} EGP</span>
+        </div>
+      </div>
+      <div class="offer-action">
+        <button class="view-offer-btn" title="View full offer details">
+          <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M2 12C3.5 7 7.5 4 12 4s8.5 3 10 8-3.5 8-10 8-8.5-3-10-8z"/></svg>
+          View Proposals
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noOffers>
+  <p class="no-offers">No offers found.</p>
+</ng-template>
+
+<!-- Pagination Controls -->
+<div class="pagination" *ngIf="totalCount > pageSize">
+  <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1">Previous</button>
+  <span>Page {{ pageNumber }} of {{ totalPages }}</span>
+  <button (click)="onPageChange(pageNumber + 1)" [disabled]="pageNumber * pageSize >= totalCount">Next</button>
+</div>
+  
