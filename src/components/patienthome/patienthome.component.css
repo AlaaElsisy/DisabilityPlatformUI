@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+html {
+  scroll-behavior: smooth;
+}
+.textbox {
+  max-width: 500px;
+  margin-top: 40px;
+  font-family: 'Jost', sans-serif;
+}
+
+.textbox h2 {
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #333;
+}
+
+.textbox h2 span {
+  color: #0876CD;
+  font-weight: 600;
+}
+
+.textbox p {
+  font-size: 16px;
+  color: #555;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.primary-btn {
+  background-color: #0876CD;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.primary-btn:hover {
+  background-color: #0565b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(8, 118, 205, 0.2);
+}
+
+.image img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+
+.AuthButtons .loginbtn:hover {
+  background-color: #0876CD;
+  color: white;
+  border: 1px solid #09c;
+}
+
+.AuthButtons .registerbtn:hover {
+  background-color: white;
+  color: #09c;
+  border: 1px solid #09c;
+}
+
+.MainTitle {
+  font-family: jost, sans-serif;
+  font-size: 55px;
+  font-weight: 400;
+  line-height: 65px;
+  margin-top: 50px;
+}
+
+
+.OurMission img {
+  margin-top: 50px;
+  height: 500px;
+  width: 780px;
+}
+
+.mySection {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.section-hidden {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.section-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: all 0.8s ease-out;
+}
+
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+  padding: 40px;
+  background: #f0f8ff; 
+}
+
+.service-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon-wrapper {
+  background: #09c;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px auto;
+  color: white;
+  font-size: 40px;
+}
+
+.service-card h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.service-card p {
+  font-size: 14px;
+  color: #555;
+  min-height: 60px;
+}
+
+.service-card button {
+  margin-top: 15px;
+  background: #09c;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.service-card button:hover {
+  background: #0077aa;
+}
+.primary-btn {
+  background-color: #0876CD;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+  background-color: #065a9f;
+  color: white;
+}

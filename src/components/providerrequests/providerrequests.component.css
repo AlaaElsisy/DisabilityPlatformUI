@@ -1,0 +1,65 @@
+.MainTitle {
+  font-family: jost, sans-serif;
+  font-size: 35px;
+  font-weight: 400;
+
+  margin-top: 30px;
+}
+.container{
+    width: 80%;
+    margin:auto;
+}
+  body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f4f4f4;
+      padding: 30px;
+    }
+
+    .table-container {
+     
+     
+      overflow-x: auto;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-top: 20;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    thead {
+      background-color:  #0876CD;
+      color: white;
+    }
+
+    th, td {
+      padding: 12px 20px;
+      text-align: center;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+      background-color: #e2f0d9;
+      transition: 0.3s;
+    }
+
+    th {
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      color: #333;
+    }
+    button{
+        margin-left: 5px;
+    }

@@ -7,7 +7,7 @@ import { MainhomenavbarComponent } from "../components/mainhomenavbar/mainhomena
 @Component({
   selector: 'app-root',
    standalone: true,
-  imports: [RouterOutlet, MainhomenavbarComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

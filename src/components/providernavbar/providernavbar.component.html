@@ -1,1 +1,46 @@
-<p>providernavbar works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a class="navbar-brand mt-1 ms-4" routerLink="home">
+      <img src="./mainlogo.jpg" class="logo-img" alt="Talabat Logo"> 
+      <span class="logo"><span>Helper</span></span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="home">
+            <i class="fas fa-house-chimney me-1"></i> Home
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="services">
+            <i class="fas fa-briefcase-medical me-1"></i> Services
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="providers">
+            <i class="fas fa-search me-1"></i> Explore
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="requests">
+            <i class="fas fa-inbox me-1"></i> Requests
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link bg-primary text-white rounded-5" routerLinkActive="active" routerLink="sginout">
+            <i class="fas fa-right-from-bracket me-1"></i> Sign Out
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
