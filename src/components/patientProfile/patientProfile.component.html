@@ -1,89 +1,25 @@
-<section class="main-section">
-  <main class="container">
-    <!-- Profile Info -->
-     
-    <section class="profile">
-      <div class="profile-img-wrapper">
-        <img [src]="patient.image" alt="Profile Photo" class="profile-img" />
-        <a class="change-photo" href="#">Change Photo</a>
-      </div>
-      <div class="profile-info">
-        <h2>{{ patient.fullName }}</h2>
-        <p><strong>Gender:</strong> {{ patient.gender }}</p>
-        <p><strong>Age:</strong> {{ getAge(patient.dateOfBirth) }}</p>
-        <p><strong>Address:</strong> {{ patient.address }}</p>
-        <p><strong>Disability Type:</strong> {{ patient.disabilityType }}</p>
-        <p><strong>Description:</strong> {{ patient.medicalConditionDescription }}</p>
-        <p><strong>Emergency Contact:</strong> {{ patient.emergencyContactName }} ({{ patient.emergencyContactRelation }}) - {{ patient.emergencyContactPhone }}</p>
-      </div>
-    </section>
+<div *ngIf="disabledProfile">
+  <h3>Disabled User Profile</h3>
+  <p><strong>Disability Type:</strong> {{ disabledProfile.disabilityType }}</p>
+  <p>
+    <strong>Medical Condition:</strong>
+    {{ disabledProfile.medicalConditionDescription }}
+  </p>
+  <p>
+    <strong>Emergency Contact:</strong>
+    {{ disabledProfile.emergencyContactName }} -
+    {{ disabledProfile.emergencyContactPhone }}
+    ({{ disabledProfile.emergencyContactRelation }})
+  </p>
+</div>
 
-    <!-- Recent Requests -->
-    <section class="card">
-      <h3>Recent Requests</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Provider</th>
-            <th>Status</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Assistance with Grocery Shopping</td>
-            <td>Ethan Harper</td>
-            <td>Open</td>
-            <td>July 14, 2024</td>
-          </tr>
-          <tr>
-            <td>Transportation to Doctor</td>
-            <td>John Smith</td>
-            <td>Completed</td>
-            <td>July 10, 2024</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="text-end">
-        <a routerLink="/requests" class="small-link">View All Requests</a>
-      </div>
-    </section>
+<div *ngIf="helperProfile">
+  <h3>Helper Profile</h3>
+  <p><strong>Full Name:</strong> {{ helperProfile.fullName }}</p>
+  <p><strong>Phone Number:</strong> {{ helperProfile.phone }}</p>
+  <p><strong>Address:</strong> {{ helperProfile.address }}</p>
+</div>
 
-    <!-- Proposals Received -->
-    <section class="card">
-      <h3>Proposals Received</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Provider</th>
-            <th>Service</th>
-            <th>Details</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Chloe Turner</td>
-            <td>Caregiving</td>
-            <td>I have experience and can help you out</td>
-            <td>July 15, 2024</td>
-          </tr>
-          <tr>
-            <td>Liam Foster</td>
-            <td>Caregiving</td>
-            <td>I'm available and have excellent reviews</td>
-            <td>July 14, 2024</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="text-end">
-        <a routerLink="/proposals" class="small-link">View All Proposals</a>
-      </div>
-    </section>
-  </main>
-</section>
-
-<!-- <section id="footer" class="mt-5 mySection section-hidden">
-  <app-footer></app-footer>
-</section> -->
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
