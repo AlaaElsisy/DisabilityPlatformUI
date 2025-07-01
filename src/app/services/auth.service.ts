@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -32,12 +32,31 @@ export class AuthService {
       emergencyContactRelation: formData.emergencyContactRelation
     };
 
-    return this.http.post(this.baseUrl, payload, { params });
-  }
+    console.log('Register() called');
+    console.log('Payload:', payload);
+    console.log('Params:', params.toString());
 
+    return this.http.post(this.baseUrl, payload, { params }).pipe(
+      tap(response => {
+        console.log('Register response:', response);
+      }),
+      catchError(error => {
+        console.error('Register error:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 
   login(credentials: { email: string; password: string }): Observable<any> {
     const url = `https://localhost:7037/api/Authentication/login`;
-    return this.http.post(url, credentials);
+    console.log('Login called with:', credentials);
+
+    return this.http.post(url, credentials).pipe(
+      tap(res => console.log('Login response:', res)),
+      catchError(err => {
+        console.error('Login error:', err);
+        return throwError(() => err);
+      })
+    );
   }
 }
