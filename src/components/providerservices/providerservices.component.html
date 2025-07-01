@@ -1,0 +1,40 @@
+<div class="services-container">
+
+  <div class="add-service-btn-container">
+    <button class="add-service-btn" (click)="addservice()">
+      <i class="fas fa-plus-circle me-2"></i> Add New Service
+    </button>
+  </div>
+
+  
+  <div class="services-list">
+    @for (service of AllServices; track $index) {
+    <div class="service-card">
+      <div class="service-header">
+        <h3 class="service-title">{{service.description}}</h3>
+        <span class="service-price">{{service.pricePerHour}} Egp/hour</span>
+      </div>
+      
+      <div class="service-dates">
+        <div class="date-item">
+          <i class="far fa-calendar-alt me-2"></i>
+          <span>From: {{service.availableDateFrom }}</span>
+        </div>
+        <div class="date-item">
+          <i class="far fa-calendar-alt me-2"></i>
+          <span>To: {{service.availableDateTo }}</span>
+        </div>
+      </div>
+      
+      <div class="service-actions">
+        <button class="action-btn edit-btn" (click)="editService(service.id)">
+          <i class="far fa-edit me-1"></i> Edit
+        </button>
+        <button class="action-btn delete-btn" (click)="deleteService(service.id)">
+          <i class="far fa-trash-alt me-1"></i> Delete
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>
