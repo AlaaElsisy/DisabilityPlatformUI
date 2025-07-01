@@ -1,9 +1,8 @@
 export interface ServiceRequest {
-  serviceNeeded: string;
   description: string;
-  dateTime: Date | string;
-  location: string;
-  estimatedHours: number;
-  expectedCost: number;
-
+  offerPostDate: Date;
+  startServiceTime: Date;
+  endServiceTime: Date;
+  budget: number;
+  serviceCategorId: number;
 }
