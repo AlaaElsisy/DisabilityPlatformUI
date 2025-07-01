@@ -5,10 +5,29 @@ import { Routes } from '@angular/router';
 import { PatientLayoutComponent } from '../components/patient-layout/patient-layout.component';
 import { RegisterComponent } from '../components/register/register.component';
 import { PatienthomeComponent } from '../components/patienthome/patienthome.component';
-import { PatientProfileComponent } from '../components/patientProfile/patientProfile.component';
+
+import { UserProfileComponent } from '../components/patientProfile/patientProfile.component';
+
+import { ProvidernavbarComponent } from '../components/providernavbar/providernavbar.component';
+import { ProviderhomeComponent } from '../components/providerhome/providerhome.component';
+import { ProviderLayoutComponent } from '../components/provider-layout/provider-layout.component';
+import { ProviderservicesComponent } from '../components/providerservices/providerservices.component';
+import { ProviderrequestsComponent } from '../components/providerrequests/providerrequests.component';
+import { HelperaddserviceComponent } from '../components/helperaddservice/helperaddservice.component';
+
 import { ProviderServicesComponent } from 'components/provider-services/provider-services.component';
 import { ServiceCategoriesComponent } from 'components/service-categories/service-categories.component';
+import { AddPatientRequestComponent } from 'components/add-patient-request/add-patient-request.component';
 import { AddProposalComponent } from 'components/Patient/proposals/add-proposal/add-proposal/add-proposal.component';
+
+export const routes: Routes = [
+   {path:'',redirectTo:'home',pathMatch:'full',title:'Home'}, 
+  {path:'login',component:LoginComponent, title:'Login'},
+  {path:'home',component:HomeComponent ,title:'Home'},
+ 
+  {path:'register',component:RegisterComponent, title:'Register'},
+  {path:'patienthome',component:PatienthomeComponent, title:'Home'},
+  {path:'patientProfile',component:PatientProfileComponent, title:'Profile'},
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full', title: 'Home' },
@@ -16,16 +35,25 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, title: 'Login' },
   { path: 'register', component: RegisterComponent, title: 'Register' },
   { path: 'about', component: NotfoundComponent },
+    
+   {path:'provider', component:ProviderLayoutComponent,children:[
+ {path:'home',component:ProviderhomeComponent, title:'Home'},
+  {path:'services',component:ProviderservicesComponent, title:'Services'},
+  {path:'requests',component:ProviderrequestsComponent, title:'Requests'},
+  { path: 'helperaddservice', component: HelperaddserviceComponent, title: 'Add Service' },
+  { path: 'helperaddservice/:id', component: HelperaddserviceComponent, title: 'Edit Service' }
+  ]},
+    
   {
     path: '',
     component: PatientLayoutComponent,
     children: [
       { path: 'patienthome', component: PatienthomeComponent, title: 'Home' },
-      { path: 'patientProfile', component: PatientProfileComponent, title: 'Profile' },
+      { path: 'userProfile', component: UserProfileComponent, title: 'Profile' },
       { path: 'provider-services', component: ProviderServicesComponent, title: 'Provider Services' },
       { path: 'service-categories', component: ServiceCategoriesComponent, title: 'Service Categories' },
+      { path: 'add-patient-request', component: AddPatientRequestComponent, title: 'Add Patient Request'},
       { path: 'patient-add-proposal', component: AddProposalComponent, title: 'Proposal' },
-
     ]
   },
 

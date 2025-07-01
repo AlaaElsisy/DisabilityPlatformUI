@@ -16,6 +16,7 @@ export class AddProposalComponent {
   private addProposalServiceService = inject(AddProposalServiceService);
 
   serviceForm: FormGroup;
+  serviceForm: FormGroup;
   isLoading = false;
   error: string | null = null;
   success = false;
@@ -27,12 +28,25 @@ export class AddProposalComponent {
     'Driver Service',
     'Public Services'
   ];
+  isSubmitted = false;
+
+  services: string[] = [
+    'Caregiving',
+    'Transportation',
+    'Medical Assistance',
+    'Grocery Shopping',
+    'Housekeeping',
+    'Companionship'
+  ];
 
   constructor() {
+    this.serviceForm = this.formBuilder.group({
     this.serviceForm = this.formBuilder.group({
       serviceNeeded: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(10)]],
       dateTime: ['', Validators.required],
+      location: ['', [Validators.required, Validators.minLength(5)]],
+      estimatedHours: ['', [Validators.required, Validators.min(1), Validators.max(24)]],
       location: ['', [Validators.required, Validators.minLength(5)]],
       estimatedHours: ['', [Validators.required, Validators.min(1), Validators.max(24)]],
       expectedCost: ['', [Validators.required, Validators.min(0)]]
@@ -47,6 +61,8 @@ export class AddProposalComponent {
   onSubmit(): void {
     if (this.serviceForm.invalid) {
       this.serviceForm.markAllAsTouched();
+    if (this.serviceForm.invalid) {
+      this.serviceForm.markAllAsTouched();
       return;
     }
 
@@ -57,12 +73,16 @@ export class AddProposalComponent {
     const formData: ServiceRequest = {
       ...this.serviceForm.value,
       dateTime: new Date(this.serviceForm.value.dateTime)
+      ...this.serviceForm.value,
+      dateTime: new Date(this.serviceForm.value.dateTime)
     };
 
     this.addProposalServiceService.createServiceRequest(formData).subscribe({
       next: () => {
         this.isLoading = false;
         this.success = true;
+        this.isSubmitted = true;
+        this.serviceForm.reset();
         this.isSubmitted = true;
         this.serviceForm.reset();
       },

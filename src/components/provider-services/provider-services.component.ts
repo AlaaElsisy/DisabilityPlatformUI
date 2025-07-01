@@ -5,11 +5,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProviderServicesService } from '../../app/services/provider-services.service';
 import { ProviderService, ProviderServiceQuery, ProviderServicePagedResult } from '../../app/models/provider-service.model';
 import { ActivatedRoute } from '@angular/router';
+import { AddPatientRequestComponent } from '../add-patient-request/add-patient-request.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-provider-services',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    AddPatientRequestComponent,
+    ReactiveFormsModule,
+    RouterModule,
+  ],
   templateUrl: './provider-services.component.html',
   styleUrl: './provider-services.component.css',
   encapsulation: ViewEncapsulation.None,
@@ -31,6 +41,9 @@ export class ProviderServicesComponent implements OnInit, AfterViewInit {
     'Driver Service': 3,
     'Public Services': 4
   };
+  showRequestModal = false;
+  selectedServiceId: number | null = null;
+  selectedHelperName: string | undefined = undefined;
 
   constructor(private providerServicesService: ProviderServicesService, private el: ElementRef, private route: ActivatedRoute) {}
 
@@ -119,4 +132,16 @@ export class ProviderServicesComponent implements OnInit, AfterViewInit {
       default: return null;
     }
   }
+
+  // openRequestModal(service: ProviderService) {
+  //   this.selectedServiceId = service.id ?? null;
+  //   this.selectedHelperName = service.helperName ?? undefined;
+  //   this.showRequestModal = true;
+  // }
+
+  // closeRequestModal() {
+  //   this.showRequestModal = false;
+  //   this.selectedServiceId = null;
+  //   this.selectedHelperName = undefined;
+  // }
 }

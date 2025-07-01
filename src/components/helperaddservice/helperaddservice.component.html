@@ -1,0 +1,51 @@
+<form [formGroup]="addHelperService" class="modern-service-form" (ngSubmit)="test()">
+  <h3 class="form-heading">Add New Service</h3>
+  
+  <div class="form-field">
+    <label for="description">description</label>
+    <input type="text" id="description" name="description" class="form-control" 
+           formControlName="description" placeholder="Enter service description">
+  </div>
+  
+  <div class="form-field">
+    <label for="pricePerHour">price Per Hour</label>
+    <input type="number" id="pricePerHour" name="pricePerHour" class="form-control" 
+           formControlName="pricePerHour" placeholder="Enter price">
+  </div>
+  
+  <div class="date-fields">
+    <div class="form-field">
+      <label for="availableDateFrom">available Date From</label>
+      <input type="datetime-local" id="availableDateFrom" name="availableDateFrom" class="form-control" 
+             formControlName="availableDateFrom">
+    </div>
+    
+    <div class="form-field">
+      <label for="availableDateTo">available Date to</label>
+      <input type="datetime-local" id="availableDateTo" name="availableDateTo" class="form-control" 
+             formControlName="availableDateTo">
+    </div>
+  </div>
+  
+  <div class="id-fields">
+    <div class="form-field">
+      <label for="helperId">helperId</label>
+      <input type="text" id="helperId" name="helperId" class="form-control" 
+             formControlName="helperId">
+    </div>
+    
+    <div class="form-field">
+      <label for="serviceCategoryId">serviceCategoryId</label>
+      <input type="text" id="serviceCategoryId" name="serviceCategoryId" class="form-control" 
+             formControlName="serviceCategoryId">
+    </div>
+  </div>
+  
+ <button type="submit" class="submit-button">
+  {{ isEditMode ? 'Update' : 'Add' }}
+  @if (isloading) {
+    <i class="fas fa-spin fa-spinner"></i>
+  }
+</button>
+
+</form>

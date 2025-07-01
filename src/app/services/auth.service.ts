@@ -1,11 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { Observable, catchError, throwError, tap } from 'rxjs';
+
+import { environment } from 'environments/environment';
+
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private baseUrl = 'https://localhost:7037/api/Authentication/register';
+  private baseUrl = `${environment.apiBaseUrl}/Authentication/register`;
 
   constructor(private http: HttpClient) {}
 
@@ -36,6 +41,7 @@ export class AuthService {
     console.log('Payload:', payload);
     console.log('Params:', params.toString());
 
+
     return this.http.post(this.baseUrl, payload, { params }).pipe(
       tap(response => {
         console.log('Register response:', response);
@@ -48,7 +54,9 @@ export class AuthService {
   }
 
   login(credentials: { email: string; password: string }): Observable<any> {
+
     const url = `https://localhost:7037/api/Authentication/login`;
+
     console.log('Login called with:', credentials);
 
     return this.http.post(url, credentials).pipe(
@@ -56,6 +64,7 @@ export class AuthService {
       catchError(err => {
         console.error('Login error:', err);
         return throwError(() => err);
+
       })
     );
   }
