@@ -1,79 +1,89 @@
-<!-- patient-profile.component.html -->
-<app-patientnavbar></app-patientnavbar>
+<section class="main-section">
+  <main class="container">
+    <!-- Profile Info -->
+     
+    <section class="profile">
+      <div class="profile-img-wrapper">
+        <img [src]="patient.image" alt="Profile Photo" class="profile-img" />
+        <a class="change-photo" href="#">Change Photo</a>
+      </div>
+      <div class="profile-info">
+        <h2>{{ patient.fullName }}</h2>
+        <p><strong>Gender:</strong> {{ patient.gender }}</p>
+        <p><strong>Age:</strong> {{ getAge(patient.dateOfBirth) }}</p>
+        <p><strong>Address:</strong> {{ patient.address }}</p>
+        <p><strong>Disability Type:</strong> {{ patient.disabilityType }}</p>
+        <p><strong>Description:</strong> {{ patient.medicalConditionDescription }}</p>
+        <p><strong>Emergency Contact:</strong> {{ patient.emergencyContactName }} ({{ patient.emergencyContactRelation }}) - {{ patient.emergencyContactPhone }}</p>
+      </div>
+    </section>
 
+    <!-- Recent Requests -->
+    <section class="card">
+      <h3>Recent Requests</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Provider</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Assistance with Grocery Shopping</td>
+            <td>Ethan Harper</td>
+            <td>Open</td>
+            <td>July 14, 2024</td>
+          </tr>
+          <tr>
+            <td>Transportation to Doctor</td>
+            <td>John Smith</td>
+            <td>Completed</td>
+            <td>July 10, 2024</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-end">
+        <a routerLink="/requests" class="small-link">View All Requests</a>
+      </div>
+    </section>
 
-<main class="container">
-  <!-- Profile Info -->
-  <section class="profile">
-    <img src="https://via.placeholder.com/150" alt="Profile Photo" class="profile-img" />
-    <div class="profile-info">
-      <h2>Olivia Bennett</h2>
-      <p><strong>Gender:</strong> Female</p>
-      <p><strong>Age:</strong> 30</p>
-      <p><strong>Address:</strong> 456 Oak Avenue, Anytown, USA</p>
-      <p><strong>Disability Type:</strong> Mobility Impairment</p>
-      <p><strong>Description:</strong> Requires assistance with daily activities due to mobility issues.</p>
-    </div>
-  </section>
-
-  <!-- Recent Requests -->
-  <section class="card">
-    <h3>Recent Requests</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Provider</th>
-          <th>Status</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Assistance with Grocery Shopping</td>
-          <td>Ethan Harper</td>
-          <td>Open</td>
-          <td>July 14, 2024</td>
-        </tr>
-        <tr>
-          <td>Transportation to Doctor</td>
-          <td>John Smith</td>
-          <td>Completed</td>
-          <td>July 10, 2024</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- Proposals Received -->
-  <section class="card">
-    <h3>Proposals Received</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Provider</th>
-          <th>Service</th>
-          <th>Details</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Chloe Turner</td>
-          <td>Caregiving</td>
-          <td>I have experience and can help you out</td>
-          <td>July 15, 2024</td>
-        </tr>
-        <tr>
-          <td>Liam Foster</td>
-          <td>Caregiving</td>
-          <td>I'm available and have excellent reviews</td>
-          <td>July 14, 2024</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-</main>
-<section id="footer" class="mt-5 mySection section-hidden">
-  <app-footer></app-footer>
+    <!-- Proposals Received -->
+    <section class="card">
+      <h3>Proposals Received</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Service</th>
+            <th>Details</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chloe Turner</td>
+            <td>Caregiving</td>
+            <td>I have experience and can help you out</td>
+            <td>July 15, 2024</td>
+          </tr>
+          <tr>
+            <td>Liam Foster</td>
+            <td>Caregiving</td>
+            <td>I'm available and have excellent reviews</td>
+            <td>July 14, 2024</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-end">
+        <a routerLink="/proposals" class="small-link">View All Proposals</a>
+      </div>
+    </section>
+  </main>
 </section>
+
+<!-- <section id="footer" class="mt-5 mySection section-hidden">
+  <app-footer></app-footer>
+</section> -->

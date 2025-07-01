@@ -1,0 +1,94 @@
+<div class="provider-bg">
+  <!-- Filters -->
+  <section class="mySection section-hidden">
+    <div class="container pt-5 mb-2">
+      <h2 class="text-center MainTitle" style="margin-bottom:2rem ;">
+        Provider Services
+        <span *ngIf="categoryName">- {{ categoryName }}</span>
+      </h2>
+      <div class="row gy-2 align-items-center">
+        <div class="col-md-4 mb-2">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-secondary"></i></span>
+            <input type="text" class="form-control border-start-0" placeholder="Search by keyword, service name, etc..." [(ngModel)]="searchWord" (keyup.enter)="onSearch()">
+          </div>
+        </div>
+        <div class="col-md-2 mb-2">
+          <select class="form-select" [(ngModel)]="sortBy" (change)="onSearch()">
+            <option value="">Sort by: Relevance</option>
+            <option value="priceAsc">Price: Low to High</option>
+            <option value="newest">Newest to Oldest</option>
+          </select>
+        </div>
+        <div class="col-md-2 mb-2">
+          <input type="number" class="form-control" placeholder="Min Price" [(ngModel)]="minBudget">
+        </div>
+        <div class="col-md-2 mb-2">
+          <input type="number" class="form-control" placeholder="Max Price" [(ngModel)]="maxBudget">
+        </div>
+        <div class="col-md-2 mb-2">
+          <button class="btn primary-btn w-100" (click)="onSearch()">
+            <i class="fas fa-search me-2"></i>Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Cards Grid -->
+  <section class="mySection section-hidden" style="background: none; min-height: 100vh;">
+    <div class="container">
+      <div *ngIf="loading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <div *ngIf="!loading && services.length === 0" class="alert alert-info text-center">
+        No service requests found.
+      </div>
+      <div class="provider-card-grid">
+        <div *ngFor="let service of services" class="provider-card d-flex align-items-center">
+          
+          <!-- Center: Info -->
+          <div class="flex-grow-1">
+            <div class="provider-card-title mb-1">{{ service.description }}</div>
+            <div class="provider-card-availability mb-1">Available from {{ service.availableDateFrom | date:'MMM d, y' }} to {{ service.availableDateTo | date:'MMM d, y' }}</div>
+            <div class="provider-card-user-row d-flex align-items-center">
+              <img *ngIf="service.helperImage" [src]="service.helperImage" alt="Helper Image" class="provider-card-avatar-img me-2" />
+              <span class="provider-card-user">{{ service.helperName }}</span>
+            </div>
+            <div class="provider-card-price"><span class="fw-bold">Price/Hour : </span> <span class="text-success">{{ service.pricePerHour || 'N/A' }} EGP</span></div>
+          </div>
+          <!-- Right: Button -->
+          <div class="ms-4 d-flex align-items-center">
+            <a class="provider-card-apply-btn d-flex align-items-center" 
+               [routerLink]="['/add-patient-request']" 
+               [queryParams]="{ helperServiceId: service.id, helperName: service.helperName }"
+               title="Go to form page">
+              Apply Now <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <nav *ngIf="totalPages > 1" class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="pageNumber === 1">
+            <button class="page-link" (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1">&laquo;</button>
+          </li>
+          <li class="page-item" *ngFor="let page of pages" [class.active]="page === pageNumber">
+            <button class="page-link" (click)="onPageChange(page)">{{ page }}</button>
+          </li>
+          <li class="page-item" [class.disabled]="pageNumber === totalPages">
+            <button class="page-link" (click)="onPageChange(pageNumber + 1)" [disabled]="pageNumber === totalPages">&raquo;</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Modal for Add Patient Request -->
+  <!-- (Modal removed) -->
+
+  <!-- DEBUG: Render form outside modal to test interactivity -->
+  <!-- <app-add-patient-request [helperServiceId]="1" [helperName]="'Debug Helper'"></app-add-patient-request> -->
+</div>

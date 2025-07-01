@@ -1,14 +1,13 @@
 import { Component, AfterViewInit, ElementRef, ViewEncapsulation } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterModule } from '@angular/router';
-import { PatientnavbarComponent } from "../patientnavbar/patientnavbar.component";
 
 @Component({
   selector: 'app-patienthome',
   standalone: true,
   templateUrl: './patienthome.component.html',
   styleUrls: ['./patienthome.component.css'],
-  imports: [FooterComponent, RouterModule, PatientnavbarComponent],
+  imports: [FooterComponent, RouterModule],
   encapsulation: ViewEncapsulation.None, 
 })
 

@@ -5,6 +5,8 @@ import { routes } from './app/app.routes';
 import { importProvidersFrom } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';  
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { appConfig } from './app/app.config';
+
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -13,3 +15,4 @@ bootstrapApplication(AppComponent, {
         provideHttpClient(withFetch()), 
   ],
 });
+

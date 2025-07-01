@@ -1,0 +1,164 @@
+<div class="service-request-container">
+  <div class="service-request-card">
+    <h2 class="form-title">Create Service Request</h2>
+    <p class="form-subtitle">
+      Please provide details about the service you need
+    </p>
+
+    <form
+      [formGroup]="serviceForm"
+      (ngSubmit)="onSubmit()"
+      class="service-form"
+    >
+      <!-- Success Message -->
+      <div *ngIf="isSubmitted" class="success-message">
+        <svg class="success-icon" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+          />
+        </svg>
+        <p>Your request has been submitted successfully!</p>
+      </div>
+
+      <!-- Service Needed -->
+      <div class="form-group">
+        <label for="serviceNeeded"
+          >Service Needed <span class="required">*</span></label
+        >
+        <div class="select-wrapper">
+          <select
+            id="serviceNeeded"
+            formControlName="serviceNeeded"
+            class="form-control"
+            [class.invalid]="isFieldInvalid('serviceNeeded')"
+          >
+            <option value="" disabled selected>Select a service</option>
+            <option *ngFor="let service of services" [value]="service">
+              {{ service }}
+            </option>
+          </select>
+          <div class="select-arrow">
+            <svg viewBox="0 0 24 24">
+              <path d="M7 10l5 5 5-5z" />
+            </svg>
+          </div>
+        </div>
+        <div *ngIf="isFieldInvalid('serviceNeeded')" class="error-message">
+          Please select a service
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label for="description"
+          >Detailed Description <span class="required">*</span></label
+        >
+        <textarea
+          id="description"
+          formControlName="description"
+          placeholder="Please describe the service you need in detail"
+          rows="4"
+          class="form-control"
+          [class.invalid]="isFieldInvalid('description')"
+        ></textarea>
+        <div *ngIf="isFieldInvalid('description')" class="error-message">
+          Please provide a detailed description (minimum 20 characters)
+        </div>
+      </div>
+
+      <!-- Date & Time -->
+      <div class="form-group">
+        <label for="dateTime"
+          >Date & Time <span class="required">*</span></label
+        >
+        <input
+          type="datetime-local"
+          id="dateTime"
+          formControlName="dateTime"
+          class="form-control"
+          [class.invalid]="isFieldInvalid('dateTime')"
+        />
+        <div *ngIf="isFieldInvalid('dateTime')" class="error-message">
+          Please select a future date and time
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label for="location">Location <span class="required">*</span></label>
+        <input
+          type="text"
+          id="location"
+          formControlName="location"
+          placeholder="Enter service address"
+          class="form-control"
+          [class.invalid]="isFieldInvalid('location')"
+        />
+        <div *ngIf="isFieldInvalid('location')" class="error-message">
+          Please enter a valid location (minimum 5 characters)
+        </div>
+      </div>
+
+      <!-- Hours & Cost Row -->
+      <div class="form-row">
+        <!-- Estimated Hours -->
+        <div class="form-group">
+          <label for="estimatedHours"
+            >Estimated Hours <span class="required">*</span></label
+          >
+          <div class="input-with-unit">
+            <input
+              type="number"
+              id="estimatedHours"
+              formControlName="estimatedHours"
+              min="1"
+              max="24"
+              class="form-control"
+              [class.invalid]="isFieldInvalid('estimatedHours')"
+            />
+            <span class="input-unit">hours</span>
+          </div>
+          <div *ngIf="isFieldInvalid('estimatedHours')" class="error-message">
+            Please enter a valid number (1-24)
+          </div>
+        </div>
+
+        <!-- Expected Cost -->
+        <div class="form-group">
+          <label for="expectedCost"
+            >Expected Cost <span class="required">*</span></label
+          >
+          <div class="input-with-unit">
+            <span class="currency-symbol">$</span>
+            <input
+              type="number"
+              id="expectedCost"
+              formControlName="expectedCost"
+              min="0"
+              step="0.01"
+              class="form-control"
+              [class.invalid]="isFieldInvalid('expectedCost')"
+            />
+          </div>
+          <div *ngIf="isFieldInvalid('expectedCost')" class="error-message">
+            Please enter a valid amount
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="serviceForm.invalid || isLoading"
+          [class.loading]="isLoading"
+        >
+          <span *ngIf="!isLoading">Submit Request</span>
+          <span *ngIf="isLoading" class="button-loader"></span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
