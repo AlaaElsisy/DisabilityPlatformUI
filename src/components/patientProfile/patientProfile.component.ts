@@ -14,7 +14,7 @@ import { HelperProfile } from 'app/models/helper-profile.model';
   imports: [CommonModule, ReactiveFormsModule, FormsModule]
 })
 export class UserProfileComponent implements OnInit {
-  disabledProfile?: PatientProfile;
+  patientProfile?: PatientProfile;
   helperProfile?: HelperProfile;
   errorMessage = '';
 
@@ -27,7 +27,7 @@ export class UserProfileComponent implements OnInit {
   loadUserProfile(): void {
     // Try to load disabled user profile
     this.profileService.getDisabledProfile().subscribe({
-      next: (data) => this.disabledProfile = data,
+      next: (data) => this.patientProfile = data,
       error: () => {
         // If not found, try to load helper profile
         this.profileService.getHelperProfile().subscribe({

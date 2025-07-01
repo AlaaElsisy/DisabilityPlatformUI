@@ -14,7 +14,7 @@ export class UserProfileService {
   constructor(private http: HttpClient) {}
 
   getDisabledProfile(): Observable<PatientProfile> {
-    return this.http.get<PatientProfile>(`${this.baseUrl}/Disabled`);
+    return this.http.get<PatientProfile>(`${this.baseUrl}/Patient`);
   }
 
   getHelperProfile(): Observable<HelperProfile> {
