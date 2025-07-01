@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AddProposalServiceService } from '@services/add-proposal-service.service';
 import { ServiceRequest } from 'app/models/add-proposal.model';
@@ -11,7 +11,7 @@ import { ServiceRequest } from 'app/models/add-proposal.model';
   templateUrl: './add-proposal.component.html',
   styleUrls: ['./add-proposal.component.css']
 })
-export class AddProposalComponent {
+export class AddProposalComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private addProposalServiceService = inject(AddProposalServiceService);
 
@@ -21,21 +21,27 @@ export class AddProposalComponent {
   success = false;
   isSubmitted = false;
 
-  services: string[] = [
-    'Medical Service',
-    'Delivery Service',
-    'Driver Service',
-    'Public Services'
-  ];
+  categories: any[] = [];
 
   constructor() {
     this.serviceForm = this.formBuilder.group({
-      serviceNeeded: ['', Validators.required],
+      serviceNeededId: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      dateTime: ['', Validators.required],
+      startDateTime: ['', Validators.required],
+      endDateTime: ['', Validators.required],
       location: ['', [Validators.required, Validators.minLength(5)]],
-      estimatedHours: ['', [Validators.required, Validators.min(1), Validators.max(24)]],
       expectedCost: ['', [Validators.required, Validators.min(0)]]
+    });
+  }
+
+  ngOnInit(): void {
+    this.addProposalServiceService.getServiceCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (err) => {
+        console.error('Error fetching categories', err);
+      }
     });
   }
 
@@ -47,8 +53,6 @@ export class AddProposalComponent {
   onSubmit(): void {
     if (this.serviceForm.invalid) {
       this.serviceForm.markAllAsTouched();
-    if (this.serviceForm.invalid) {
-      this.serviceForm.markAllAsTouched();
       return;
     }
 
@@ -56,10 +60,15 @@ export class AddProposalComponent {
     this.error = null;
     this.success = false;
 
-    const formData: ServiceRequest = {
-      ...this.serviceForm.value,
-      dateTime: new Date(this.serviceForm.value.dateTime)
-    };
+  const formData: ServiceRequest = {
+  description: this.serviceForm.value.description,
+  offerPostDate: new Date(), 
+  startServiceTime: new Date(this.serviceForm.value.startDateTime),
+  endServiceTime: new Date(this.serviceForm.value.endDateTime),
+  budget: this.serviceForm.value.expectedCost,
+  serviceCategorId: this.serviceForm.value.serviceNeededId
+};
+
 
     this.addProposalServiceService.createServiceRequest(formData).subscribe({
       next: () => {
@@ -75,5 +84,4 @@ export class AddProposalComponent {
       }
     });
   }
-}
 }

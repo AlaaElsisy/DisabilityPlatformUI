@@ -27,24 +27,22 @@
           >Service Needed <span class="required">*</span></label
         >
         <div class="select-wrapper">
-          <select
-            id="serviceNeeded"
-            formControlName="serviceNeeded"
-            class="form-control"
-            [class.invalid]="isFieldInvalid('serviceNeeded')"
-          >
-            <option value="" disabled selected>Select a service</option>
-            <option *ngFor="let service of services" [value]="service">
-              {{ service }}
-            </option>
-          </select>
+         <select formControlName="serviceNeededId" class="form-control" [class.invalid]="isFieldInvalid('serviceNeededId')">
+  <option value="" disabled selected>Select a service</option>
+  <option *ngFor="let category of categories" [value]="category.id">
+    {{ category.name }}
+  </option>
+</select>
+
           <div class="select-arrow">
             <svg viewBox="0 0 24 24">
               <path d="M7 10l5 5 5-5z" />
             </svg>
           </div>
         </div>
-        <div *ngIf="isFieldInvalid('serviceNeeded')" class="error-message">
+     
+          <div *ngIf="isFieldInvalid('serviceNeededId')" class="error-message">
+
           Please select a service
         </div>
       </div>
@@ -75,7 +73,7 @@
         <input
           type="datetime-local"
           id="dateTime"
-          formControlName="dateTime"
+          formControlName="startDateTime"
           class="form-control"
           [class.invalid]="isFieldInvalid('dateTime')"
         />
@@ -91,7 +89,7 @@
         <input
           type="datetime-local"
           id="dateTime"
-          formControlName="dateTime"
+          formControlName="endDateTime"
           class="form-control"
           [class.invalid]="isFieldInvalid('dateTime')"
         />
@@ -118,28 +116,7 @@
 
       <!-- Hours & Cost Row -->
       <div class="form-row">
-        <!-- Estimated Hours -->
-        <!-- <div class="form-group">
-          <label for="estimatedHours"
-            >Estimated Hours <span class="required">*</span></label
-          >
-          <div class="input-with-unit">
-            <input
-              type="number"
-              id="estimatedHours"
-              formControlName="estimatedHours"
-              min="1"
-              max="24"
-              class="form-control"
-              [class.invalid]="isFieldInvalid('estimatedHours')"
-            />
-            <span class="input-unit">hours</span>
-          </div>
-          <div *ngIf="isFieldInvalid('estimatedHours')" class="error-message">
-            Please enter a valid number (1-24)
-          </div>
-        </div> -->
-
+       
         <!-- Expected Cost -->
         <div class="form-group">
           <label for="expectedCost"
