@@ -90,6 +90,7 @@ export class ProviderServicesComponent implements OnInit, AfterViewInit {
       ...(this.sortBy ? { sortBy: this.sortBy } : {}),
       ...(this.serviceCategoryId ? { serviceCategoryId: this.serviceCategoryId } : {})
     };
+
     this.providerServicesService.getPagedServices(query).subscribe({
       next: (result) => {
         console.log(result.items);
@@ -103,6 +104,7 @@ export class ProviderServicesComponent implements OnInit, AfterViewInit {
         this.loading = false;
       }
     });
+    
   }
 
   onSearch() {

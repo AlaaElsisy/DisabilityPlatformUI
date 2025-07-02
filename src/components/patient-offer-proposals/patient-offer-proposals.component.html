@@ -1,0 +1,26 @@
+<div *ngIf="proposals.length > 0; else noProposals" class="proposals-list">
+    <h2>Proposals for this Offer:</h2>
+    <div *ngFor="let proposal of proposals" class="proposal-card">
+      <div class="proposal-header">
+        <img *ngIf="proposal.helperImage" [src]="proposal.helperImage" alt="Helper Image" class="helper-avatar" />
+        <span class="helper-name"><strong>{{ proposal.helperName }}</strong></span>
+      </div>
+      <p><strong>Application Date:</strong> {{ proposal.applicationDate | date:'medium' }}</p>
+      <p><strong>Status:</strong> 
+        <select [ngModel]="proposal.status" (ngModelChange)="changeProposalStatus(proposal, $event)">
+          <option value="Pending">Pending</option>
+          <option value="Accepted">Accepted</option>
+          <option value="Rejected">Rejected</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </p>
+      <p><strong>Message:</strong> {{ proposal.message }}</p>
+      <p><strong>Total Price:</strong> {{ proposal.totalPrice }} EGP</p>
+    </div>
+  </div>
+
+  
+  <ng-template #noProposals>
+    <p>No proposals found for this offer.</p>
+  </ng-template>
+  

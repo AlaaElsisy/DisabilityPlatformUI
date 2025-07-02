@@ -1,1 +1,113 @@
-<p>patient-requests works!</p>
+<h2>Patient Offers</h2>
+
+<!-- Filter -->
+<div class="filter-bar">
+  <label class="filter-label" for="statusFilter">
+    <svg width="20" height="20" fill="#0876CD" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    Status :
+  </label>
+  <div class="custom-select-wrapper">
+    <select id="statusFilter" [(ngModel)]="statusFilter" (change)="onFilterChange()" class="custom-select">
+      <option value="">All</option>
+      <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+    </select>
+    <span class="custom-arrow">&#9662;</span>
+  </div>
+  <label class="filter-label" for="statusFilter">
+    <svg width="20" height="20" fill="#0876CD" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    Category :  
+  </label>
+  <div class="custom-select-wrapper" >
+    <select [(ngModel)]="selectedCategoryId" (change)="onFilterChange()" class="custom-select">
+      <option value="">All Categories</option>
+      <option *ngFor="let cat of serviceCategories" [value]="cat.id">{{ cat.name }}</option>
+    </select>
+    <span class="custom-arrow">&#9662;</span>
+  </div>
+  <input
+    type="text"
+    [(ngModel)]="searchWord"
+    (input)="onFilterChange()"
+    class="search-input"
+    placeholder="Search offers..."
+    style="margin-left: 12px; border-radius: 12px; border: 2px solid #0876CD; padding: 10px 18px; font-size: 1.08rem;"
+  />
+</div>
+
+<!-- Offers List -->
+<div *ngIf="disabledOffers.length > 0; else noOffers" class="offer-card-grid">
+  <div *ngFor="let offer of disabledOffers" class="offer-card">
+    <div class="offer-accent"></div>
+    <span class="offer-status-badge offer-status-abs" [ngClass]="offer.status?.toLowerCase()">{{ offer.status }}</span>
+    <div class="offer-content">
+      <div class="offer-main">
+        <div class="offer-title">{{ offer.description }}</div>
+        <div class="offer-dates-row">
+          <span class="offer-date-label">
+            <svg width="18" height="18" fill="#0876CD" style="vertical-align:middle;margin-right:4px;" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1z"></path></svg>
+            <span class="date-label-text">Post Date:</span>
+            <span class="date-value">{{ offer.offerPostDate | date:'fullDate' }}</span>
+          </span>
+          <span class="offer-date-label">
+            <svg width="18" height="18" fill="#0876CD" style="vertical-align:middle;margin-right:4px;" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1z"></path></svg>
+            <span class="date-label-text">Start Service:</span>
+            <span class="date-value">{{ offer.startServiceTime | date:'fullDate' }}</span>
+          </span>
+          <span class="offer-date-label">
+            <svg width="18" height="18" fill="#0876CD" style="vertical-align:middle;margin-right:4px;" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1z"></path></svg>
+            <span class="date-label-text">End Service:</span>
+            <span class="date-value">{{ offer.endServiceTime | date:'fullDate' }}</span>
+          </span>
+        </div>
+        <div class="offer-divider"></div>
+        <div class="offer-price-row">
+          <span class="offer-price-label">Price:</span>
+          <span class="offer-price-value">{{ offer.budget }} EGP</span>
+        </div>
+      </div>
+      <div class="offer-action">
+        <button class="view-offer-btn" title="View full offer details" [routerLink]="['/offers', offer.id, 'proposals']">
+          <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M2 12C3.5 7 7.5 4 12 4s8.5 3 10 8-3.5 8-10 8-8.5-3-10-8z"/></svg>
+          View Proposals
+        </button>
+        <button class="delete-offer-btn" title="Delete Offer" *ngIf="offer.id !== undefined" (click)="openDeleteModal(offer.id)">
+          <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noOffers>
+  <p class="no-offers">No offers found.</p>
+</ng-template>
+ 
+
+<!-- Pagination Controls -->
+<div class="pagination" *ngIf="totalCount > pageSize">
+  <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1">Previous</button>
+  <span>Page {{ pageNumber }} of {{ totalPages }}</span>
+  <button (click)="onPageChange(pageNumber + 1)" [disabled]="pageNumber * pageSize >= totalCount">Next</button>
+</div>
+  
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" *ngIf="showDeleteModal">
+  <div class="modal-dialog">
+    <h3>Delete Offer</h3>
+    <p>Are you sure you want to delete this offer? This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button type="button" class="modal-cancel-btn" (click)="closeDeleteModal()">Cancel</button>
+      <button type="button" class="modal-delete-btn" (click)="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+  
+
+
+
+
+
+
+

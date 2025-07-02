@@ -61,7 +61,6 @@ export class RegisterComponent {
   }
 
 onSubmit() {
-  console.log('Aya');
   if (this.signupForm.valid) {
     const formData = this.signupForm.value;
 
@@ -75,7 +74,8 @@ onSubmit() {
         alert(err.error?.message || 'Registration failed');
       }
     });
-  } else {
+  } 
+  else {
     this.signupForm.markAllAsTouched();
   }
 }

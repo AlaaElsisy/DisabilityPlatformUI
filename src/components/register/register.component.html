@@ -1,4 +1,3 @@
-
 <div class="register-container">
     <div class="left-panel">
       <img src="assets/registerImg2.png" alt="Illustration" class="register-img" />
@@ -98,13 +97,16 @@
             </div>
           </ng-container>
   
+
           <!-- Helper Fields -->
-          <ng-container *ngIf="role === 'helper'">
+          <!-- <ng-container *ngIf="role === 'helper'">
             <div class="form-group col-span-2">
               <textarea formControlName="bio" placeholder="Bio"></textarea>
             </div>
-          </ng-container>
-  
+          </ng-container> -->
+          
+
+
           <button type="submit" [disabled]="signupForm.invalid">Register</button>
         </form>
   
@@ -112,7 +114,25 @@
           Already have an account?
           <a routerLink='/login' style="cursor: pointer;">Login</a>
         </p>
+  
+        <div *ngIf="signupForm.invalid">
+          <pre>{{ signupForm.errors | json }}</pre>
+          <pre>{{ signupForm.status }}</pre>
+          <pre>{{ signupForm.value | json }}</pre>
+        </div>
+
+        
+        <div *ngFor="let c of signupForm.controls | keyvalue">
+          <div *ngIf="c.value.invalid">
+            <strong>{{c.key}}:</strong> {{ c.value.errors | json }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+
+
+
+  
   
