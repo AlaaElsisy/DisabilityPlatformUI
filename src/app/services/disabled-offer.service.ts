@@ -7,6 +7,7 @@ import { DisabledOffer } from '../models/disabled-offer.model';
 @Injectable({ providedIn: 'root' })
 export class DisabledOfferService {
   private apiUrl = `${environment.apiBaseUrl}/DisabledOffer`;
+  private categoriesUrl = `${environment.apiBaseUrl}/ServiceCategory/dropdown`;
 
   constructor(private http: HttpClient) {}
 
@@ -18,5 +19,17 @@ export class DisabledOfferService {
       }
     });
     return this.http.get<{ items: DisabledOffer[], totalCount: number }>(this.apiUrl, { params });
+  }
+
+  getServiceCategories(): Observable<any[]> {
+    return this.http.get<any[]>(this.categoriesUrl);
+  }
+
+  getOfferStatuses(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/statuses`);
+  }
+
+  deleteOffer(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 } 

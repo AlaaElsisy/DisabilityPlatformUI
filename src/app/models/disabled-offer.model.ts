@@ -2,7 +2,8 @@ export interface DisabledOffer {
   id?: number;
   description?: string;
   offerPostDate: string;
-  serviceTime?: string;
+  startServiceTime?: string;
+  endServiceTime?: string;
   status?: string;
   budget?: number;
   disabledId: number;
