@@ -32,4 +32,21 @@ export class DisabledOfferService {
   deleteOffer(id: number) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  updateOfferStatus(offerId: number, status: string) {
+    console.log(offerId);
+    console.log(status);
+    console.log("Magda Elromy");
+    return this.http.patch(`${this.apiUrl}/request/status`, null, {
+      params: new HttpParams().set('offerId', offerId.toString()).set('status', status)
+    });
+  }
+
+  getById(id: number): Observable<DisabledOffer> {
+    return this.http.get<DisabledOffer>(`${this.apiUrl}/${id}`);
+  }
+
+  updateOffer(id: number, offer: DisabledOffer) {
+    return this.http.put(`${this.apiUrl}/${id}`, offer);
+  }
 } 
