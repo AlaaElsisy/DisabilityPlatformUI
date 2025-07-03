@@ -10,7 +10,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class UserProfileService {
 
-   private baseUrl = `${environment.apiBaseUrl}/api/UserProfile`;
+   private baseUrl = `https://localhost:7037/api/UserProfile`;
 
   constructor(private http: HttpClient) {}
 
