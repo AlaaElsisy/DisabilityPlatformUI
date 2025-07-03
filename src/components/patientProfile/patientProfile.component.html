@@ -1,6 +1,38 @@
 <div class="container mt-5 my-5">
   <div class="card shadow-lg rounded-4">
     <div class="card-body">
+      <nav class="navbar-custom">
+        <div class="container">
+          <div class="d-flex justify-content-center w-100">
+            <div class="d-flex flex-wrap justify-content-center">
+              <a
+                routerLink="/userProfile"
+                routerLinkActive="router-link-active"
+                class="nav-link-custom active"
+              >
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a
+                routerLink="/userProfile"
+                routerLinkActive="active"
+                class="nav-link-custom"
+              >
+                <i class="fas fa-file-alt"></i>
+                My Proposals
+              </a>
+              <a
+                routerLink="/userProfile"
+                routerLinkActive="active"
+                class="nav-link-custom"
+              >
+                <i class="fas fa-inbox"></i>
+                Requests
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
       <h3 class="mb-4 text-center">Patient Profile</h3>
       <div class="row mb-4">
         <div class="col-md-3 text-center">
@@ -15,9 +47,7 @@
             <div
               class="bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center"
               style="width: 150px; height: 150px"
-            >
-              <span class="fs-1">👤</span>
-            </div>
+            ></div>
           </ng-template>
         </div>
         <div class="col-md-9">
