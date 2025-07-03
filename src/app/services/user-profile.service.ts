@@ -11,9 +11,8 @@ export class UserProfileService {
 
 
   getDisabledIdForCurrentUser(): Observable<number> {
-    console.log("Ahmed");
     return this.http.get<number>(`${this.apiUrl}`);
   }
 
 
-} 
+}
