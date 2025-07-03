@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ServiceRequest } from 'app/models/add-proposal.model';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddProposalServiceService {
-  private apiUrl = 'https://localhost:7037/api/DisabledOffer';
+  private apiUrl = `${environment.apiBaseUrl}/DisabledOffer`;
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +19,7 @@ export class AddProposalServiceService {
   }
 
   getServiceCategories(): Observable<any[]> {
-    return this.http.get<any[]>('https://localhost:7037/api/ServiceCategory');
+    return this.http.get<any[]>(`${environment.apiBaseUrl}/ServiceCategory/serviceCategory`);
   }
 
   private handleError(error: HttpErrorResponse) {
