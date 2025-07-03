@@ -1,26 +1,81 @@
+<h2>Proposals for this Offer:</h2>
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <label class="filter-label">Total Price:</label>
+  <input type="number" [(ngModel)]="minTotalPrice" (input)="onFilterChange()" placeholder="Min" class="price-input" min="0" />
+  <span style="margin: 0 8px; color: #0876CD; font-weight: 600;">-</span>
+  <input type="number" [(ngModel)]="maxTotalPrice" (input)="onFilterChange()" placeholder="Max" class="price-input" min="0" />
+  <label class="filter-label" style="margin-left: 24px;">Order By:</label>
+  <div class="custom-select-wrapper">
+    <select [(ngModel)]="orderBy" (change)="onFilterChange()" class="custom-select">
+      <option value="">Default</option>
+      <option value="totalPrice">Price: Low to High</option>
+      <option value="-totalPrice">Price: High to Low</option>
+    </select>
+    <span class="custom-arrow">&#9662;</span>
+  </div>
+</div>
+
+
+
 <div *ngIf="proposals.length > 0; else noProposals" class="proposals-list">
-    <h2>Proposals for this Offer:</h2>
-    <div *ngFor="let proposal of proposals" class="proposal-card">
-      <div class="proposal-header">
-        <img *ngIf="proposal.helperImage" [src]="proposal.helperImage" alt="Helper Image" class="helper-avatar" />
-        <span class="helper-name"><strong>{{ proposal.helperName }}</strong></span>
+  <div *ngFor="let proposal of proposals; let i = index" class="proposal-card">
+    <div class="proposal-header">
+      <img *ngIf="proposal.helperImage" [src]="proposal.helperImage" alt="Helper Image" class="helper-avatar" />
+      <span class="helper-name"><strong>{{ proposal.helperName }}</strong></span>
+      <span class="status-badge" [ngClass]="proposal.status.toLowerCase()">{{ proposal.status }}</span>
+    </div>
+    <p><strong>Application Date:</strong> {{ proposal.applicationDate | date:'medium' }}</p>
+    <p><strong>Message:</strong> {{ proposal.message }}</p>
+    <p><strong>Total Price:</strong> {{ proposal.totalPrice }} EGP</p>
+    <div class="proposal-divider"></div>
+    <div class="proposal-footer">
+      <button *ngIf="proposal.status == 'Pending'" class="accept-btn" (click)="showConfirm('accept', i)">Accept</button>
+      <ng-container *ngIf="proposal.status === 'Accepted'">
+        <button class="accept-btn mark-completed" (click)="showConfirm('completed', i)">Mark it Completed</button>
+        <button class="accept-btn cancel-btn" (click)="showConfirm('cancel', i)">Request Cancellation</button>
+      </ng-container>
+    </div>
+    <!-- Confirmation Modals -->
+    <div class="modal-overlay" *ngIf="confirmAction && confirmIndex === i">
+      <div class="modal-dialog">
+        <h3>Confirm Action</h3>
+        <p *ngIf="confirmAction === 'accept'">Are you sure you want to accept this proposal?</p>
+        <p *ngIf="confirmAction === 'completed'">Are you sure you want to mark this proposal as completed?</p>
+        <p *ngIf="confirmAction === 'cancel'">Are you sure you want to request cancellation for this proposal?</p>
+        <div class="modal-actions">
+          <button type="button" class="modal-cancel-btn" (click)="closeConfirm()">No</button>
+          <button type="button" class="modal-delete-btn" (click)="confirmActionHandler(proposal)">Yes</button>
+        </div>
       </div>
-      <p><strong>Application Date:</strong> {{ proposal.applicationDate | date:'medium' }}</p>
-      <p><strong>Status:</strong> 
-        <select [ngModel]="proposal.status" (ngModelChange)="changeProposalStatus(proposal, $event)">
-          <option value="Pending">Pending</option>
-          <option value="Accepted">Accepted</option>
-          <option value="Rejected">Rejected</option>
-          <option value="Completed">Completed</option>
-        </select>
-      </p>
-      <p><strong>Message:</strong> {{ proposal.message }}</p>
-      <p><strong>Total Price:</strong> {{ proposal.totalPrice }} EGP</p>
     </div>
   </div>
+</div>
 
-  
-  <ng-template #noProposals>
-    <p>No proposals found for this offer.</p>
-  </ng-template>
+
+<!-- Pagination Controls -->
+<div class="pagination" *ngIf="totalCount > pageSize">
+  <button (click)="onPageChange(pageNumber - 1)" [disabled]="pageNumber === 1">Previous</button>
+  <span>Page {{ pageNumber }} of {{ totalPages }}</span>
+  <button (click)="onPageChange(pageNumber + 1)" [disabled]="pageNumber * pageSize >= totalCount">Next</button>
+</div>
+
+<ng-template #noProposals>
+  <div class="no-proposals-card">
+    <div class="no-proposals-icon">
+      <svg width="64" height="64" fill="none" viewBox="0 0 64 64">
+        <rect x="16" y="12" width="32" height="40" rx="6" fill="#e3f0fb"/>
+        <rect x="22" y="20" width="20" height="4" rx="2" fill="#b3d6f6"/>
+        <rect x="22" y="28" width="20" height="4" rx="2" fill="#b3d6f6"/>
+        <rect x="22" y="36" width="12" height="4" rx="2" fill="#b3d6f6"/>
+        <rect x="26" y="8" width="12" height="8" rx="4" fill="#0876CD"/>
+      </svg>
+    </div>
+    <div class="no-proposals-text">
+      <h3>No Proposals Yet</h3>
+      <p>There are currently no proposals for this offer.<br>
+      Please check back later</p>
+    </div>
+  </div>
+</ng-template>
   

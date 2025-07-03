@@ -27,6 +27,10 @@ export class PatientRequestsComponent implements OnInit {
   statuses: string[] = [];
   showDeleteModal = false;
   offerIdToDelete: number | null = null;
+  showEditModal = false;
+  offerIdToEdit: number | null = null;
+  editErrorMessage = '';
+  editOfferData: DisabledOffer | null = null;
 
   constructor(
     private disabledOfferService: DisabledOfferService,
@@ -100,6 +104,45 @@ export class PatientRequestsComponent implements OnInit {
         this.disabledOffers = this.disabledOffers.filter(o => o.id !== this.offerIdToDelete);
         this.totalCount--;
         this.closeDeleteModal();
+      });
+    }
+  }
+
+  openEditModal(offer: DisabledOffer): void {
+    this.helperRequestService.getProposalsByOfferId(offer.id!, { pageNumber: 1, pageSize: 1 }).subscribe(response => {
+      if (response.totalCount > 0) {
+        this.editErrorMessage = 'You cannot edit this offer because it already has proposals. Please delete it and create a new one.';
+        this.offerIdToEdit = offer.id!;
+        this.editOfferData = null;
+        this.showEditModal = true;
+      } else {
+        this.disabledOfferService.getById(offer.id!).subscribe(offerData => {
+          this.editErrorMessage = '';
+          this.offerIdToEdit = offer.id!;
+          this.editOfferData = offerData;
+          this.showEditModal = true;
+        });
+      }
+    });
+  }
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+    this.offerIdToEdit = null;
+    this.editErrorMessage = '';
+    this.editOfferData = null;
+  }
+
+  saveEditOffer(): void {
+    if (this.editOfferData && this.offerIdToEdit) {
+      this.disabledOfferService.updateOffer(this.offerIdToEdit, this.editOfferData).subscribe({
+        next: () => {
+          this.closeEditModal();
+          this.loadOffers();
+        },
+        error: err => {
+          alert('Failed to update offer: ' + (err?.error?.message || err.message || err));
+        }
       });
     }
   }

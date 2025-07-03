@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'environments/environment';
 import { Observable, catchError, throwError, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -56,7 +57,7 @@ const params = new HttpParams().set('role', role);
 
 
   login(credentials: { email: string; password: string }): Observable<any> {
-    const url = `https://localhost:7037/api/Authentication/login`;
+    const url = `${environment.apiBaseUrl}/Authentication/login`;
 
     console.log('Login called with:', credentials);
 
