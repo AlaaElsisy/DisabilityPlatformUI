@@ -6,7 +6,7 @@ import { Observable, catchError, throwError, tap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private baseUrl = `https://localhost:7037/api/Authentication/register`;
+  private baseUrl = `${environment.apiBaseUrl}/Authentication/register`;
 
   constructor(private http: HttpClient) {}
 
