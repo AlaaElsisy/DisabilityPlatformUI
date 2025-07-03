@@ -29,7 +29,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, title: 'Login' },
   { path: 'register', component: RegisterComponent, title: 'Register' },
   { path: 'about', component: NotfoundComponent },
-
    {path:'provider', component:ProviderLayoutComponent,children:[
  {path:'home',component:ProviderhomeComponent, title:'Home'},
   {path:'services',component:ProviderservicesComponent, title:'Services'},

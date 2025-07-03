@@ -15,12 +15,12 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./service-Requests.component.css']
 })
 export class ServiceRequestsComponent implements OnInit {
-  disabledRequests: DisabledRequest[] = [];
-  statuses = ['Pending', 'Accepted', 'Rejected', 'Completed', 'Cancelled'];
-  serviceCategories: ServiceCategory[] = [];
+  serviceRequests: DisabledRequest[] = [];
+  statuses = ['Pending', 'Accepted', 'Rejected', 'Completed'];
+  // serviceCategories: ServiceCategory[] = [];
   searchWord = '';
   statusFilter = '';
-selectedCategoryId: number | null = null;
+// selectedCategoryId: number | null = null;
   pageNumber = 1;
   pageSize = 5;
   totalCount = 0;
@@ -36,13 +36,13 @@ selectedCategoryId: number | null = null;
    this.userProfileService.getDisabledIdForCurrentUser().subscribe(disabledId => {
   this.disabledId = disabledId;
   this.fetchRequests();
-     this.requestService.getServiceCategories().subscribe(categories => {
-      this.serviceCategories = categories.map((cat: any) => ({
-        id: cat.id,
-        name: cat.name || cat.categoryName || cat.serviceCategoryName
-      }));
+    //  this.requestService.getServiceCategories().subscribe(categories => {
+    //   this.serviceCategories = categories.map((cat: any) => ({
+    //     id: cat.id,
+    //     name: cat.name || cat.categoryName || cat.serviceCategoryName
+    //   }));
     });
-});
+
 
    
   }
@@ -56,11 +56,13 @@ fetchRequests() {
       this.pageNumber,
       this.pageSize,
       this.statusFilter || undefined,
-      this.selectedCategoryId != null ? this.selectedCategoryId : undefined,
+      undefined,
       this.searchWord || undefined
+     // this.selectedCategoryId != null ? this.selectedCategoryId : undefined,
+      
     )
     .subscribe(res => {
-      this.disabledRequests = res.items;
+      this.serviceRequests = res.items;
       this.totalCount = res.totalCount;
       this.totalPages = Math.ceil(this.totalCount / this.pageSize);
     });
@@ -77,7 +79,7 @@ fetchRequests() {
     this.fetchRequests();
   }
   viewDetails(id: number) {
-  window.open(`/request-details/${id}`, '_blank');
+  window.open(`/request-details/${id}`);
 }
 
 openDeleteModal(id: number) {

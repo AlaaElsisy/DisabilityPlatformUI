@@ -1,4 +1,3 @@
-<!-- my-requests.component.html -->
 <div class="requests-container">
   <h2>My Requests</h2>
 
@@ -15,7 +14,7 @@
       </select>
       <span class="custom-arrow">&#9662;</span>
     </div>
-    <label class="filter-label" for="statusFilter">
+    <!-- <label class="filter-label" for="statusFilter">
       <svg width="20" height="20" fill="#0876CD" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       Category:  
     </label>
@@ -26,7 +25,7 @@
 </select>
 
       <span class="custom-arrow">&#9662;</span>
-    </div>
+    </div> -->
     <input
       type="text"
       [(ngModel)]="searchWord"
@@ -37,12 +36,17 @@
   </div>
 
   <!-- Requests List -->
-  <div *ngIf="disabledRequests.length > 0; else noRequests" class="offer-card-grid">
-    <div *ngFor="let request of disabledRequests" class="offer-card">
+  <div *ngIf="serviceRequests.length > 0; else noRequests" class="offer-card-grid">
+    <div *ngFor="let request of serviceRequests" class="offer-card">
       <div class="offer-accent"></div>
       <span class="offer-status-badge offer-status-abs" [ngClass]="request.status?.toLowerCase()">{{ request.status }}</span>
       <div class="offer-content">
         <div class="offer-main">
+         <!-- Helper Info -->
+<!-- <div class="helper-info" *ngIf="request.helperName">
+  <img [src]="request.helperImage || 'assets/default-avatar.png'" alt="Helper Image" class="helper-avatar" />
+  <span class="helper-name">{{ request.helperName }}</span>
+</div> -->
           <div class="offer-title">{{ request.description }}</div>
           <div class="offer-dates-row">
             <span class="offer-date-label">
