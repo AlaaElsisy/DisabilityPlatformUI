@@ -6,7 +6,7 @@ import { Observable, catchError, throwError, tap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private baseUrl = `https://localhost:7037/api/Authentication/register`;
+  private baseUrl = `${environment.apiBaseUrl}/Authentication/register`;
 
   constructor(private http: HttpClient) {}
 
@@ -58,7 +58,7 @@ const params = new HttpParams().set('role', role);
 
   login(credentials: { email: string; password: string }): Observable<any> {
     const url = `${environment.apiBaseUrl}/Authentication/login`;
-
+ 
     console.log('Login called with:', credentials);
 
     return this.http.post(url, credentials).pipe(
