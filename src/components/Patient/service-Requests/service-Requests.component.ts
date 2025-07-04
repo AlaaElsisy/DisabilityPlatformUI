@@ -17,10 +17,10 @@ import { CommonModule } from '@angular/common';
 export class ServiceRequestsComponent implements OnInit {
   serviceRequests: DisabledRequest[] = [];
   statuses = ['Pending', 'Accepted', 'Rejected', 'Completed'];
-  // serviceCategories: ServiceCategory[] = [];
+   serviceCategories: ServiceCategory[] = [];
   searchWord = '';
   statusFilter = '';
-// selectedCategoryId: number | null = null;
+  selectedCategoryId: number | null = null;
   pageNumber = 1;
   pageSize = 5;
   totalCount = 0;
@@ -36,17 +36,15 @@ export class ServiceRequestsComponent implements OnInit {
    this.userProfileService.getDisabledIdForCurrentUser().subscribe(disabledId => {
   this.disabledId = disabledId;
   this.fetchRequests();
-    //  this.requestService.getServiceCategories().subscribe(categories => {
-    //   this.serviceCategories = categories.map((cat: any) => ({
-    //     id: cat.id,
-    //     name: cat.name || cat.categoryName || cat.serviceCategoryName
-    //   }));
+     this.requestService.getServiceCategories().subscribe(categories => {
+      this.serviceCategories = categories.map((cat: any) => ({
+        id: cat.id,
+        name: cat.name || cat.categoryName || cat.serviceCategoryName
+      }));
     });
-
-
-   
   }
-
+  );
+  } 
 fetchRequests() {
   if (!this.disabledId) return;
 
@@ -56,9 +54,9 @@ fetchRequests() {
       this.pageNumber,
       this.pageSize,
       this.statusFilter || undefined,
-      undefined,
-      this.searchWord || undefined
-     // this.selectedCategoryId != null ? this.selectedCategoryId : undefined,
+      this.selectedCategoryId != null ? this.selectedCategoryId : undefined,
+      this.searchWord || undefined,
+    
       
     )
     .subscribe(res => {
