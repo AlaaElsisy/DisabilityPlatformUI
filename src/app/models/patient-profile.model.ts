@@ -1,5 +1,6 @@
 export interface PatientProfile {
-  id?: string;
+ user:{
+   id?: string;
   fullName: string;
   email: string;
   phone: string;
@@ -9,6 +10,7 @@ export interface PatientProfile {
   zone: string | null;
   profileImage: string | null;
   createdAt: string;
+ }
   medicalConditionDescription: string;
   disabilityType: string;
   emergencyContactName: string;

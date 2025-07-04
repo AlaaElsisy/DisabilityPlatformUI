@@ -9,9 +9,10 @@ export class UserProfileService {
 
   constructor(private http: HttpClient) {}
 
-  getDisabledIdForCurrentUser(): Observable<number> {
 
+  getDisabledIdForCurrentUser(): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}`);
   }
 
-} 
+
+}

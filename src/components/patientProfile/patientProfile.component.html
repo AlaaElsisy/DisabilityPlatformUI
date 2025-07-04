@@ -1,25 +1,180 @@
-<div *ngIf="disabledProfile">
-  <h3>Disabled User Profile</h3>
-  <p><strong>Disability Type:</strong> {{ disabledProfile.disabilityType }}</p>
-  <p>
-    <strong>Medical Condition:</strong>
-    {{ disabledProfile.medicalConditionDescription }}
-  </p>
-  <p>
-    <strong>Emergency Contact:</strong>
-    {{ disabledProfile.emergencyContactName }} -
-    {{ disabledProfile.emergencyContactPhone }}
-    ({{ disabledProfile.emergencyContactRelation }})
-  </p>
-</div>
+<div class="container mt-5 my-5">
+  <div class="card shadow-lg rounded-4">
+    <div class="card-body">
+      <nav class="navbar-custom">
+        <div class="container">
+          <div class="d-flex justify-content-center w-100">
+            <div class="d-flex flex-wrap justify-content-center">
+              <a
+                routerLink="/userProfile"
+                routerLinkActive="router-link-active"
+                class="nav-link-custom active"
+              >
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a
+                routerLink="/userProfile"
+                routerLinkActive="active"
+                class="nav-link-custom"
+              >
+                <i class="fas fa-file-alt"></i>
+                My Proposals
+              </a>
+              <a
+                routerLink="/userProfile"
+                routerLinkActive="active"
+                class="nav-link-custom"
+              >
+                <i class="fas fa-inbox"></i>
+                Requests
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <h3 class="mb-4 text-center">Patient Profile</h3>
+      <div class="row mb-4">
+        <div class="col-md-3 text-center">
+          <img
+            *ngIf="patientProfile?.user?.profileImage; else defaultImage"
+            [src]="patientProfile?.user?.profileImage"
+            class="img-thumbnail rounded-circle shadow-sm"
+            alt="Profile Image"
+            style="width: 150px; height: 150px; object-fit: cover"
+          />
+          <ng-template #defaultImage>
+            <div
+              class="bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center"
+              style="width: 150px; height: 150px"
+            ></div>
+          </ng-template>
+        </div>
+        <div class="col-md-9">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="patientProfile?.user?.fullName"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="patientProfile?.user?.email"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phone</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="patientProfile?.user?.phone"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Date of Birth</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="patientProfile?.user?.dateOfBirth | date : 'longDate'"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Gender</label>
+              <input
+                type="text"
+                class="form-control text-capitalize"
+                [value]="patientProfile?.user?.gender"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Address</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="patientProfile?.user?.address"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Zone</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="patientProfile?.user?.zone || 'N/A'"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
-<div *ngIf="helperProfile">
-  <h3>Helper Profile</h3>
-  <p><strong>Full Name:</strong> {{ helperProfile.fullName }}</p>
-  <p><strong>Phone Number:</strong> {{ helperProfile.phone }}</p>
-  <p><strong>Address:</strong> {{ helperProfile.address }}</p>
-</div>
+      <hr />
 
-<div *ngIf="errorMessage" class="alert alert-danger">
-  {{ errorMessage }}
+      <h5 class="mb-3">Disability Information</h5>
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <label class="form-label">Disability Type</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="patientProfile?.disabilityType"
+            disabled
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Medical Condition</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="patientProfile?.medicalConditionDescription"
+            disabled
+          />
+        </div>
+      </div>
+
+      <hr />
+
+      <h5 class="mb-3">Emergency Contact</h5>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="patientProfile?.emergencyContactName"
+            disabled
+          />
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="patientProfile?.emergencyContactPhone"
+            disabled
+          />
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Relation</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="patientProfile?.emergencyContactRelation"
+            disabled
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
