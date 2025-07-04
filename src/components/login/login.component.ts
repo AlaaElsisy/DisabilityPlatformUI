@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           const token = res.token;
           localStorage.setItem('authToken', token);
+          localStorage.setItem('token', token);
 
           const decodedToken = this.decodeToken(token);
           console.log('Decoded Token:', decodedToken); 

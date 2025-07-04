@@ -1,0 +1,147 @@
+.offers-container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.offer-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.offer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.offer-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.offer-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #3182ce;
+  margin-bottom: 0.5rem;
+}
+
+.offer-date {
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+.offer-details {
+  
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
+
+.disability-type {
+  background: #ebf8ff;
+  color: #3182ce;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.location, .budget {
+  font-size: 0.9375rem;
+  color: #4a5568;
+}
+
+.offer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+}
+
+.user-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 0.125rem;
+  color: #2d3748;
+}
+
+.user-bio {
+  font-size: 0.8125rem;
+  color: #718096;
+}
+
+.apply-btn {
+  background: #4299e1;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.apply-btn:hover {
+  background: #3182ce;
+}
+
+@media (max-width: 768px) {
+  .offer-details {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .offer-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .apply-btn {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+.Under-data{
+    width: 96%;
+    margin: 0 auto;
+    height: .0625rem;
+    background-color: #9c9ea1;
+    opacity: .2;
+}
