@@ -11,7 +11,7 @@ import { UserProfileComponent } from '../components/patientProfile/patientProfil
 import { ProviderhomeComponent } from '../components/providerhome/providerhome.component';
 import { ProviderLayoutComponent } from '../components/provider-layout/provider-layout.component';
 import { ProviderservicesComponent } from '../components/providerservices/providerservices.component';
-import { ProviderrequestsComponent } from '../components/providerrequests/providerrequests.component';
+import { ProviderRequestsComponent } from '../components/providerrequests/providerrequests.component';
 import { HelperaddserviceComponent } from '../components/helperaddservice/helperaddservice.component';
 
 import { ProviderServicesComponent } from 'components/provider-services/provider-services.component';
@@ -37,7 +37,7 @@ export const routes: Routes = [
    {path:'provider', component:ProviderLayoutComponent,children:[
  {path:'home',component:ProviderhomeComponent, title:'Home'},
   {path:'services',component:ProviderservicesComponent, title:'Services'},
-  {path:'requests',component:ProviderrequestsComponent, title:'Requests'},
+  {path:'requests',component:ProviderRequestsComponent, title:'Requests'},
   { path: 'helperaddservice', component: HelperaddserviceComponent, title: 'Add Service' },
   { path: 'helperaddservice/:id', component: HelperaddserviceComponent, title: 'Edit Service' },
   {path:'offers',component:HelperExploreOffersComponent, title:'Offers'},
