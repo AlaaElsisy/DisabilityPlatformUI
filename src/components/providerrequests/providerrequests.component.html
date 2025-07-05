@@ -1,3 +1,23 @@
+<!-- Filters -->
+<div class="filter-bar">
+  <label for="statusFilter">Status:</label>
+  <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+    <option value="">All</option>
+    <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+  </select>
+<label for="categoryFilter">Category:</label>
+<select [(ngModel)]="categoryFilter" (change)="applyFilters()">
+  <option value="">All</option>
+  <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
+</select>
+
+  <input
+    type="text"
+    [(ngModel)]="searchWord"
+    (input)="applyFilters()"
+    placeholder="Search..."
+  />
+</div>
 <div class="modal-overlay" *ngIf="showViewModal">
   <div class="modal-dialog">
     <h3>Proposal Details</h3>
@@ -21,7 +41,7 @@
     </div>
   </div>
 </div>
-<div class="container">
+<div class="inner-content">
   @for (item of helperProposals; track $index) {
     <div class="service-card">
       <div class="status-badge" [ngClass]="item.status.toLowerCase()">
@@ -52,8 +72,6 @@
   </div>
 
 </div>
-
-
       <div class="d-flex justify-content-between align-items-center border-top pt-3">
         <div>
           <small class="text-muted">
