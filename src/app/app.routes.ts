@@ -21,6 +21,7 @@ import { AddProposalComponent } from 'components/Patient/proposals/add-proposal/
 import { PatientRequestsComponent } from 'components/patient-requests/patient-requests.component';
 import { PatientOfferProposalsComponent } from 'components/patient-offer-proposals/patient-offer-proposals.component';
 import { ServiceRequestsComponent } from 'components/Patient/service-Requests/service-Requests.component';
+import { PaymentComponent } from 'components/payment/payment/payment.component';
 
 
 export const routes: Routes = [
@@ -52,6 +53,7 @@ export const routes: Routes = [
 
       { path: 'patient-offer-proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
       { path: 'offers/:id/proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
+       { path: 'payment', component: PaymentComponent, title: 'Payment' }
     ]
   },
 

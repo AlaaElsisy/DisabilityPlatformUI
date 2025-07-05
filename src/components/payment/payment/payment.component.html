@@ -1,0 +1,65 @@
+<section class="checkout-container my-5">
+  <div>
+    <h2 class="checkout-title">Checkout</h2>
+
+    <form class="checkout-form" #paymentForm="ngForm" (ngSubmit)="submitPayment()">
+
+      <!-- Payment Section -->
+      <div class="form-section">
+        <h3 class="section-title">Payment Details</h3>
+
+        <input type="text" 
+               placeholder="Card Number"  name="cardNumber"  [(ngModel)]="payment.cardNumber" 
+               required   #cardNumber="ngModel">
+        <div *ngIf="cardNumber.invalid && cardNumber.touched" class="text-red-500 text-sm">Card number is required</div>
+
+        <div class="input-row">
+          <input type="text"   placeholder="MM"   name="expMonth"   [(ngModel)]="payment.expMonth" 
+                 required  #expMonth="ngModel">
+          <input type="text" 
+                 placeholder="YY"   name="expYear"  [(ngModel)]="payment.expYear" 
+                 required  #expYear="ngModel">
+          <input type="text" 
+                 placeholder="CVC"  name="cvc"    [(ngModel)]="payment.cvc" 
+                 required   #cvc="ngModel">
+        </div>
+        <div *ngIf="(expMonth.invalid && expMonth.touched) || (expYear.invalid && expYear.touched) || (cvc.invalid && cvc.touched)" class="text-red-500 text-sm">
+          Expiration date and CVC are required
+        </div>
+
+        <input type="number"   placeholder="Amount (USD)"  name="amount"   [(ngModel)]="payment.amount" 
+               required   min="1"    #amount="ngModel">
+        <div *ngIf="amount.invalid && amount.touched" class="text-red-500 text-sm">Valid amount is required</div>
+      </div>
+
+      <!-- service Summary -->
+      <div class="form-section">
+        <h3 class="section-title">Summary</h3>
+        <div class="summary-item">
+          <span>Patient Name:</span>
+          <span>{{ patientName || 'N/A' }}</span>
+        </div>
+        <div class="summary-item">
+          <span>Helper Name:</span>
+          <span>{{ helperName || 'N/A' }}</span>
+        </div>
+        <div class="summary-item">
+          <span>Service:</span>
+          <span>{{ serviceName || 'N/A' }}</span>
+        </div>
+        <div class="summary-item total">
+          <span>Total:</span>
+          <span>${{ payment.amount || '0.00' }}</span>
+        </div>
+      </div>
+
+      <button type="submit" class="checkout-button" [disabled]="paymentForm.invalid">Pay Now</button>
+
+      <div *ngIf="paymentResult" class="mt-4 text-sm" [ngClass]="{'text-green-500': paymentResult.success, 'text-red-500': !paymentResult.success}">
+        {{ paymentResult.message }}
+      </div>
+
+    </form>
+  </div>
+</section>
+<script src="https://js.stripe.com/v3/"></script>
