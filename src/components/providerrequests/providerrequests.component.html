@@ -1,133 +1,90 @@
+<div class="modal-overlay" *ngIf="showViewModal">
+  <div class="modal-dialog">
+    <h3>Proposal Details</h3>
+
+    <div *ngIf="selectedProposal">
+      <form class="edit-offer-form">
+        <label>Message:
+          <textarea [(ngModel)]="editableProposal.message" [readonly]="!isEditing" name="message"></textarea>
+        </label>
+
+        <label>Total Price:
+          <input type="number" [(ngModel)]="editableProposal.totalPrice" [readonly]="!isEditing" name="totalPrice" />
+        </label>
+      </form>
+    </div>
+
+    <div class="modal-actions mt-3" *ngIf="selectedProposal">
+      <button *ngIf="!isEditing" type="button" class="modal-cancel-btn" (click)="editProposal()">Edit</button>
+      <button *ngIf="isEditing" type="button" class="modal-delete-btn" (click)="saveProposal()">Done</button>
+      <button type="button" class="modal-cancel-btn" (click)="closeViewModal()">Close</button>
+    </div>
+  </div>
+</div>
+<div class="container">
+  @for (item of helperProposals; track $index) {
+    <div class="service-card">
+      <div class="status-badge" [ngClass]="item.status.toLowerCase()">
+        {{ item.status }}
+      </div>
+<div class="d-flex justify-content-between align-items-start mb-3 flex-column flex-md-row">
+  <div>
+    <h5 class="description mb-1">
+      <a [routerLink]="['/provider/applyoffer', item.disabledOfferId]" class="text-decoration-none text-primary">
+       {{ item.offerDescription }}
+      </a>
+    </h5>
+    <p class="mb-1 text-muted">Posted by
+      <a [routerLink]="['/provider/applyoffer', item.disabledOfferId]" class="fw-semibold text-dark text-decoration-underline"> {{ item.posterName }}</a>
+    </p>
+    <p class="text-muted mb-1">Service Duration:  {{ item.startServiceTime | date }} → {{ item.endServiceTime | date }}</p>
+<div class="d-flex flex-wrap align-items-center column-gap-2 mt-3">
+  <p class="Type mb-0">Category:{{ item.categoryName }}</p>
+
+  <div class="d-flex align-items-center column-gap-2">
+    <span class="fw-semibold text-muted">Budget:</span>
+    <span class="badge bg-light text-primary border border-primary px-3 py-2 fs-6 fw-semibold mb-0">
+       {{ item.budget }} EGP
+    </span>
+  </div>
+</div>
+
+  </div>
+
+</div>
 
 
-<section>
-  <div class="container">
-    <h3 class="MainTitle">Requests</h3>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Patient Name</th>
-            <th>Service</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Ahmed Hatem</td>
-            <td>Nurse</td>
-            <td class="status-pending">Pending</td>
-            <td>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-primary">Negotiate</button>
-              <button class="btn btn-outline-danger">Reject</button>
-            </td>
-          </tr>
-                <tr>
-            <td>1</td>
-            <td>Ahmed Hatem</td>
-            <td>Nurse</td>
-            <td class="status-pending">Pending</td>
-            <td>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-primary">Negotiate</button>
-              <button class="btn btn-outline-danger">Reject</button>
-            </td>
-          </tr>
-                <tr>
-            <td>1</td>
-            <td>Ahmed Hatem</td>
-            <td>Nurse</td>
-            <td class="status-pending">Pending</td>
-            <td>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-primary">Negotiate</button>
-              <button class="btn btn-outline-danger">Reject</button>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Mona Ali</td>
-            <td>Physiotherapy</td>
-            <td class="status-pending">Pending</td>
-            <td>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-primary">Negotiate</button>
-              <button class="btn btn-outline-danger">Reject</button>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Youssef Samir</td>
-            <td>Doctor Visit</td>
-            <td class="status-pending">Pending</td>
-            <td>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-primary">Negotiate</button>
-              <button class="btn btn-outline-danger">Reject</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="d-flex justify-content-between align-items-center border-top pt-3">
+        <div>
+          <small class="text-muted">
+            Application Date: {{ item.applicationDate | date:'short' }}
+          </small>
+        </div>
+        <div class="btn-group-tight d-flex">
+          <button class="btn btn-outline-primary" (click)="viewProposalDetails(item.id)">
+            View Proposal
+          </button>
+          <button class="btn btn-outline-danger ms-1" (click)="openDeleteModal(item.id)">
+            Delete
+          </button>
+        </div>
+      </div>
     </div>
-    
-    <h3 class="MainTitle">Proposal Received</h3>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Patient Name</th>
-            <th>Service</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Ahmed Hatem</td>
-            <td>Nurse</td>
-            <td>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-primary">Negotiate</button>
-              <button class="btn btn-outline-danger">Reject</button>
-            </td>
-          </tr>
-           <tr>
-            <td>1</td>
-            <td>Ahmed Hatem</td>
-            <td>Nurse</td>
-            <td>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-primary">Negotiate</button>
-              <button class="btn btn-outline-danger">Reject</button>
-            </td>
-          </tr>
-           <tr>
-            <td>1</td>
-            <td>Ahmed Hatem</td>
-            <td>Nurse</td>
-            <td>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-primary">Negotiate</button>
-              <button class="btn btn-outline-danger">Reject</button>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Laila Mohamed</td>
-            <td>Medical Tests</td>
-            <td>
-              <button class="btn btn-outline-success">Accept</button>
-              <button class="btn btn-outline-primary">Negotiate</button>
-              <button class="btn btn-outline-danger">Reject</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  }
+  <div class="modal-overlay" *ngIf="showDeleteModal">
+    <div class="modal-dialog delete-modal">
+      <h3>Cancel Request</h3>
+      <p>Are you sure you want to cancel this request?<br><strong>This action cannot be undone.</strong></p>
+      <div class="modal-actions">
+        <button type="button" class="modal-cancel-btn" (click)="closeDeleteModal()">Cancel</button>
+        <button type="button" class="modal-delete-btn danger" (click)="confirmDelete()">Delete</button>
+      </div>
     </div>
-  </div>  
-</section>
+  </div>
+
+ <div class="pagination">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>
