@@ -14,13 +14,28 @@ import { ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class ProviderRequestsComponent {
-  helperProposals: any[] = [];
+allProposals: any[] = []; 
+helperProposals: any[] = []; 
+
   
   helperRequestsService = inject(HelperRequestsService);
   userDataService = inject(GetloggineduserDataService);
 currentPage = 1;
 pageSize = 5;
 totalItems = 0;
+selectedCategoryId: string = '';
+searchWord: string = '';
+statuses: string[] = ['Pending','Accepted','Rejected','Completed','Cancelled'];
+categories: { id: number, name: string }[] = [];
+selectedCategory: string = '';
+showViewModal = false;
+selectedProposal: any = null;
+editableProposal: any = {}; 
+isEditing = false;
+showDeleteModal = false;
+requestIdToDelete: number | null = null;
+statusFilter: string = '';
+categoryFilter: string = '';
 
 ngOnInit() {
   this.userDataService.getuserData().subscribe({
@@ -30,13 +45,26 @@ ngOnInit() {
     },
     error: (err) => console.error('Error fetching helper data:', err)
   });
+
+  this.helperRequestsService.getCategoriesDropdown().subscribe({
+    next: (res) => {
+      this.categories = res; 
+    },
+    error: (err) => {
+      console.error('Error fetching categories:', err);
+    }
+  });
 }
 
 
-  showViewModal = false;
-selectedProposal: any = null;
-editableProposal: any = {}; 
-isEditing = false;
+onFilterChange() {
+  this.currentPage = 1;
+  this.userDataService.getuserData().subscribe({
+    next: (userData) => {
+      this.loadPagedProposals(userData.id);
+    }
+  });
+}
 
 viewProposalDetails(requestId: number) {
   const proposal = this.helperProposals.find(p => p.id === requestId);
@@ -79,6 +107,7 @@ saveProposal() {
   });
 }
 
+
 closeViewModal() {
   this.showViewModal = false;
   this.selectedProposal = null;
@@ -99,8 +128,7 @@ deleteProposal(id: number) {
     }
   });
 }
-showDeleteModal = false;
-requestIdToDelete: number | null = null;
+
 
 openDeleteModal(id: number): void {
   this.requestIdToDelete = id;
@@ -126,13 +154,27 @@ confirmDelete(): void {
     });
   }
 }
+applyFilters() {
+  const filtered = this.allProposals.filter(p =>
+    (!this.statusFilter || p.status === this.statusFilter) &&
+    (!this.categoryFilter || p.categoryName === this.categoryFilter) &&
+    (!this.searchWord || p.message?.toLowerCase().includes(this.searchWord.toLowerCase()))
+  );
+
+  this.totalItems = filtered.length;
+
+  const startIndex = (this.currentPage - 1) * this.pageSize;
+  const endIndex = startIndex + this.pageSize;
+  this.helperProposals = filtered.slice(startIndex, endIndex);
+}
+
 loadPagedProposals(helperId: number) {
   this.helperRequestsService
-    .getRequestCardsByHelperId(helperId, this.currentPage, this.pageSize)
+    .getRequestCardsByHelperId(helperId, 1, 1000) 
     .subscribe({
       next: (res) => {
-        this.helperProposals = res.items;
-        this.totalItems = res.totalCount;
+        this.allProposals = res.items;
+        this.applyFilters();
       },
       error: (err) => console.error('Error fetching proposal cards:', err)
     });
@@ -141,13 +183,10 @@ loadPagedProposals(helperId: number) {
 changePage(page: number) {
   if (page >= 1 && page <= this.totalPages) {
     this.currentPage = page;
-    this.userDataService.getuserData().subscribe({
-      next: (userData) => {
-        this.loadPagedProposals(userData.id);
-      }
-    });
+    this.applyFilters(); 
   }
 }
+
 
 get totalPages(): number {
   return Math.ceil(this.totalItems / this.pageSize);
