@@ -174,4 +174,10 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
     }
     this.closeConfirm();
   }
+
+  editProposal(index: number): void {
+  }
+
+  deleteProposal(index: number): void {
+  } 
 } 
