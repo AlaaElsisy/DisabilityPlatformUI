@@ -18,17 +18,20 @@
     </div>
     <div class="mb-4">
       <label for="start" class="form-label">Start</label>
-      <input type="date" id="start" class="form-control" formControlName="start">
+      <input type="datetime-local" id="start" class="form-control" formControlName="start">
       <div *ngIf="submitted && f['start'].errors" class="text-danger small mt-1">
         <div *ngIf="f['start'].errors['required']">Start date is required.</div>
       </div>
     </div>
     <div class="mb-4">
       <label for="end" class="form-label">End</label>
-      <input type="date" id="end" class="form-control" formControlName="end">
+      <input type="datetime-local" id="end" class="form-control" formControlName="end">
       <div *ngIf="submitted && f['end'].errors" class="text-danger small mt-1">
         <div *ngIf="f['end'].errors['required']">End date is required.</div>
       </div>
+    </div>
+    <div *ngIf="submitted && isDateTimeInvalid()" class="text-danger small mt-1">
+      Start and end date/time must be in the future, and end must be after start.
     </div>
     <div class="mb-4">
       <label for="price" class="form-label">Price</label>
