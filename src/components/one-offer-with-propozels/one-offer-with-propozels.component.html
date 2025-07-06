@@ -1,0 +1,83 @@
+<div class="offers-container">
+  <div *ngFor="let item of offersWithDisabledData; let i = index" class="offer-card">
+    <div class="offer-header">
+      <h3 class="offer-title">{{ item.offer.description }}</h3>
+      <span class="offer-date">
+        Posted: {{ item.offer.offerPostDate | date: 'MMM d, y - h:mm a' }}
+      </span>
+    </div>
+
+    <div class="offer-details">
+      <div class="detail-item">
+        <span class="detail-label">Disability Type</span>
+        <span class="disability-type">{{ item.disabled.disabilityType }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Location</span>
+        <span class="location">{{ item.disabled.address }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Budget</span>
+        <span class="budget text-success">{{ item.offer.budget }} EGP</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">State</span>
+        <span class="disability-type">{{ item.offer.status }}</span>
+      </div>
+    </div>
+
+    <div class="offer-footer">
+      <div class="user-info">
+        <img [src]="item.disabled.profileImage || './hero.jpg'" alt="Profile image" class="user-avatar" />
+        <div class="d-flex justify-content-between align-items-center  w-100">
+          <div class="user-meta">
+            <h4 class="user-name">Full Name</h4>
+            <span class="user-bio">{{ item.disabled.fullName }}</span>
+          </div>
+
+          <div class="user-meta">
+            <h4 class="user-name">Address</h4>
+            <span class="user-bio">{{ item.disabled.address }}</span>
+          </div>
+
+          <div class="user-meta text-center">
+            <h4 class="user-name">Disability Type</h4>
+            <span class="user-bio">{{ item.disabled.disabilityType }}</span>
+          </div>
+
+          <div class="user-meta text-center">
+            <h4 class="user-name">Disability Description</h4>
+            <span class="user-bio">{{ item.disabled.medicalConditionDescription }}</span>
+          </div>
+           <div class="user-meta text-center">
+         <button class="btn btn-primary" (click)="Apply()">Apply Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container border border-1 offer-card mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="requests-title detail-label">Requests for this Offer</h5>
+    <span class="requests-count disability-type">Total Requests: {{ Requests.length }}</span>
+  </div>
+
+  <div *ngFor="let request of Requests" class="request-card mt-4 border border-2 rounded rounded-3 p-3">
+    <div class="request-header">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-muted">Request Number: {{ request.id }}</h5>
+        <p class="detail-label"><span class="disability-type">Status: {{ request.status }}</span></p>
+        <span class="request-date text-muted">{{ request.applicationDate | date: 'MMM d, y - h:mm a' }}</span>
+      </div>
+    </div>
+
+    <div class="request-details">
+      <p><span class="h6">Message:</span> {{ request.message }}</p>
+      <p class="text-success">Total Price: {{ request.totalPrice }} EGP</p>
+    </div>
+  </div>
+</div>

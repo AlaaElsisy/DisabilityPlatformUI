@@ -1,0 +1,33 @@
+<!-- 
+{
+  "applicationDate": "2025-07-02T22:00:00Z",
+  "status": "Pending",
+  "message": "I'm excited to help with this opportunity.",
+  "totalPrice": 1500,
+  "helperId": 1,
+  "disabledOfferId": 1
+} 
+-->
+
+<form [formGroup]="addRequestForm" class="modern-service-form"  (ngSubmit)="test()">
+  <h3 class="form-heading">Add New Service</h3>
+  
+  <div class="form-field">
+    <label for="message">message</label>
+    <input type="text" id="message" name="message" class="form-control" 
+           formControlName="message" placeholder="Enter service description">
+  </div>
+  
+  <div class="form-field">
+    <label for="totalPrice">total Price</label>
+    <input type="number" id="totalPrice" name="totalPrice" class="form-control" 
+           formControlName="totalPrice" placeholder="Enter the price">
+  </div>
+ <button type="submit" class="submit-button d-block ms-auto">
+ Add Request
+ 
+    <!-- <i class="fas fa-spin fa-spinner"></i>Add Request -->
+  
+</button>
+
+</form>

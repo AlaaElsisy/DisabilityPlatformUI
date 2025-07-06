@@ -8,4 +8,7 @@ export interface DisabledRequest {
   price?: number;
   disabledId: number;
   helperServiceId: number;
-} 
+  helperName?: string;
+  helperImage?: string;
+ 
+}
