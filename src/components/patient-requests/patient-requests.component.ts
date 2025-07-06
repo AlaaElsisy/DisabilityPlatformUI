@@ -31,6 +31,8 @@ export class PatientRequestsComponent implements OnInit {
   offerIdToEdit: number | null = null;
   editErrorMessage = '';
   editOfferData: DisabledOffer | null = null;
+  showDeleteErrorModal = false;
+  deleteErrorMessage = '';
 
   constructor(
     private disabledOfferService: DisabledOfferService,
@@ -87,14 +89,27 @@ export class PatientRequestsComponent implements OnInit {
   }
 
   openDeleteModal(offerId: number): void {
-    this.offerIdToDelete = offerId;
-    this.showDeleteModal = true;
+    this.helperRequestService.getProposalsByOfferId(offerId, { pageNumber: 1, pageSize: 1 }).subscribe(response => {
+      if (response.totalCount > 0) {
+        this.deleteErrorMessage = 'You cannot delete this offer because it already has proposals. Please delete the proposals first.';
+        this.showDeleteErrorModal = true;
+        this.offerIdToDelete = null;
+      } else {
+        this.offerIdToDelete = offerId;
+        this.showDeleteModal = true;
+      }
+    });
   }
 
   closeDeleteModal(): void {
     console.log('Closing modal');
     this.showDeleteModal = false;
     this.offerIdToDelete = null;
+  }
+
+  closeDeleteErrorModal(): void {
+    this.showDeleteErrorModal = false;
+    this.deleteErrorMessage = '';
   }
 
   confirmDelete(): void {

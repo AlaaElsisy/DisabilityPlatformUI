@@ -2,49 +2,28 @@
 
 
 <!-- Service Categories -->
-<section id="categories" class="m-5 ">
+<section id="categories" class="categories-section">
   <div class="container mt-5">
-    <h2 class="text-center MainTitle mt-5">Service Categories</h2>
+    <h2 class="text-center MainTitle mt-5">Our Services</h2>
+    <p class="subtitle text-center">Explore the range of support and services available for you</p>
     <div class="container">
       <div class="row gy-3 mt-4">
         <div class="services-grid">
-          <div class="service-card">
+          <div class="service-card fade-in" *ngFor="let category of serviceCategories">
             <div class="icon-wrapper">
-              <i class="fas fa-hand-holding-heart"></i>
+              <ng-container *ngIf="category.image; else fallbackIcon">
+                <img [src]="category.image" [alt]="category.name" class="service-img" />
+              </ng-container>
+              <ng-template #fallbackIcon>
+                <span class="fallback-icon"><i class="fas fa-cube"></i></span>
+              </ng-template>
             </div>
-            <h4>Medical Service</h4>
-            <p>Emergency and routine medical assistance at your doorstep.</p>
-            <button [routerLink]="['/provider-services']" [queryParams]="{ categoryId: 1 }">View Services</button>
-          </div>
-
-          <div class="service-card">
-            <div class="icon-wrapper">
-              <i class="fas fa-motorcycle"></i>
-            </div>
-            <h4>Delivery Service</h4>
-            <p>Essential items delivered to you with care and speed.</p>
-            <button [routerLink]="['/provider-services']" [queryParams]="{ categoryId: 2 }">View Services</button>
-          </div>
-
-          <div class="service-card">
-            <div class="icon-wrapper">
-              <i class="fas fa-car"></i>
-            </div>
-            <h4>Driver Service</h4>
-            <p>Accessible transportation when and where you need it.</p>
-            <button [routerLink]="['/provider-services']" [queryParams]="{ categoryId: 3 }">View Services</button>
-          </div>
-
-          <div class="service-card">
-            <div class="icon-wrapper">
-              <i class="fas fa-tools"></i>
-            </div>
-            <h4>Public Services</h4>
-            <p>Help with government paperwork and community errands.</p>
-            <button [routerLink]="['/provider-services']" [queryParams]="{ categoryId: 4 }">View Services</button>
+            <h4>{{ category.name }}</h4>
+            <p>{{ category.description }}</p>
+            <button class="modern-btn" [routerLink]="['/provider-services']" [queryParams]="{ categoryId: category.id }">View Services</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</section>                                                                                              

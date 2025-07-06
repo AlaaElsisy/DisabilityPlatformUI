@@ -33,7 +33,11 @@
       <button *ngIf="proposal.status == 'Pending'" class="accept-btn" (click)="showConfirm('accept', i)">Accept</button>
       <ng-container *ngIf="proposal.status === 'Accepted'">
         <button class="accept-btn mark-completed" (click)="showConfirm('completed', i)">Mark it Completed</button>
-        <button class="accept-btn cancel-btn" (click)="showConfirm('cancel', i)">Request Cancellation</button>
+        <button class="accept-btn cancel-btn" (click)="showConfirm('cancel', i)"
+                [disabled]!="canCancel()"
+                [title]="!canCancel() ? 'You can only request cancellation at least 24 hours before the start date.' : ''">
+          Cancel Request
+        </button>
       </ng-container>
     </div>
     <!-- Confirmation Modals -->
@@ -78,4 +82,3 @@
     </div>
   </div>
 </ng-template>
-  

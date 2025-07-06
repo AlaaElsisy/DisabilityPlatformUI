@@ -165,3 +165,235 @@ html {
   background-color: #065a9f;
   color: white;
 }
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+html {
+  scroll-behavior: smooth;
+}
+.textbox {
+  max-width: 500px;
+  margin-top: 40px;
+  font-family: 'Jost', sans-serif;
+}
+
+.textbox h2 {
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #333;
+}
+
+.textbox h2 span {
+  color:#09c;
+  font-weight: 600;
+}
+
+.textbox p {
+  font-size: 16px;
+  color: #555;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.primary-btn {
+  background-color:#09c;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.primary-btn:hover {
+  background-color: #0565b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(8, 118, 205, 0.2);
+}
+
+.image img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+
+.AuthButtons .loginbtn:hover {
+  background-color:#09c;
+  color: white;
+  border: 1px solid #09c;
+}
+
+.AuthButtons .registerbtn:hover {
+  background-color: white;
+  color: #09c;
+  border: 1px solid #09c;
+}
+
+.MainTitle {
+  font-family: jost, sans-serif;
+  font-size: 55px;
+  font-weight: 400;
+  line-height: 65px;
+  margin-top: 50px;
+}
+
+
+
+.mySection {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.categories-section {
+  background: none;
+  padding: 60px 0 80px 0;
+  min-height: 100vh;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #1976d2;
+  margin-bottom: 32px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  padding: 40px 0;
+  background: transparent;
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(8, 118, 205, 0.13);
+  padding: 44px 28px 36px 28px;
+  text-align: center;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+  position: relative;
+  min-height: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.service-card:hover {
+  transform: translateY(-8px) scale(1.025);
+  background: #f7fbff;
+  box-shadow: 0 16px 48px rgba(8, 118, 205, 0.18);
+}
+
+.icon-wrapper {
+  background: #fff;
+  width: 180px;
+  height: 180px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px auto;
+  color: #1976d2;
+  font-size: 48px;
+  box-shadow: 0 4px 24px rgba(8, 118, 205, 0.13);
+  border: 3px solid #e3f0fb;
+}
+
+.service-img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(8, 118, 205, 0.13);
+  border: none;
+  padding: 0;
+  display: block;
+}
+
+.fallback-icon {
+  color: #b3d6f6;
+  font-size: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+}
+
+.service-card h4 {
+  font-size: 1.35rem;
+  margin-bottom: 10px;
+  color: #1976d2;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.service-card p {
+  font-size: 1.08rem;
+  color: #444;
+  min-height: 60px;
+  margin-bottom: 18px;
+  margin-top: 0;
+}
+
+.modern-btn {
+  margin-top: auto;
+  background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 1.08rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+  transition: background 0.22s, transform 0.18s;
+  letter-spacing: 0.2px;
+}
+
+.modern-btn:hover {
+  background: linear-gradient(90deg, #0d47a1 0%, #1976d2 100%);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.fade-in {
+  animation: fadeInUp 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+    padding: 20px 0;
+  }
+  .service-card {
+    padding: 28px 10px 24px 10px;
+    min-height: 320px;
+  }
+  .icon-wrapper {
+    width: 110px;
+    height: 110px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+  }
+  .service-img, .fallback-icon {
+    width: 110px;
+    height: 110px;
+    font-size: 3rem;
+    border-radius: 10px;
+  }
+}

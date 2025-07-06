@@ -503,7 +503,7 @@ h2 {
 }
 
 .modal-actions .modal-delete-btn {
-  background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+  background: linear-gradient(90deg, #e53935 0%, #f44336 100%);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -511,12 +511,12 @@ h2 {
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+  box-shadow: 0 2px 8px rgba(229, 57, 53, 0.10);
   transition: background 0.18s;
 }
 
 .modal-actions .modal-delete-btn:hover {
-  background: linear-gradient(90deg, #0d47a1 0%, #1976d2 100%);
+  background: linear-gradient(90deg, #b71c1c 0%, #e53935 100%);
 }
 
 .edit-offer-btn {

@@ -1,19 +1,25 @@
-import { Component, AfterViewInit, ElementRef, ViewEncapsulation } from '@angular/core';
-import { FooterComponent } from '../footer/footer.component';
-import { RouterModule } from '@angular/router';
+import { Component, AfterViewInit, ElementRef, ViewEncapsulation, OnInit } from '@angular/core';import { RouterModule } from '@angular/router';
+import { ServiceCategoriesComponent } from '../service-categories/service-categories.component';
+import { CommonModule } from '@angular/common';
+import { ServiceCategory, ServiceCategoryService } from '@services/service-category.service';
 
 @Component({
   selector: 'app-patienthome',
   standalone: true,
   templateUrl: './patienthome.component.html',
   styleUrls: ['./patienthome.component.css'],
-  imports: [FooterComponent, RouterModule],
+  imports: [CommonModule, RouterModule , ServiceCategoriesComponent],
   encapsulation: ViewEncapsulation.None, 
 })
 
-export class PatienthomeComponent implements AfterViewInit {
-
-  constructor(private el: ElementRef) {}
+export class PatienthomeComponent implements AfterViewInit , OnInit{
+  serviceCategories: ServiceCategory[] = [];
+  constructor(private el: ElementRef , private serviceCategoryService: ServiceCategoryService) {}
+  ngOnInit(): void {
+    this.serviceCategoryService.getServiceCategories().subscribe(categories => {
+      this.serviceCategories = categories;
+    });
+  }
 
   ngAfterViewInit(): void {
     const sections = this.el.nativeElement.querySelectorAll('section');
