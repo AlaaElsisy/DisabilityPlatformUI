@@ -21,6 +21,7 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
   minTotalPrice?: number;
   maxTotalPrice?: number;
   orderBy: string = '';
+  offerStartServiceTime?: string;
 
   confirmAction: 'accept' | 'completed' | 'cancel' | null = null;
   confirmIndex: number | null = null;
@@ -37,16 +38,19 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
         const id = params.get('id');
         if (id) {
           this.offerId = +id;
+          this.fetchOfferStartTime();
           this.fetchProposals();
         }
       });
     } else {
+      this.fetchOfferStartTime();
       this.fetchProposals();
     }
   }
 
   ngOnChanges() {
     if (this.offerId) {
+      this.fetchOfferStartTime();
       this.fetchProposals();
     }
   }
@@ -120,8 +124,27 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
     });
   }
 
+  private fetchOfferStartTime() {
+    if (this.offerId) {
+      this.disabledOfferService.getById(this.offerId).subscribe(offer => {
+        this.offerStartServiceTime = offer.startServiceTime;
+      });
+    }
+  }
+
+  canCancel(): boolean {
+    if (!this.offerStartServiceTime) return false;
+    const start = new Date(this.offerStartServiceTime).getTime();
+    const now = Date.now();
+    return start - now > 24 * 60 * 60 * 1000;
+  }
+
   requestCancellation(proposal: any) {
-    if (!proposal.id || !this.offerId) return;  
+    if (!proposal.id || !this.offerId) return;
+    if (!this.canCancel()) {
+      alert('You can only request cancellation at least 24 hours before the start date of the offer.');
+      return;
+    }
     this.helperRequestService.updateProposalStatus(proposal.id, 'Cancelled').subscribe({
       next: () => {
         this.disabledOfferService.updateOfferStatus(this.offerId!, 'Cancelled').subscribe();

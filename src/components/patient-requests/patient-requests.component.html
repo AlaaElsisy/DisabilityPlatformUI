@@ -114,6 +114,18 @@
 </div>
   
 
+<!-- Delete Error Modal -->
+<div class="modal-overlay" *ngIf="showDeleteErrorModal">
+  <div class="modal-dialog">
+    <h3>Cannot Delete Offer</h3>
+    <p>{{ deleteErrorMessage }}</p>
+    <div class="modal-actions">
+      <button type="button" class="modal-cancel-btn" (click)="closeDeleteErrorModal()">Close</button>
+    </div>
+  </div>
+</div>
+  
+
 <!-- Edit Modal -->
 <div class="modal-overlay" *ngIf="showEditModal">
   <div class="modal-dialog">
