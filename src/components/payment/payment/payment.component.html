@@ -9,8 +9,12 @@
         <h3 class="section-title">Payment Details</h3>
 
         <input type="text" 
-               placeholder="Card Number"  name="cardNumber"  [(ngModel)]="payment.cardNumber" 
-               required   #cardNumber="ngModel">
+               placeholder="Card Number"  
+               name="cardNumber"  
+               [(ngModel)]="payment.cardNumber" 
+               required   
+               #cardNumber="ngModel"
+               class="form-input mb-2">
         <div *ngIf="cardNumber.invalid && cardNumber.touched" class="text-red-500 text-sm">Card number is required</div>
 
         <div class="input-row">
@@ -63,3 +67,6 @@
   </div>
 </section>
 <script src="https://js.stripe.com/v3/"></script>
+
+
+ 

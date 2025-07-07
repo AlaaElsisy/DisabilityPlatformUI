@@ -4,13 +4,14 @@ import { PaymentService } from '@services/payment/payment.service';
 import { Payment } from 'app/models/payment';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { PayButtonComponent } from '../pay-button.component/pay-button.component.component';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PayButtonComponent],
 })
 export class PaymentComponent implements OnInit {
   @ViewChild('paymentForm') paymentForm!: NgForm;
@@ -96,4 +97,6 @@ export class PaymentComponent implements OnInit {
       disabledRequestId: null      
     };
   }
+
+   helperId = 1;
 }

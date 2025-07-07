@@ -1,0 +1,18 @@
+<div class="container my-5 text-center">
+  <div *ngIf="loading">
+    <p class="text-info">Processing your payment...</p>
+  </div>
+
+  <div *ngIf="success && !loading">
+    <h2 class="text-success">Payment Successful!</h2>
+    <p><strong>Transaction ID:</strong> {{ transactionId }}</p>
+    <p><strong>Amount Paid:</strong> {{ amountPaid | currency }}</p>
+    <a routerLink="/" class="btn btn-primary mt-3">Back to Home</a>
+  </div>
+
+  <div *ngIf="error && !loading">
+    <h2 class="text-danger">Payment Failed</h2>
+    <p>{{ error }}</p>
+    <a routerLink="/" class="btn btn-secondary mt-3">Try Again</a>
+  </div>
+</div>
