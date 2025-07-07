@@ -37,8 +37,8 @@
       <div class="row mb-4">
         <div class="col-md-3 text-center">
           <img
-            *ngIf="patientProfile?.user?.profileImage; else defaultImage"
-            [src]="patientProfile?.user?.profileImage"
+            *ngIf="userProfile?.user?.profileImage; else defaultImage"
+            [src]="userProfile?.user?.profileImage"
             class="img-thumbnail rounded-circle shadow-sm"
             alt="Profile Image"
             style="width: 150px; height: 150px; object-fit: cover"
@@ -57,7 +57,7 @@
               <input
                 type="text"
                 class="form-control"
-                [value]="patientProfile?.user?.fullName"
+                [value]="userProfile?.user?.fullName"
                 disabled
               />
             </div>
@@ -66,7 +66,7 @@
               <input
                 type="text"
                 class="form-control"
-                [value]="patientProfile?.user?.email"
+                [value]="userProfile?.user?.email"
                 disabled
               />
             </div>
@@ -75,7 +75,7 @@
               <input
                 type="text"
                 class="form-control"
-                [value]="patientProfile?.user?.phone"
+                [value]="userProfile?.user?.phone"
                 disabled
               />
             </div>
@@ -84,7 +84,7 @@
               <input
                 type="text"
                 class="form-control"
-                [value]="patientProfile?.user?.dateOfBirth | date : 'longDate'"
+                [value]="userProfile?.user?.dateOfBirth | date : 'longDate'"
                 disabled
               />
             </div>
@@ -93,7 +93,7 @@
               <input
                 type="text"
                 class="form-control text-capitalize"
-                [value]="patientProfile?.user?.gender"
+                [value]="userProfile?.user?.gender"
                 disabled
               />
             </div>
@@ -102,7 +102,7 @@
               <input
                 type="text"
                 class="form-control"
-                [value]="patientProfile?.user?.address"
+                [value]="userProfile?.user?.address"
                 disabled
               />
             </div>
@@ -111,7 +111,7 @@
               <input
                 type="text"
                 class="form-control"
-                [value]="patientProfile?.user?.zone || 'N/A'"
+                [value]="userProfile?.user?.zone || 'N/A'"
                 disabled
               />
             </div>
@@ -121,58 +121,60 @@
 
       <hr />
 
-      <h5 class="mb-3">Disability Information</h5>
-      <div class="row g-3 mb-4">
-        <div class="col-md-6">
-          <label class="form-label">Disability Type</label>
-          <input
-            type="text"
-            class="form-control"
-            [value]="patientProfile?.disabilityType"
-            disabled
-          />
+      <div *ngIf="role?.toLowerCase() === 'patient'">
+        <h5 class="mb-3">Disability Information</h5>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label">Disability Type</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.disabilityType || 'N/A'"
+              disabled
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Medical Condition</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.medicalConditionDescription || 'N/A'"
+              disabled
+            />
+          </div>
         </div>
-        <div class="col-md-6">
-          <label class="form-label">Medical Condition</label>
-          <input
-            type="text"
-            class="form-control"
-            [value]="patientProfile?.medicalConditionDescription"
-            disabled
-          />
-        </div>
-      </div>
 
-      <hr />
+        <hr />
 
-      <h5 class="mb-3">Emergency Contact</h5>
-      <div class="row g-3">
-        <div class="col-md-4">
-          <label class="form-label">Name</label>
-          <input
-            type="text"
-            class="form-control"
-            [value]="patientProfile?.emergencyContactName"
-            disabled
-          />
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Phone</label>
-          <input
-            type="text"
-            class="form-control"
-            [value]="patientProfile?.emergencyContactPhone"
-            disabled
-          />
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Relation</label>
-          <input
-            type="text"
-            class="form-control"
-            [value]="patientProfile?.emergencyContactRelation"
-            disabled
-          />
+        <h5 class="mb-3">Emergency Contact</h5>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.emergencyContactName || 'N/A'"
+              disabled
+            />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Phone</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.emergencyContactPhone || 'N/A'"
+              disabled
+            />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Relation</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.emergencyContactRelation || 'N/A'"
+              disabled
+            />
+          </div>
         </div>
       </div>
     </div>
