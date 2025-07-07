@@ -1,0 +1,138 @@
+<div class="container mt-4 my-5" *ngIf="userProfile; else errorTemplate">
+  <div class="card shadow p-4 rounded-4">
+    <h4 class="mb-4 text-primary">User Profile</h4>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Full Name</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="userProfile.user?.fullName"
+          disabled
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          [value]="userProfile.user?.email"
+          disabled
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Phone</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="userProfile.user?.phoneNumber || 'N/A'"
+          disabled
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Date of Birth</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="userProfile.user?.dateOfBirth | date : 'longDate'"
+          disabled
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Gender</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="userProfile.user?.gender || 'N/A'"
+          disabled
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Address</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="userProfile.user?.address || 'N/A'"
+          disabled
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Zone</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="userProfile.user?.zone || 'N/A'"
+          disabled
+        />
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- Section for disability and emergency info only for Patients -->
+    <div *ngIf="role === 'Patient'">
+      <hr />
+      <h5 class="text-secondary">Disability Information</h5>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Disability Type</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="userProfile.disabilityType"
+            disabled
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Medical Condition</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="userProfile.medicalConditionDescription"
+            disabled
+          />
+        </div>
+      </div>
+
+      <hr />
+      <h5 class="text-secondary">Emergency Contact</h5>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="userProfile.emergencyContactName"
+            disabled
+          />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="userProfile.emergencyContactPhone"
+            disabled
+          />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Relation</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="userProfile.emergencyContactRelation"
+            disabled
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #errorTemplate>
+  <div class="alert alert-danger mt-4 text-center">
+    {{ errorMessage }}
+  </div>
+</ng-template>
+

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
+import { jwtDecode } from 'jwt-decode';
 import { Observable, catchError, throwError, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -57,16 +58,35 @@ const params = new HttpParams().set('role', role);
 
 
   login(credentials: { email: string; password: string }): Observable<any> {
-    const url = `${environment.apiBaseUrl}/Authentication/login`;
- 
-    console.log('Login called with:', credentials);
+  const url = `${environment.apiBaseUrl}/Authentication/login`;
 
-    return this.http.post(url, credentials).pipe(
-      tap(res => console.log('Login response:', res)),
-      catchError(err => {
-        console.error('Login error:', err);
-        return throwError(() => err);
-      })
-    );
-  }
+  console.log('Login called with:', credentials);
+
+  return this.http.post(url, credentials).pipe(
+    tap((res: any) => {
+      console.log('Login response:', res);
+
+      const token = res.token;
+      if (token) {
+        localStorage.setItem('authToken', token);
+
+
+        const payload: any = jwtDecode(token);
+
+        const userId = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || payload['sub'];
+        const role = payload['role'] || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+        if (userId) localStorage.setItem('userId', userId);
+        if (role) localStorage.setItem('role', role);
+
+        console.log('Decoded role:', role);
+        console.log('Decoded userId:', userId);
+      }
+    }),
+    catchError(err => {
+      console.error('Login error:', err);
+      return throwError(() => err);
+    })
+  );
+}
 }

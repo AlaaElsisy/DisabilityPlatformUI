@@ -6,7 +6,7 @@ import { PatientLayoutComponent } from '../components/patient-layout/patient-lay
 import { RegisterComponent } from '../components/register/register.component';
 import { PatienthomeComponent } from '../components/patienthome/patienthome.component';
 
-import { UserProfileComponent } from '../components/patientProfile/patientProfile.component';
+
 
 import { ProviderhomeComponent } from '../components/providerhome/providerhome.component';
 import { ProviderLayoutComponent } from '../components/provider-layout/provider-layout.component';
@@ -26,6 +26,7 @@ import { HelperAddRequestToOfferComponent } from 'components/helper-add-request-
 import { PatientRequestsComponent } from 'components/patient-requests/patient-requests.component';
 import { PatientOfferProposalsComponent } from 'components/patient-offer-proposals/patient-offer-proposals.component';
 import { ServiceRequestsComponent } from 'components/Patient/service-Requests/service-Requests.component';
+import { UserProfileComponent } from 'components/userProfile/patientProfile.component';
 
 
 export const routes: Routes = [
@@ -43,6 +44,7 @@ export const routes: Routes = [
   {path:'offers',component:HelperExploreOffersComponent, title:'Offers'},
    { path: 'applyoffer/:id', component: OneOfferWithPropozelsComponent, title: 'Offer Proposal' },
    { path: 'AddRequest/:id', component: HelperAddRequestToOfferComponent, title: 'New Request' },
+   { path: 'profile', component: UserProfileComponent, title: 'My Profile' },
   ]},
 
   {
