@@ -8,16 +8,17 @@ import { Observable } from 'rxjs';
 export class DisabledDataService {
    private readonly _httpclient = inject(HttpClient);
    getDisabledDate(id:number):Observable<any>{
-   const token = localStorage.getItem('token');
-   const headers = { Authorization: `Bearer ${token}` };
-   return this._httpclient.get(`https://localhost:7037/api/Disabled/${id}`, {headers: headers});
+  //  const token = localStorage.getItem('token');
+  // //  const headers = { Authorization: `Bearer ${token}` };
+  //  return this._httpclient.get(`https://localhost:7037/api/Disabled/${id}`, {headers: headers});
+   return this._httpclient.get(`https://localhost:7037/api/Disabled/${id}`);
 
    }
     getHelperData(id:number):Observable<any>{
    const token = localStorage.getItem('token');
-   const headers = { Authorization: `Bearer ${token}` };
-   return this._httpclient.get(`https://localhost:7037/api/Helper/${id}`, {headers: headers});
-  
+    const headers = { Authorization: `Bearer ${token}` };
+return this._httpclient.get(`https://localhost:7037/api/Helper/${id}`, {headers});
+ 
   }
   
 }

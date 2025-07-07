@@ -52,6 +52,7 @@
           <!-- Center: Info -->
           <div class="flex-grow-1">
             <div class="provider-card-title mb-1">{{ service.description }}</div>
+            
             <div class="provider-card-availability mb-1">Available from {{ service.availableDateFrom | date:'MMM d, y' }} to {{ service.availableDateTo | date:'MMM d, y' }}</div>
             <div class="provider-card-user-row d-flex align-items-center">
               <img *ngIf="service.helperImage" [src]="service.helperImage" alt="Helper Image" class="provider-card-avatar-img me-2" />
