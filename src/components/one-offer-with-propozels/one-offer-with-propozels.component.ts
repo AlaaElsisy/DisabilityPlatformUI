@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
+import { ChangeDetectorRef } from '@angular/core';
 
 import { IofferDetails } from 'core/interfaces/ioffer-details';
 import { IDisabledData } from 'core/interfaces/idisabled-data';
@@ -22,9 +23,11 @@ export class OneOfferWithPropozelsComponent implements OnInit {
   private readonly _Route = inject(Router);
   private readonly _getOfferByIdService = inject(GetofferbyidService);
   private readonly _disabledData = inject(DisabledDataService);
+private readonly cd = inject(ChangeDetectorRef);
 
   Requests: IofferRequest[] = [];
   offerId: number = 0;
+  totalpropozel!:number
 
   offersWithDisabledData: {
     offer: IofferDetails;
@@ -69,18 +72,23 @@ export class OneOfferWithPropozelsComponent implements OnInit {
                   this._getOfferByIdService.getOfferRequests(this.offerId, headers).subscribe({
                     next: (requests) => {
                       console.log('Offer Requests:', requests);
+              this.totalpropozel=    requests.totalCount
                       this.Requests = requests.items;
+                     // this.totalpropozel=requests;
 
                       // Get provider (helper) data for each request
                       this.Requests.forEach((request: IofferRequest) => {
+                        console.log(`provider id `+  request.helperId)
                         this._disabledData.getHelperData(request.helperId).subscribe({
-                          next: (providerData: IDisabledData) => {
+                          next: (providerData: any) => {
                             this.RequestWithProviderData.push({
                               Request: request,
                               providerData: providerData
 
+                             
+                              
                             });
-                           
+                            this.cd.detectChanges();
                           },
                           error: (err) => {
                             console.error(`Error getting provider data for ID ${request.helperId}`, err);

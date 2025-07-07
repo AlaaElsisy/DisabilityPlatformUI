@@ -4,13 +4,14 @@ import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { HelperservicesService } from '../../core/services/helperservices.service';
 import { Router } from '@angular/router';
 import { Ihelperservices } from '../../core/interfaces/ihelperservices';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'app-providerservices',
   templateUrl: './providerservices.component.html',
   styleUrl: './providerservices.component.css',
-  imports: [ReactiveFormsModule, HttpClientModule]
+  imports: [ReactiveFormsModule, HttpClientModule,CommonModule]
 })
 export class ProviderservicesComponent implements OnInit {
    AllServices:Ihelperservices[] = [];
@@ -56,13 +57,9 @@ deleteService(id:number):void{
 editService(id: number): void {
   this.router.navigate(['/provider/helperaddservice', id]);
 }
-
-
-
-
-
-
-
+goTosericrPropozels(id:number):void{
+  this.router.navigate(['/provider/orders',id])
+}
 
   
 }
