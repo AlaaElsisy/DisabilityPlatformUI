@@ -22,8 +22,6 @@ import { PatientRequestsComponent } from 'components/patient-requests/patient-re
 import { PatientOfferProposalsComponent } from 'components/patient-offer-proposals/patient-offer-proposals.component';
 import { ServiceRequestsComponent } from 'components/Patient/service-Requests/service-Requests.component';
 import { PaymentComponent } from 'components/payment/payment/payment.component';
-import { PayButtonComponent } from 'components/payment/pay-button.component/pay-button.component.component';
-import { PaymentSuccessComponentComponent } from 'components/payment/payment-success.component/payment-success.component.component';
 
 
 export const routes: Routes = [
@@ -56,9 +54,7 @@ export const routes: Routes = [
       { path: 'patient-offer-proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
       { path: 'offers/:id/proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
        { path: 'payment', component: PaymentComponent, title: 'Payment' },
-       { path: 'paymentbu', component: PayButtonComponent, title: 'Paymentbutunn' },
-              { path: 'payment-success', component: PaymentSuccessComponentComponent, title: 'Paymentsuses' },
-
+       
 
 
     ]

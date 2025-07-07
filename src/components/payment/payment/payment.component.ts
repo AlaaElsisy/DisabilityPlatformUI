@@ -4,14 +4,13 @@ import { PaymentService } from '@services/payment/payment.service';
 import { Payment } from 'app/models/payment';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { PayButtonComponent } from '../pay-button.component/pay-button.component.component';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, PayButtonComponent],
+  imports: [CommonModule, FormsModule],
 })
 export class PaymentComponent implements OnInit {
   @ViewChild('paymentForm') paymentForm!: NgForm;
@@ -21,7 +20,7 @@ export class PaymentComponent implements OnInit {
     expMonth: '',
     expYear: '',
     cvc: '',
-    amount: 0,
+    amount: 45,//static amount for testing
     token: '',
     paymentMethod: 'card',
     toHelperId: 1,
@@ -30,9 +29,9 @@ export class PaymentComponent implements OnInit {
     disabledRequestId: null      
   };
 
-  patientName = 'John Doe';
-  helperName = 'Helper Smith';
-  serviceName = 'Wheelchair Support';
+  patientName = 'John Doe';//static name for testing
+  helperName = 'Helper Smith'; 
+  serviceName = 'Wheelchair Support'; 
   paymentResult: any = null;
 
   constructor(private paymentService: PaymentService) {}
@@ -79,10 +78,10 @@ export class PaymentComponent implements OnInit {
   }
 
   resetForm() {
-    // Reset the form
+   
     this.paymentForm.resetForm();
     
-    // Reset the payment object to initial values
+   
     this.payment = {
       cardNumber: '',
       expMonth: '',
@@ -98,5 +97,5 @@ export class PaymentComponent implements OnInit {
     };
   }
 
-   helperId = 1;
+ 
 }

@@ -59,14 +59,15 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 16px;
   color: #171717;
+  font-family:  'Segoe UI', Tahoma,   Verdana, sans-serif;
 }
 
 .summary-item.total {
   font-weight: bold;
   color: rgb(65, 63, 63);
-  font-size: 16px;
+  font-size: 23px;
 }
 
 .checkout-button {
@@ -85,4 +86,11 @@ body {
 .checkout-button:hover {
   background-color: #ffffff;
   color: #007ACC;
+}
+.text-green-500 {
+  color: green;
+}
+
+.text-red-500 {
+  color: red;
 }
