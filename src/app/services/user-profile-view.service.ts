@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HelperProfile } from 'app/models/helper-profile.model';
+import { PatientProfile } from 'app/models/patient-profile.model';
 import { environment } from 'environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,26 +12,21 @@ export class UserProfileViewService {
    private baseUrl = `${environment.apiBaseUrl}/UserProfile`;
 
   constructor(private http: HttpClient) {}
+ getProfileFromUrl(userId: string, role: string): Observable<PatientProfile | HelperProfile> {
+    if (!userId || !role) {
+      return throwError(() => new Error('User ID or Role is missing in URL'));
+    }
 
+    const lowerRole = role.toLowerCase();
 
-  // getCurrentPatientProfile(): Observable<any> {
-  //   return this.http.get(`${this.baseUrl}/patient`);
-  // }
-
-  // getCurrentHelperProfile(): Observable<any> {
-  //   return this.http.get(`${this.baseUrl}/helper`);
-  // }
-
-getUserRoleFromToken(): string | null {
-  const token = localStorage.getItem('accessToken');
-  if (!token) return null;
-
-  const payload = JSON.parse(atob(token.split('.')[1]));
-  return payload['role'] || null;
-}
-
-  getUserProfileById(userId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/userById/${userId}`);
+    if (lowerRole === 'patient') {
+      return this.http.get<PatientProfile>(`${this.baseUrl}/Patient?userid=${userId}`);
+    } else if (lowerRole === 'helper') {
+      return this.http.get<HelperProfile>(`${this.baseUrl}/Helper?userid=${userId}`);
+    } else {
+      return throwError(() => new Error('Unsupported role in URL'));
+    }
   }
+
 }
 
