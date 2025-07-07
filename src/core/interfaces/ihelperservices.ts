@@ -8,6 +8,7 @@ export interface Ihelperservices {
   availableDateTo: string
   helperId: number
   helper: any
+  status:any
   serviceCategoryId: number
   serviceCategory: any
   disabledRequests: any[]

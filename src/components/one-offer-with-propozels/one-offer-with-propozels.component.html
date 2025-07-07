@@ -1,4 +1,5 @@
 <div class="offers-container">
+
   <div *ngFor="let item of offersWithDisabledData; let i = index" class="offer-card">
     <div class="offer-header">
       <h3 class="offer-title">{{ item.offer.description }}</h3>
@@ -63,21 +64,46 @@
 <div class="container border border-1 offer-card mt-4">
   <div class="d-flex justify-content-between align-items-center">
     <h5 class="requests-title detail-label">Requests for this Offer</h5>
-    <span class="requests-count disability-type">Total Requests: {{ Requests.length }}</span>
+    <span class="requests-count disability-type">Total Requests: {{ totalpropozel }}</span>
   </div>
 
-  <div *ngFor="let request of Requests" class="request-card mt-4 border border-2 rounded rounded-3 p-3">
+  <div *ngFor="let request of RequestWithProviderData;let i=index"  class="request-card mt-4 border border-2 rounded rounded-3 p-3">
     <div class="request-header">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="text-muted">Request Number: {{ request.id }}</h5>
-        <p class="detail-label"><span class="disability-type">Status: {{ request.status }}</span></p>
-        <span class="request-date text-muted">{{ request.applicationDate | date: 'MMM d, y - h:mm a' }}</span>
+        <h5 class="text-muted">Request Number: {{ i+1 }}</h5>
+        <p class="detail-label"><span class="disability-type">Status: {{ request.Request.status }}</span></p>
+        <span class="request-date text-muted">{{ request.Request.applicationDate | date: 'MMM d, y - h:mm a' }}</span>
       </div>
     </div>
 
     <div class="request-details">
-      <p><span class="h6">Message:</span> {{ request.message }}</p>
-      <p class="text-success">Total Price: {{ request.totalPrice }} EGP</p>
+      <p><span class="h6">Message:</span> {{ request.Request.message }}</p>
+      <p class="text-success">Total Price: {{ request.Request.totalPrice }} EGP</p>
+      <hr>
+   
+       <div class="d-flex justify-content-lg-around   align-items-center  w-50 text-center">
+          <div class="user-meta">
+            <h4 class="user-name">Full Name</h4>
+            <span class="">{{ request.providerData.fullName }}</span>
+          </div>
+
+         <div class="user-meta">
+            <h4 class="user-name">Address</h4>
+         <span>{{ request.providerData.zone }},</span>  
+          </div>
+
+          <div class="user-meta">
+            <h4 class="user-name ">REGON</h4>
+         <span class="">{{ request.providerData.address }}</span>
+          </div>
+
+        
+
+         
+        
+        </div>
     </div>
   </div>
+  
+
 </div>

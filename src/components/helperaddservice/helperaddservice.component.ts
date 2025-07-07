@@ -28,6 +28,7 @@ export class HelperaddserviceComponent implements OnInit {
     availableDateTo: new FormControl(''),
     helperId: new FormControl(''),
     serviceCategoryId: new FormControl(''),
+    status: new FormControl('0'),
   });
 
   ngOnInit(): void {
