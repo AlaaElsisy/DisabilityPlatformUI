@@ -28,6 +28,8 @@ import { PatientOfferProposalsComponent } from 'components/patient-offer-proposa
 import { ServiceRequestsComponent } from 'components/Patient/service-Requests/service-Requests.component';
 
 import { UserProfileComponent } from 'components/userProfile/patientProfile.component';
+import { UserProfileViewComponent } from 'components/user-profile-view/user-profile-view.component';
+
 
 import { ProviderOrdersComponent } from 'components/provider-orders/provider-orders.component';
 
@@ -51,6 +53,12 @@ export const routes: Routes = [
 
    { path: 'profile', component: UserProfileComponent, title: 'My Profile' },
 
+     {
+       path: 'user-view-profile',
+  component: UserProfileViewComponent
+}
+,
+
    { path: 'orders/:id', component: ProviderOrdersComponent, title: 'orders' }
 
   ]},
@@ -71,6 +79,11 @@ export const routes: Routes = [
 
       { path: 'patient-offer-proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
       { path: 'offers/:id/proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
+      {
+  path: 'user-view-profile',
+  component: UserProfileViewComponent
+}
+
 
     ]
   },
