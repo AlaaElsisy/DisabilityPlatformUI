@@ -1,5 +1,6 @@
 export interface HelperProfile {
-id?: string;
+ user:{
+   id?: string;
   fullName: string;
   email: string;
   phone: string;
@@ -9,4 +10,5 @@ id?: string;
   zone: string | null;
   profileImage: string | null;
   createdAt: string;
+ }
 }

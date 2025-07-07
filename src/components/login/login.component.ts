@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           const token = res.token;
           localStorage.setItem('authToken', token);
+          localStorage.setItem('token', token);
 
           const decodedToken = this.decodeToken(token);
           console.log('Decoded Token:', decodedToken); 
@@ -72,7 +73,7 @@ export class LoginComponent implements OnInit {
           if (role === 'patient') {
             this.router.navigate(['/patienthome']);
           } else if (role === 'helper') {
-            this.router.navigate(['/providerhome']);
+            this.router.navigate(['/provider/home']);
           } else {
             console.warn('Unknown role:', role);
           }

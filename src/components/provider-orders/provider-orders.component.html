@@ -1,0 +1,108 @@
+<div class="container">
+
+  <div class="service-summary-card mt-3">
+    <div class="service-icon">
+      <i class="fas fa-tools"></i>
+    </div>
+    <div class="service-details">
+      <h3>{{ _service.description }}</h3>
+      <div class="service-meta">
+        <span class="meta-item">
+          <i class="fas fa-money-bill-wave"></i> {{ _service.pricePerHour }} EGP/hour
+        </span>
+        <span class="meta-item">
+          <i class="fas fa-calendar-alt"></i> 
+          {{ _service.availableDateFrom | date }} - {{ _service.availableDateTo | date }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders Header -->
+  <div class="section-header">
+    <div>
+      <h2>Service Orders</h2>
+      <p class="subtitle">Manage incoming service requests</p>
+    </div>
+    <div class="orders-count">
+      <span class="count-badge">{{ totalOrders }}</span>
+      <span>Total Orders</span>
+    </div>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="Orders.length > 0; else noOrders" class="orders-list">
+    <div *ngFor="let order of Orders; let i = index" class="order-card" [class.highlight]="order.status.toLowerCase() === 'pending'">
+      <div class="order-header">
+        <div class="order-title">
+          <span class="order-number">#{{ i + 1 }}</span>
+          <h4>{{ order.description }}</h4>
+        </div>
+        <span class="order-status" [ngClass]="'status-' + order.status.toLowerCase()">{{ order.status }}</span>
+      </div>
+
+      <div class="order-timeline">
+        <div class="timeline-item">
+          <i class="fas fa-clock"></i>
+          <div>
+            <small>Start Date</small>
+            <p>{{ order.start | date: 'medium' }}</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <i class="fas fa-flag-checkered"></i>
+          <div>
+            <small>End Date</small>
+            <p>{{ order.end | date: 'medium' }}</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <i class="fas fa-calendar-plus"></i>
+          <div>
+            <small>Requested On</small>
+            <p>{{ order.requestDate | date: 'medium' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-footer">
+        <div class="order-price">
+          <span>Total Price</span>
+          <h3>{{ order.price }} EGP</h3>
+        </div>
+       <button *ngIf="!isAcceptedAlready" class="action-btn accept-btn" (click)="openModal(order.id)">
+  <i class="fas fa-check-circle"></i> Accept
+</button>
+
+         
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noOrders>
+    <div class="empty-state">
+      <img src="assets/images/no-orders.svg" alt="No orders">
+      <h3>No Orders Yet</h3>
+      <p>You don't have any service requests at this time</p>
+    </div>
+  </ng-template>
+
+  <!-- Confirmation Modal -->
+  <div *ngIf="showConfirmModal" class="modal-overlay" (click)="cancelAccept()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()" style="pointer-events: all">
+      <div class="modal-icon">
+        <i class="fas fa-question-circle"></i>
+      </div>
+      <h3>Confirm Acceptance</h3>
+      <p>Are you sure you want to accept this service request?</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" (click)="cancelAccept()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="btn-primary" (click)="confirmAccept($event)">
+          <i class="fas fa-check"></i> Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

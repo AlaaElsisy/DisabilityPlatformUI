@@ -31,6 +31,8 @@ export class PatientRequestsComponent implements OnInit {
   offerIdToEdit: number | null = null;
   editErrorMessage = '';
   editOfferData: DisabledOffer | null = null;
+  showDeleteErrorModal = false;
+  deleteErrorMessage = '';
 
   constructor(
     private disabledOfferService: DisabledOfferService,
@@ -86,7 +88,21 @@ export class PatientRequestsComponent implements OnInit {
     return this.pageSize > 0 ? Math.ceil(this.totalCount / this.pageSize) : 1;
   }
 
+  canCancel(offer: DisabledOffer): boolean {
+    if (!offer.startServiceTime || offer.status !== 'Open') return false;
+    const startDate = new Date(offer.startServiceTime);
+    const now = new Date();
+    return (startDate.getTime() - now.getTime()) > 24 * 60 * 60 * 1000;
+  }
+
   openDeleteModal(offerId: number): void {
+    const offer = this.disabledOffers.find(o => o.id === offerId);
+    if (offer && !this.canCancel(offer)) {
+      this.deleteErrorMessage = 'You cannot Cancel this offer .';
+      this.showDeleteErrorModal = true;
+      this.offerIdToDelete = null;
+      return;
+    }
     this.offerIdToDelete = offerId;
     this.showDeleteModal = true;
   }
@@ -97,12 +113,28 @@ export class PatientRequestsComponent implements OnInit {
     this.offerIdToDelete = null;
   }
 
+  closeDeleteErrorModal(): void {
+    this.showDeleteErrorModal = false;
+    this.deleteErrorMessage = '';
+  }
+
   confirmDelete(): void {
-    console.log('Confirming delete');
     if (this.offerIdToDelete != null) {
-      this.disabledOfferService.deleteOffer(this.offerIdToDelete).subscribe(() => {
-        this.disabledOffers = this.disabledOffers.filter(o => o.id !== this.offerIdToDelete);
-        this.totalCount--;
+      this.disabledOfferService.updateOfferStatus(this.offerIdToDelete, 'Cancelled').subscribe(() => {
+        const offer = this.disabledOffers.find(o => o.id === this.offerIdToDelete);
+        if (offer) {
+          offer.status = 'Cancelled';
+        }
+        const offerId = this.offerIdToDelete;
+        if (typeof offerId === 'number') {
+          this.helperRequestService.getProposalsByOfferId(offerId, { pageNumber: 1, pageSize: 1000 }).subscribe(response => {
+            if (response.items && response.items.length > 0) {
+              response.items.forEach((proposal: any) => {
+                this.helperRequestService.updateProposalStatus(proposal.id, 'rejected').subscribe();
+              });
+            }
+          });
+        }
         this.closeDeleteModal();
       });
     }
@@ -111,7 +143,7 @@ export class PatientRequestsComponent implements OnInit {
   openEditModal(offer: DisabledOffer): void {
     this.helperRequestService.getProposalsByOfferId(offer.id!, { pageNumber: 1, pageSize: 1 }).subscribe(response => {
       if (response.totalCount > 0) {
-        this.editErrorMessage = 'You cannot edit this offer because it already has proposals. Please delete it and create a new one.';
+        this.editErrorMessage = 'You cannot edit this offer because it already has proposals. Please  create a new one.';
         this.offerIdToEdit = offer.id!;
         this.editOfferData = null;
         this.showEditModal = true;
@@ -133,8 +165,29 @@ export class PatientRequestsComponent implements OnInit {
     this.editOfferData = null;
   }
 
+  isEditDateInvalid(): boolean {
+    if (!this.editOfferData?.startServiceTime || !this.editOfferData?.endServiceTime) return false;
+    const now = new Date();
+    const start = new Date(this.editOfferData.startServiceTime);
+    const end = new Date(this.editOfferData.endServiceTime);
+    // Both must be strictly in the future, and end > start
+    return start <= now || end <= now || end <= start;
+  }
+
   saveEditOffer(): void {
     if (this.editOfferData && this.offerIdToEdit) {
+      const now = new Date();
+      const start = new Date(this.editOfferData.startServiceTime!);
+      const end = new Date(this.editOfferData.endServiceTime!);
+      if (start <= now || end <= now) {
+        this.editErrorMessage = 'Both start and end date/time must be in the future.';
+        return;
+      }
+      if (end <= start) {
+        this.editErrorMessage = 'End date/time must be after start date/time.';
+        return;
+      }
+      this.editErrorMessage = '';
       this.disabledOfferService.updateOffer(this.offerIdToEdit, this.editOfferData).subscribe({
         next: () => {
           this.closeEditModal();
@@ -145,5 +198,9 @@ export class PatientRequestsComponent implements OnInit {
         }
       });
     }
+  }
+
+  onEditDateChange(): void {
+    this.editErrorMessage = '';
   }
 }

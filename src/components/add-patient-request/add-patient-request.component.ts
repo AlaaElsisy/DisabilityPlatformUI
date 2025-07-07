@@ -71,11 +71,22 @@ export class AddPatientRequestComponent implements OnInit, OnChanges {
 
   get f() { return this.requestForm.controls; }
 
+  // Add a method to check datetime validity
+  isDateTimeInvalid(): boolean {
+    const start = this.requestForm.value.start;
+    const end = this.requestForm.value.end;
+    if (!start || !end) return false;
+    const now = new Date();
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    return startDate <= now || endDate <= now || endDate <= startDate;
+  }
+
   onSubmit() {
     this.submitted = true;
     this.successMsg = '';
     this.errorMsg = '';
-    if (this.requestForm.invalid) return;
+    if (this.requestForm.invalid || this.isDateTimeInvalid()) return;
     this.loading = true;
     if (!this.disabledId) {
       this.errorMsg = 'Could not determine your Disabled ID. Please log in again.';

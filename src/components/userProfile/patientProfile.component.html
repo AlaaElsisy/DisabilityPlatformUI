@@ -1,0 +1,182 @@
+<div class="container mt-5 my-5">
+  <div class="card shadow-lg rounded-4">
+    <div class="card-body">
+      <nav class="navbar-custom">
+        <div class="container">
+          <div class="d-flex justify-content-center w-100">
+            <div class="d-flex flex-wrap justify-content-center">
+              <a
+                routerLink="/userProfile"
+                routerLinkActive="router-link-active"
+                class="nav-link-custom active"
+              >
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a
+                routerLink="/userProfile"
+                routerLinkActive="active"
+                class="nav-link-custom"
+              >
+                <i class="fas fa-file-alt"></i>
+                My Proposals
+              </a>
+              <a
+                routerLink="/userProfile"
+                routerLinkActive="active"
+                class="nav-link-custom"
+              >
+                <i class="fas fa-inbox"></i>
+                Requests
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <h3 class="mb-4 text-center">Patient Profile</h3>
+      <div class="row mb-4">
+        <div class="col-md-3 text-center">
+          <img
+            *ngIf="userProfile?.user?.profileImage; else defaultImage"
+            [src]="userProfile?.user?.profileImage"
+            class="img-thumbnail rounded-circle shadow-sm"
+            alt="Profile Image"
+            style="width: 150px; height: 150px; object-fit: cover"
+          />
+          <ng-template #defaultImage>
+            <div
+              class="bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center"
+              style="width: 150px; height: 150px"
+            ></div>
+          </ng-template>
+        </div>
+        <div class="col-md-9">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="userProfile?.user?.fullName"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="userProfile?.user?.email"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phone</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="userProfile?.user?.phone"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Date of Birth</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="userProfile?.user?.dateOfBirth | date : 'longDate'"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Gender</label>
+              <input
+                type="text"
+                class="form-control text-capitalize"
+                [value]="userProfile?.user?.gender"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Address</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="userProfile?.user?.address"
+                disabled
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Zone</label>
+              <input
+                type="text"
+                class="form-control"
+                [value]="userProfile?.user?.zone || 'N/A'"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <div *ngIf="role?.toLowerCase() === 'patient'">
+        <h5 class="mb-3">Disability Information</h5>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label">Disability Type</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.disabilityType || 'N/A'"
+              disabled
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Medical Condition</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.medicalConditionDescription || 'N/A'"
+              disabled
+            />
+          </div>
+        </div>
+
+        <hr />
+
+        <h5 class="mb-3">Emergency Contact</h5>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.emergencyContactName || 'N/A'"
+              disabled
+            />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Phone</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.emergencyContactPhone || 'N/A'"
+              disabled
+            />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Relation</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="patientProfile?.emergencyContactRelation || 'N/A'"
+              disabled
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

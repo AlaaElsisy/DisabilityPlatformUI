@@ -5,10 +5,15 @@ import { ProvidernavbarComponent } from "../providernavbar/providernavbar.compon
 import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-providerhome',
-  imports: [FooterComponent,RouterModule],
+  standalone: true,
+  imports: [
+    FooterComponent,
+    RouterModule,
+  ],
   templateUrl: './providerhome.component.html',
   styleUrl: './providerhome.component.css'
 })
+    
 export class ProviderhomeComponent {
  constructor(private el:ElementRef) {}
 
