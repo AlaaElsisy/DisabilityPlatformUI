@@ -36,6 +36,8 @@ showDeleteModal = false;
 requestIdToDelete: number | null = null;
 statusFilter: string = '';
 categoryFilter: string = '';
+showCancelModal = false;
+requestIdToCancel: number | null = null;
 
 ngOnInit() {
   this.userDataService.getuserData().subscribe({
@@ -77,8 +79,14 @@ viewProposalDetails(requestId: number) {
 }
 
 editProposal() {
+  if (this.selectedProposal?.status !== 'Pending') {
+    alert('Only pending proposals can be edited.');
+    return;
+  }
+
   this.isEditing = true;
 }
+
 
 saveProposal() {
   const updateData = {
@@ -141,19 +149,65 @@ closeDeleteModal(): void {
 }
 
 confirmDelete(): void {
-  if (this.requestIdToDelete != null) {
-    this.helperRequestsService.deleteProposal(this.requestIdToDelete).subscribe({
-      next: () => {
-        this.helperProposals = this.helperProposals.filter(p => p.id !== this.requestIdToDelete);
-        this.closeDeleteModal();
-      },
-      error: (err) => {
-        console.error('Error deleting request:', err);
-        this.closeDeleteModal();
-      }
-    });
+  const proposal = this.helperProposals.find(p => p.id === this.requestIdToDelete);
+  if (proposal?.status !== 'Pending') {
+    alert('Only pending proposals can be deleted.');
+    this.closeDeleteModal();
+    return;
   }
+
+  this.helperRequestsService.deleteProposal(this.requestIdToDelete!).subscribe({
+    next: () => {
+      this.helperProposals = this.helperProposals.filter(p => p.id !== this.requestIdToDelete);
+      this.closeDeleteModal();
+    },
+    error: (err) => {
+      console.error('Error deleting request:', err);
+      this.closeDeleteModal();
+    }
+  });
 }
+canCancel(startDate: string | Date): boolean {
+  const today = new Date();
+  const start = new Date(startDate);
+  const diffInMs = start.getTime() - today.getTime();
+  const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+  return diffInDays >= 1;
+}
+cancelProposal(id: number): void {
+  this.helperRequestsService.updateStatus(id, 'Cancelled').subscribe({
+    next: () => {
+      const index = this.helperProposals.findIndex(p => p.id === id);
+      if (index !== -1) {
+        this.helperProposals[index].status = 'Cancelled';
+      }
+    },
+    error: (err) => console.error('Error cancelling proposal:', err)
+  });
+}
+
+openCancelModal(id: number): void {
+  this.requestIdToCancel = id;
+  this.showCancelModal = true;
+}
+confirmCancel(): void {
+  this.helperRequestsService.updateStatus(this.requestIdToCancel!, 'Cancelled').subscribe({
+    next: () => {
+      const index = this.helperProposals.findIndex(p => p.id === this.requestIdToCancel);
+      if (index !== -1) {
+        this.helperProposals[index].status = 'Cancelled';
+      }
+      this.showCancelModal = false;
+      this.requestIdToCancel = null;
+    },
+    error: (err) => {
+      console.error('Error cancelling proposal:', err);
+      this.showCancelModal = false;
+    }
+  });
+}
+
 applyFilters() {
   const filtered = this.allProposals.filter(p =>
     (!this.statusFilter || p.status === this.statusFilter) &&

@@ -44,6 +44,17 @@ getCategoriesDropdown(): Observable<{ id: number, name: string }[]> {
   const headers = { Authorization: `Bearer ${token}` };
   return this._httpClient.get<{ id: number, name: string }[]>(`${environment.apiBaseUrl}/ServiceCategory/dropdown`, { headers });
 }
+updateStatus(id: number, newStatus: string): Observable<any> {
+  const token = localStorage.getItem('token');
+  const headers = { Authorization: `Bearer ${token}` };
+
+  return this._httpClient.patch(
+    `${environment.apiBaseUrl}/HelperRequest/request/status?requestId=${id}&status=${newStatus}`,
+    {}, 
+    { headers }
+  );
+}
+
 
 
 }
