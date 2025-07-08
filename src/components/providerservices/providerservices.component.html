@@ -12,8 +12,8 @@
         <div class="service-header">
           <h3 class="service-title">{{service.description.split(' ',1).join(' ')}}</h3>
           
-          <!-- ✅ حالة الخدمة بالنص بدل الرقم -->
-          <h3 class="service-title">
+        
+          <h4 class="service-title service-price text-primary p-2">
             {{
               service.status === 0 ? 'Pending' :
               service.status === 1 ? 'Accepted' :
@@ -21,7 +21,7 @@
               service.status === 3 ? 'Completed' :
               'Unknown'
             }}
-          </h3>
+          </h4>
           
           <span class="service-price">{{service.pricePerHour}} Egp/hour</span>
         </div>

@@ -1,6 +1,6 @@
-import { Component, AfterViewInit, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewEncapsulation, inject } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MainhomenavbarComponent } from "../mainhomenavbar/mainhomenavbar.component";
 import { ServiceCategoriesComponent } from '../service-categories/service-categories.component';
 @Component({
@@ -12,6 +12,8 @@ import { ServiceCategoriesComponent } from '../service-categories/service-catego
   encapsulation: ViewEncapsulation.None, 
 })
 export class HomeComponent implements AfterViewInit {
+  
+   private readonly _Router=inject(Router)
 
   constructor(private el: ElementRef) {}
 
@@ -33,4 +35,11 @@ export class HomeComponent implements AfterViewInit {
       observer.observe(section);
     });
   }
+ gotoLogin():void{
+  this._Router.navigate(['/login'])
+ }
+  gotoRegister():void{
+  this._Router.navigate(['/register'])
+ }
+
 }

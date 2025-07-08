@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { routes } from '../../app/app.routes';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+
 
 @Component({
   selector: 'app-providernavbar',
@@ -10,10 +11,23 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './providernavbar.component.css'
 })
 export class ProvidernavbarComponent {
+  private _Router=inject(Router)
 scrollTo(sectionId: string) {
   const element = document.getElementById(sectionId);
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
   }
 }
+ 
+   sginout():void{
+    const token='';
+    const authToken=''
+    const userId=''
+    localStorage.removeItem('token');
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('role');
+ this._Router.navigate(['/register'])
+   
+  }
 }

@@ -3,13 +3,15 @@ import { FooterComponent } from "../footer/footer.component";
 import { MainhomenavbarComponent } from "../mainhomenavbar/mainhomenavbar.component";
 import { ProvidernavbarComponent } from "../providernavbar/providernavbar.component";
 import { RouterModule } from '@angular/router';
+import { ServiceCategoriesComponent } from "../service-categories/service-categories.component";
 @Component({
   selector: 'app-providerhome',
   standalone: true,
   imports: [
     FooterComponent,
     RouterModule,
-  ],
+    ServiceCategoriesComponent
+],
   templateUrl: './providerhome.component.html',
   styleUrl: './providerhome.component.css'
 })
