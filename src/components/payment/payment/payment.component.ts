@@ -29,53 +29,73 @@ export class PaymentComponent implements OnInit {
     disabledRequestId: null      
   };
 
-  patientName = 'John Doe';//static name for testing
-  helperName = 'Helper Smith'; 
-  serviceName = 'Wheelchair Support'; 
-  paymentResult: any = null;
+patientName: string = '';
+helperName: string = '';
+serviceName: string = '';
+paymentResult: any = null;
+
 
   constructor(private paymentService: PaymentService) {}
+ngOnInit() {
+  const navState = history.state;
+  this.patientName = navState.patientName || 'N/A';
+  this.helperName = navState.helperName || 'N/A';
+  this.serviceName = navState.serviceName || 'N/A';
+  this.payment.amount = navState.amount || 0;
+  this.payment.disabledRequestId = navState.disabledRequestId || null;
+}
 
-  ngOnInit(): void {}
+
+
 
   async submitPayment() {
-    if (!this.payment.cardNumber || !this.payment.expMonth || !this.payment.expYear || !this.payment.cvc || !this.payment.amount) {
-      this.paymentResult = { success: false, message: 'Please fill all payment details.' };
-      return;
-    }
-
-    const paymentRequest = {
-      Amount: this.payment.amount,
-      Currency: 'egp',
-      CardNumber: this.payment.cardNumber,
-      ExpMonth: this.payment.expMonth,
-      ExpYear: this.payment.expYear,
-      Cvc: this.payment.cvc,
-      HelperRequestId: this.payment.helperRequestId,
-      DisabledRequestId: this.payment.disabledRequestId
-    };
-
-    this.paymentService.chargeCard(paymentRequest).subscribe({
-      next: (res: any) => {
-        this.paymentResult = { 
-          success: res.success, 
-          message: res.message,
-          paymentId: res.paymentId 
-        };
-        
-         
-        if (res.success) {
-          this.resetForm();
-        }
-      },
-      error: (err) => {
-        this.paymentResult = { 
-          success: false, 
-          message: err.error?.message || 'Payment failed. Please try again.' 
-        };
-      }
-    });
+  if (!this.payment.cardNumber || !this.payment.expMonth || !this.payment.expYear || !this.payment.cvc || !this.payment.amount) {
+    this.paymentResult = { success: false, message: 'Please fill all payment details.' };
+    return;
   }
+
+  const paymentRequest = {
+    Amount: this.payment.amount,
+    Currency: 'egp',
+    CardNumber: this.payment.cardNumber,
+    ExpMonth: this.payment.expMonth,
+    ExpYear: this.payment.expYear,
+    Cvc: this.payment.cvc,
+    HelperRequestId: this.payment.helperRequestId,
+    DisabledRequestId: this.payment.disabledRequestId
+  };
+
+  this.paymentService.chargeCard(paymentRequest).subscribe({
+    next: (res: any) => {
+      this.paymentResult = { 
+        success: res.success, 
+        message: res.message,
+        paymentId: res.paymentId 
+      };
+      
+      if (res.success) {
+
+       this.paymentService.patchRequestStatus(this.payment.disabledRequestId!, '3').subscribe({
+          next: () => {
+            console.log("Request status updated to Completed");
+          },
+          error: (err) => {
+            console.error("Failed to update request status:", err);
+          }
+        });
+
+        this.resetForm();
+      }
+    },
+    error: (err) => {
+      this.paymentResult = { 
+        success: false, 
+        message: err.error?.message || 'Payment failed. Please try again.' 
+      };
+    }
+  });
+}
+
 
   resetForm() {
    
