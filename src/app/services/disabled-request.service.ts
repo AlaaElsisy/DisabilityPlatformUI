@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { DisabledRequest } from '../models/disabled-request.model';
+import { DisabledRequestwithdetails } from 'app/models/disabled-requestwithdetails.model';
 
 @Injectable({ providedIn: 'root' })
 export class DisabledRequestService {
@@ -15,6 +16,9 @@ export class DisabledRequestService {
     return this.http.post<DisabledRequest>(this.apiUrl, request);
   }
 
+getRequestDetailsById(id: number): Observable<DisabledRequestwithdetails> {
+  return this.http.get<DisabledRequestwithdetails>(`https://localhost:7037/api/DisabledRequest/details/${id}`);
+}
 
   getRequestsByDisabledIdPaged(
     disabledId: number,
@@ -40,7 +44,22 @@ export class DisabledRequestService {
   cancelRequest(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+updateRequest(request: any): Observable<any> {
+  const token = localStorage.getItem('Token');
+  const headers = { Authorization: `Bearer ${token}` };
+  return this.http.put(`https://localhost:7037/api/DisabledRequest/${request.id}`, request, { headers });
+}
 
+patchStatus(id: number, newStatus: string): Observable<any> {
+  const token = localStorage.getItem('token');
+  const headers = { Authorization: `Bearer ${token}` };
+
+  return this.http.patch(
+    `${this.apiUrl}/request/status?requestId=${id}&status=${newStatus}`,
+    {}, 
+    { headers }
+  );
+}
 delete(id: number) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
