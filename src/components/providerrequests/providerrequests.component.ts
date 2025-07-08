@@ -39,8 +39,11 @@ categoryFilter: string = '';
 showCancelModal = false;
 requestIdToCancel: number | null = null;
 
+
+
 ngOnInit() {
-  this.userDataService.getuserData().subscribe({
+
+this.userDataService.getuserData().subscribe({
     next: (userData) => {
       const helperId = userData.id;
       this.loadPagedProposals(helperId);
@@ -50,13 +53,14 @@ ngOnInit() {
 
   this.helperRequestsService.getCategoriesDropdown().subscribe({
     next: (res) => {
-      this.categories = res; 
+      this.categories = res;
     },
     error: (err) => {
       console.error('Error fetching categories:', err);
     }
   });
 }
+
 
 
 onFilterChange() {
