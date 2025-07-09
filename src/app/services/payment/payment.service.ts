@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
+
 import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +12,12 @@ export class PaymentService {
 
    
 
-   private baseUrl = 'https://localhost:7037/api/Payment';
+   private baseUrl = `${environment.apiBaseUrl}/Payment`;
 
   constructor(private http: HttpClient) {}
 
   chargeCard(paymentData: any) {
+    console.log(paymentData)
     return this.http.post(`${this.baseUrl}/charge`, paymentData);
   }
   

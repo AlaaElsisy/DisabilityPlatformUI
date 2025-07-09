@@ -1,0 +1,100 @@
+
+  <section class="checkout-container my-5">
+  <div>
+    <h2 class="checkout-title">Checkout</h2>
+
+    <form class="checkout-form" #paymentForm="ngForm" (ngSubmit)="submitPayment()">
+
+  
+      <div class="form-section">
+        <h3 class="section-title">Payment Details</h3>
+
+    
+        <input type="text"
+               placeholder="Card Number"
+               name="cardNumber"
+               [(ngModel)]="payment.cardNumber"
+               required
+               pattern="^[0-9]{16}$"
+               #cardNumber="ngModel"
+               class="form-input mb-2">
+        <div *ngIf="cardNumber.invalid && cardNumber.touched" class="text-red-500 text-sm">
+          <div *ngIf="cardNumber.errors?.['required']">Card number is required</div>
+          <div *ngIf="cardNumber.errors?.['pattern']">Card number must be 16 digits</div>
+        </div>
+
+       
+        <div class="input-row">
+
+            <div class="col-4">
+        <input type="number"
+              placeholder="MM"
+              name="expMonth"
+              [(ngModel)]="payment.expMonth"
+              required
+              min="1"
+              max="12"
+              #expMonth="ngModel"
+              class="form-input">
+
+     
+            <div *ngIf="expMonth.touched && expMonth.invalid" class="text-red-500 text-xs">
+              <div *ngIf="expMonth.errors?.['required']">Expiration month is required</div>
+              <div *ngIf="expMonth.errors?.['min'] || expMonth.errors?.['max']">Month must be between 1 and 12</div>
+            </div>
+
+</div>
+
+    <div class="col-4">
+          <input type="number"
+                 placeholder="YY"
+                 name="expYear"
+                 [(ngModel)]="payment.expYear"
+                 required
+                 min="25"
+                 #expYear="ngModel">
+            <div *ngIf="expYear.touched && expYear.invalid" class="text-red-500 text-xs">
+              <div *ngIf="expYear.errors?.['required']">Expiration year is required</div>
+              <div *ngIf="expYear.errors?.['min']">Year must be 25 or later</div>
+            </div>
+</div>
+     <div class="col-4">
+      
+     
+          <input type="text"
+                 placeholder="CVC"
+                 name="cvc"
+                 [(ngModel)]="payment.cvc"
+                 required
+                 pattern="^[0-9]{3,4}$"
+                 #cvc="ngModel">
+          <div *ngIf="cvc.invalid && cvc.touched" class="text-red-500 text-xs">
+            <div *ngIf="cvc.errors?.['required']">CVC is required</div>
+            <div *ngIf="cvc.errors?.['pattern']">CVC must be 3 or 4 digits</div>
+          </div>
+
+        </div>
+</div>
+      
+       
+      
+      </div>
+
+      
+      <div class="form-section">
+        <h3 class="section-title">Summary</h3>
+        <div class="summary-item"><span>Patient Name:</span><span>{{ patientName || 'N/A' }}</span></div>
+        <div class="summary-item"><span>Helper Name:</span><span>{{ helperName || 'N/A' }}</span></div>
+        <div class="summary-item"><span>Service:</span><span>{{ serviceName || 'N/A' }}</span></div>
+        <div class="summary-item total"><span>Total:</span><span>${{ payment.amount || '0.00' }}</span></div>
+      </div>
+  
+      <button type="submit" class="checkout-button" [disabled]="paymentForm.invalid">Pay Now</button>
+
+      <div *ngIf="paymentResult" class="mt-4 text-sm text-center" [ngClass]="{'text-green-500': paymentResult.success, 'text-red-500': !paymentResult.success}">
+        {{ paymentResult.message }}
+      </div>
+
+    </form>
+  </div>
+</section>

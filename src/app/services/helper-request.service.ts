@@ -35,6 +35,10 @@ export class HelperRequestService {
       params: new HttpParams().set('requestId', requestId.toString()).set('status', status)
     });
   }
+
+  getHelperRequestById(id: number): Observable<any> {
+    return this.http.get(`${environment.apiBaseUrl}/HelperRequest/request/${id}`);
+  }
 } 
 
 

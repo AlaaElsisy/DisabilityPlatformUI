@@ -4,6 +4,9 @@ import { PaymentService } from '@services/payment/payment.service';
 import { Payment } from 'app/models/payment';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HelperRequestService } from 'app/services/helper-request.service';
+import { DisabledOfferService } from '@services/disabled-offer.service';
 
 @Component({
   selector: 'app-payment',
@@ -20,14 +23,14 @@ export class PaymentComponent implements OnInit {
     expMonth: '',
     expYear: '',
     cvc: '',
-    amount: 45,//static amount for testing
+    amount: 45,
     token: '',
+    offerId : null,
     paymentMethod: 'card',
-    toHelperId: 1,
-    fromPatientId: 2,
-    helperRequestId: 1,         
+    helperRequestId: null,         
     disabledRequestId: null      
   };
+
 
 patientName: string = '';
 helperName: string = '';
@@ -44,8 +47,6 @@ ngOnInit() {
   this.payment.amount = navState.amount || 0;
   this.payment.disabledRequestId = navState.disabledRequestId || null;
 }
-
-
 
 
   async submitPayment() {
@@ -109,13 +110,11 @@ ngOnInit() {
       cvc: '',
       amount: 0,
       token: '',
+      offerId: null,
       paymentMethod: 'card',
-      toHelperId: 1,
-      fromPatientId: 2,
-      helperRequestId: 1,         
+      helperRequestId: null,         
       disabledRequestId: null      
     };
   }
-
  
 }
