@@ -17,7 +17,7 @@ export class DisabledRequestService {
   }
 
 getRequestDetailsById(id: number): Observable<DisabledRequestwithdetails> {
-  return this.http.get<DisabledRequestwithdetails>(`https://localhost:7037/api/DisabledRequest/details/${id}`);
+  return this.http.get<DisabledRequestwithdetails>(`${environment.apiBaseUrl}/DisabledRequest/details/${id}`);
 }
 
   getRequestsByDisabledIdPaged(
@@ -47,7 +47,7 @@ getRequestDetailsById(id: number): Observable<DisabledRequestwithdetails> {
 updateRequest(request: any): Observable<any> {
   const token = localStorage.getItem('Token');
   const headers = { Authorization: `Bearer ${token}` };
-  return this.http.put(`https://localhost:7037/api/DisabledRequest/${request.id}`, request, { headers });
+  return this.http.put(`${environment.apiBaseUrl}/DisabledRequest/${request.id}`, request, { headers });
 }
 
 patchStatus(id: number, newStatus: string): Observable<any> {

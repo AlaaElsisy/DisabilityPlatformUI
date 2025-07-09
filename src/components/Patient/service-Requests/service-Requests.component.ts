@@ -3,10 +3,11 @@ import { DisabledRequestService } from 'app/services/disabled-request.service';
 import { DisabledRequest } from 'app/models/disabled-request.model';
 import { UserProfileService } from 'app/services/user-profile.service';
 import { ServiceCategory } from 'app/models/service-category.model';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DisabledRequestwithdetails } from 'app/models/disabled-requestwithdetails.model'; 
+import { GetloggineduserDataService } from 'core/services/getloggineduser-data.service';
 
 @Component({
   selector: 'app-service-requests',
@@ -39,23 +40,27 @@ selectedRequestToCancel: any = null;
 serviceRequests: DisabledRequestwithdetails[] = []; 
 selectedRequestDetails: DisabledRequestwithdetails | null = null;
 showDetailsModal: boolean = false;
+showCompleteModal = false;
+selectedRequestToComplete: any = null;
 
 
-  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService) {}
 
-  ngOnInit() {
-   this.userProfileService.getDisabledIdForCurrentUser().subscribe(disabledId => {
-  this.disabledId = disabledId;
-  this.fetchRequests();
-     this.requestService.getServiceCategories().subscribe(categories => {
+  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService,private router: Router) {}
+
+ ngOnInit() {
+  this.userProfileService.getDisabledIdForCurrentUser().subscribe(disabledId => {
+    this.disabledId = disabledId;
+    this.fetchRequests();
+
+    this.requestService.getServiceCategories().subscribe(categories => {
       this.serviceCategories = categories.map((cat: any) => ({
         id: cat.id,
         name: cat.name || cat.categoryName || cat.serviceCategoryName
       }));
     });
-  }
-  );
-  } 
+  });
+}
+
 fetchRequests() {
   if (!this.disabledId) return;
 
@@ -213,7 +218,7 @@ canEdit(request: any): boolean {
 }
 
 canDelete(request: any): boolean {
-  return request.status === 'Pending' || request.status === 'Rejected';
+  return request.status === 'Pending';
 }
 
 openCancelModal(request: any) {
@@ -242,6 +247,44 @@ confirmCancelRequest() {
     }
   });
 }
+openCompleteModal(request: any) {
+  this.selectedRequestToComplete = request;
+  this.showCompleteModal = true;
+  document.body.style.overflow = 'hidden';
+}
+confirmCompleteRequest(request: DisabledRequest | null | undefined) {
+  if (!request || !request.id) {
+    console.error("Invalid request object or missing ID");
+    return;
+  }
+
+ this.requestService.getRequestDetailsById(request.id).subscribe({
+  next: (details) => {
+
+  this.router.navigate(['/payment'], {
+  state: {
+    patientName: details.patientName || 'N/A',
+    helperName: details.helperName || 'N/A',
+    serviceName: details.serviceDescription || 'N/A',
+    amount: details.price || 0,
+    disabledRequestId: details.id
+  }
+});
+  },
+});
+
+}
+
+
+
+
+
+
+closeCompleteModal() {
+  this.selectedRequestToComplete = null;
+  this.showCompleteModal = false;
+  document.body.style.overflow = '';
+}
 
 canCancel(request: any): boolean {
   if (request.status !== 'Accepted') return false;
@@ -264,6 +307,24 @@ cancelRequest(request: any) {
     });
   }
 }
+canComplete(request: any): boolean {
+  return request.status === 'Accepted';
+}
+markAsComplete(request: any) {
+  if (confirm("Are you sure you want to mark this request as completed?")) {
+    this.requestService.patchStatus(request.id, 'Completed').subscribe({
+      next: () => {
+        alert("Request marked as completed.");
+        this.fetchRequests();
+      },
+      error: (err) => {
+        console.error('Failed to complete request:', err);
+        alert("Failed to mark request as completed.");
+      }
+    });
+  }
+}
+
 showBlockedDeleteModal() {
   alert("You can't delete this request unless it's Pending or Rejected.");
 }
