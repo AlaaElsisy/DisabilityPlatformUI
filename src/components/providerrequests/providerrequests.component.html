@@ -34,64 +34,105 @@
       </form>
     </div>
 
-    <div class="modal-actions mt-3" *ngIf="selectedProposal">
-      <button *ngIf="!isEditing" type="button" class="modal-cancel-btn" (click)="editProposal()">Edit</button>
-      <button *ngIf="isEditing" type="button" class="modal-delete-btn" (click)="saveProposal()">Done</button>
-      <button type="button" class="modal-cancel-btn" (click)="closeViewModal()">Close</button>
-    </div>
+ <div class="modal-actions mt-3" *ngIf="selectedProposal">
+  <button
+    *ngIf="!isEditing && selectedProposal.status === 'Pending'"
+    type="button"
+    class="modal-cancel-btn"
+    (click)="editProposal()">
+    Edit
+  </button>
+
+  <button
+    *ngIf="isEditing"
+    type="button"
+    class="modal-delete-btn"
+    (click)="saveProposal()">
+    Done
+  </button>
+
+  <button
+    type="button"
+    class="modal-cancel-btn"
+    (click)="closeViewModal()">
+    Close
+  </button>
+</div>
+
   </div>
 </div>
 <div class="inner-content">
   @for (item of helperProposals; track $index) {
     <div class="service-card">
-      <div class="status-badge" [ngClass]="item.status.toLowerCase()">
-        {{ item.status }}
-      </div>
-<div class="d-flex justify-content-between align-items-start mb-3 flex-column flex-md-row">
-  <div>
-    <h5 class="description mb-1">
-      <a [routerLink]="['/provider/applyoffer', item.disabledOfferId]" class="text-decoration-none text-primary">
-       {{ item.offerDescription }}
-      </a>
-    </h5>
-    <p class="mb-1 text-muted">Posted by
-      <a [routerLink]="['/provider/applyoffer', item.disabledOfferId]" class="fw-semibold text-dark text-decoration-underline"> {{ item.posterName }}</a>
-    </p>
-    <p class="text-muted mb-1">Service Duration:  {{ item.startServiceTime | date }} → {{ item.endServiceTime | date }}</p>
-<div class="d-flex flex-wrap align-items-center column-gap-2 mt-3">
-  <p class="Type mb-0">Category:{{ item.categoryName }}</p>
-
-  <div class="d-flex align-items-center column-gap-2">
-    <span class="fw-semibold text-muted">Budget:</span>
-    <span class="badge bg-light text-primary border border-primary px-3 py-2 fs-6 fw-semibold mb-0">
-       {{ item.budget }} EGP
-    </span>
-  </div>
-</div>
-
+  <div class="status-badge" [ngClass]="item.status.toLowerCase()">
+    {{ item.status }}
   </div>
 
-</div>
-      <div class="d-flex justify-content-between align-items-center border-top pt-3">
-        <div>
-          <small class="text-muted">
-            Application Date: {{ item.applicationDate | date:'short' }}
-          </small>
-        </div>
-        <div class="btn-group-tight d-flex">
-          <button class="btn btn-outline-primary" (click)="viewProposalDetails(item.id)">
-            View Proposal
-          </button>
-          <button class="btn btn-outline-danger ms-1" (click)="openDeleteModal(item.id)">
-            Delete
-          </button>
-        </div>
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start mb-3">
+    <div class="card-left-content">
+      <h5 class="description mb-2">
+        <a [routerLink]="['/provider/applyoffer', item.disabledOfferId]" class="text-decoration-none text-primary">
+          {{ item.offerDescription }}
+        </a>
+      </h5>
+
+      <p class="text-muted mb-1">
+        Posted by
+        <a [routerLink]="['/provider/applyoffer', item.disabledOfferId]" class="fw-semibold text-dark text-decoration-underline">
+          {{ item.posterName }}
+        </a>
+      </p>
+
+      <p class="text-muted mb-2">
+        Service Duration:
+        {{ item.startServiceTime | date:'mediumDate' }} → {{ item.endServiceTime | date:'mediumDate' }}
+      </p>
+
+      <div class="d-flex flex-wrap align-items-center column-gap-3 row-gap-2 mt-2">
+        <span class="badge bg-light border border-primary text-primary px-3 py-2">
+          Category: {{ item.categoryName }}
+        </span>
+
+        <!-- <span class="badge bg-light border border-secondary text-dark px-3 py-2">
+          Location: {{ item.location || 'N/A' }}
+        </span> -->
+
+        <span class="badge bg-light text-primary border border-primary px-3 py-2 fs-6 fw-semibold">
+          Budget: {{ item.budget }} EGP
+        </span>
       </div>
     </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-3">
+    <small class="text-muted">Application Date: {{ item.applicationDate | date:'short' }}</small>
+    
+    <div class="btn-group-tight d-flex">
+      <button class="btn btn-outline-primary" (click)="viewProposalDetails(item.id)">
+        View Proposal
+      </button>
+
+    <button *ngIf="item.status === 'Pending' || item.status === 'Rejected'"
+        class="btn btn-outline-danger ms-2"
+        (click)="openDeleteModal(item.id)">
+  Delete Proposal
+</button>
+
+
+      <button *ngIf="item.status === 'Accepted' && canCancel(item.startServiceTime)"
+              class="btn btn-outline-danger ms-2"
+              (click)="openCancelModal(item.id)"
+              title="Cancel this proposal before the service starts">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
   }
   <div class="modal-overlay" *ngIf="showDeleteModal">
     <div class="modal-dialog delete-modal">
-      <h3>Cancel Request</h3>
+      <h3>Delete Request</h3>
       <p>Are you sure you want to cancel this request?<br><strong>This action cannot be undone.</strong></p>
       <div class="modal-actions">
         <button type="button" class="modal-cancel-btn" (click)="closeDeleteModal()">Cancel</button>
@@ -99,7 +140,19 @@
       </div>
     </div>
   </div>
-
+<div class="modal-overlay" *ngIf="showCancelModal">
+  <div class="modal-dialog delete-modal">
+    <h3>Cancel Proposal</h3>
+    <p>Are you sure you want to cancel this proposal?<br><strong>This action cannot be undone.</strong></p>
+    <div class="modal-actions">
+      <button type="button" class="modal-cancel-btn" (click)="showCancelModal = false">Close</button>
+      <button type="button" class="modal-delete-btn danger" (click)="confirmCancel()">Confirm Cancel</button>
+    </div>
+  </div>
+</div>
+<ng-template #noOffers>
+  <p class="no-offers">No offers found.</p>
+</ng-template>
  <div class="pagination">
     <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
     <span>Page {{ currentPage }} of {{ totalPages }}</span>

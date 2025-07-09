@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class GetloggineduserDataService {
   getuserData():Observable<any>{
     if (this.token) {
       const headers = { Authorization: `${this.token}` };
-      return this._httpclient.get("https://localhost:7037/api/UserProfile/helper", { headers });
+      return this._httpclient.get(`${environment.apiBaseUrl}/UserProfile/helper/data`, { headers });
     } else {
       throw new Error('Token not found in localStorage');
     }

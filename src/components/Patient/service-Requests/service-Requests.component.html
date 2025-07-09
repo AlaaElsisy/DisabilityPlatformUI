@@ -42,12 +42,6 @@
       <span class="offer-status-badge offer-status-abs" [ngClass]="request.status?.toLowerCase()">{{ request.status }}</span>
       <div class="offer-content">
         <div class="offer-main">
-         <!-- Helper Info -->
-<div class="helper-info" *ngIf="request.helperName || request.helperImage">
- <img [src]="request.helperImage || 'assets/loginImg.png'" alt="Helper Image" class="helper-avatar" />
-  <span class="helper-name">{{ request.helperName || 'Unknown' }}</span>
-</div>
-
           <div class="offer-title">{{ request.description }}</div>
           <div class="offer-dates-row">
             <span class="offer-date-label">
@@ -73,18 +67,56 @@
           </div>
         </div>
         <div class="offer-action">
-<button class="view-details-btn" title="View Details" *ngIf="request.id !== undefined" (click)="viewDetails(request.id!)">
-    <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="10"/>
-      <line x1="12" y1="16" x2="12" y2="12"/>
-      <line x1="12" y1="8" x2="12" y2="8"/>
-    </svg>
-    View Details
-  </button>
-          <button class="delete-offer-btn" title="Delete Request" *ngIf="request.id !== undefined" (click)="openDeleteModal(request.id); $event.stopPropagation()">
-            <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-            Delete
-          </button>
+<button class="view-details-btn" title="View Details" *ngIf="request.id !== undefined" (click)="openDetailsModal(request.id!)">
+  <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="12" y1="16" x2="12" y2="12"/>
+    <line x1="12" y1="8" x2="12" y2="8"/>
+  </svg>
+    Service Info
+</button>
+<button 
+  class="edit-offer-btn" 
+  title="Edit Offer" 
+  *ngIf="canEdit(request)" 
+  (click)="openEditModal(request)">
+            <svg width="18" height="18" fill="none" stroke="#1976d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19.5 3 21l1.5-4L16.5 3.5z"/></svg>
+            Edit
+          </button>         
+<button 
+  *ngIf="canComplete(request)" 
+  class="edit-offer-btn" 
+  (click)="openCompleteModal(request)">
+  <svg width="18" height="18" fill="none" stroke="#28a745" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+  Complete
+</button>
+<button 
+  *ngIf="canCancel(request)" 
+  class="delete-offer-btn" 
+  (click)="openCancelModal(request)">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+  </svg>
+  Cancel
+</button>
+
+<button 
+  *ngIf="request.id !== undefined && canDelete(request)" 
+  class="delete-offer-btn" 
+  title="Delete Request" 
+  (click)="openDeleteModal(request.id); $event.stopPropagation()">
+  <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;" viewBox="0 0 24 24">
+    <polyline points="3 6 5 6 21 6"/>
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+    <line x1="10" y1="11" x2="10" y2="17"/>
+    <line x1="14" y1="11" x2="14" y2="17"/>
+  </svg>
+  Delete
+</button>
+
+
         </div>
       </div>
     </div>
@@ -111,4 +143,88 @@
       <button class="modal-delete-btn" (click)="confirmDelete()">Delete</button>
     </div>
   </div>
+  </div>
+  <div class="modal-overlay" *ngIf="showCancelModal" (click)="handleOutsideClick($event)">
+  <div class="modal-dialog" (click)="$event.stopPropagation()">
+    <h3>Cancel Request</h3>
+    <p>Are you sure you want to cancel this request?</p>
+    <div class="modal-actions">
+      <button class="modal-cancel-btn" (click)="closeCancelModal()">Close</button>
+      <button class="modal-delete-btn" (click)="confirmCancelRequest()">Confirm Cancel</button>
+    </div>
+  </div>
 </div>
+
+  <!-- ==================== DETAILS MODAL ==================== -->
+<!-- DETAILS MODAL -->
+<div class="modal-overlay" *ngIf="showDetailsModal" (mousedown)="handleOutsideClick($event)">
+  <div class="modal-dialog" (click)="$event.stopPropagation()">
+    <h3>Service Info</h3>
+
+    <div *ngIf="selectedRequestDetails; else loadingDetails">
+
+      <!-- Helper Info -->
+      <div class="helper-info-modal" *ngIf="selectedRequestDetails.helperName || selectedRequestDetails.helperImage">
+        <img [src]="selectedRequestDetails.helperImage || 'assets/loginImg.png'" alt="Helper Image" class="helper-avatar" />
+        <span class="helper-name">{{ selectedRequestDetails.helperName || 'Unknown' }}</span>
+      </div>
+
+      <hr />
+      <p><strong>Service Description:</strong> {{ selectedRequestDetails.serviceDescription }}</p>
+      <p><strong>Category:</strong> {{ selectedRequestDetails.categoryName }}</p>
+      <p><strong>Price Per Hour:</strong> {{ selectedRequestDetails.pricePerHour }} EGP</p>
+      <p><strong>Available From:</strong> {{ selectedRequestDetails.availableDateFrom | date }}</p>
+      <p><strong>Available To:</strong> {{ selectedRequestDetails.availableDateTo | date }}</p>
+    </div>
+
+    <ng-template #loadingDetails><p>Loading details...</p></ng-template>
+
+    <div class="modal-actions">
+      <button class="modal-cancel-btn" (click)="closeDetailsModal()">Close</button>
+    </div>
+  </div>
+</div>
+<!-- COMPLETE MODAL -->
+<div class="modal-overlay1" *ngIf="showCompleteModal" (mousedown)="handleOutsideClick($event)">
+  <div class="modal-dialog1" (click)="$event.stopPropagation()">
+    <h3 class="modal-title">Mark as Completed</h3>
+    <p class="modal-message">
+      Are you sure you want to mark this request as <strong>Completed</strong>?<br>
+    </p>
+    <div class="modal-actions">
+      <button class="modal-cancel-btn" (click)="closeCompleteModal()">Cancel</button>
+      <button class="modal-confirm-btn" (click)="confirmCompleteRequest(selectedRequestToComplete)">
+        Yes, Mark as Completed
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showEditModal" (mousedown)="handleOutsideClick($event)">
+  <div class="modal-dialog" (click)="$event.stopPropagation()">
+    <h3 class="modal-title">Edit Request</h3>
+
+    <form (ngSubmit)="submitEdit()" #editForm="ngForm" class="edit-form">
+      <label for="desc">Description:</label>
+      <input id="desc" [(ngModel)]="selectedRequestToEdit.description" name="description" required />
+
+      <label for="start">Start Date:</label>
+      <input id="start" type="date" [(ngModel)]="selectedRequestToEdit.start" name="start" required />
+
+      <label for="end">End Date:</label>
+      <input id="end" type="date" [(ngModel)]="selectedRequestToEdit.end" name="end" required />
+
+      <label for="price">Price (EGP):</label>
+      <input id="price" type="number" [(ngModel)]="selectedRequestToEdit.price" name="price" />
+
+      <div class="modal-actions">
+<button type="button" class="modal-save-btn" (click)="submitEdit()">Save</button>
+
+        <button type="button" class="modal-cancel-btn" (click)="closeEditModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+  </div>

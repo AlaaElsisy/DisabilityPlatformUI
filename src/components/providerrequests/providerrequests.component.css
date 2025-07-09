@@ -400,18 +400,36 @@ select, input {
 }
 
 .status-badge.pending {
-  background-color: #fbc02d;
+   background: linear-gradient(90deg, #ffb347, #ffcc80);
+  color: white;
 }
 
 .status-badge.accepted {
-  background-color: #4caf50;
+  background: linear-gradient(90deg, #0876CD, #42a5f5);
+  color: white;
 }
 
+.status-badge.completed {
+  background: linear-gradient(90deg, #43a047, #a5d6a7);
+  color: white;
+}
 .status-badge.rejected {
-  background-color: #e53935;
+  background: linear-gradient(90deg, #bdbdbd, #757575);
+  color: white;
+}
+.status-badge.cancelled {
+  background: linear-gradient(90deg, #e53935, #ff7043);
+  color: white;
 }
 
 .service-card {
   position: relative;
 }
 
+
+.no-offers {
+  text-align: center;
+  color: #888;
+  font-size: 18px;
+  margin-top: 32px;
+}

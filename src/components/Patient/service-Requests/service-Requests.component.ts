@@ -3,9 +3,11 @@ import { DisabledRequestService } from 'app/services/disabled-request.service';
 import { DisabledRequest } from 'app/models/disabled-request.model';
 import { UserProfileService } from 'app/services/user-profile.service';
 import { ServiceCategory } from 'app/models/service-category.model';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DisabledRequestwithdetails } from 'app/models/disabled-requestwithdetails.model'; 
+import { GetloggineduserDataService } from 'core/services/getloggineduser-data.service';
 
 @Component({
   selector: 'app-service-requests',
@@ -15,8 +17,11 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./service-Requests.component.css']
 })
 export class ServiceRequestsComponent implements OnInit {
-  serviceRequests: DisabledRequest[] = [];
-  statuses = ['Pending', 'Accepted', 'Rejected', 'Completed'];
+  // serviceRequests: DisabledRequest[] = [];
+  statuses = [    'Pending',
+  'Accepted',
+  'Cancelled',
+  'Completed'];
    serviceCategories: ServiceCategory[] = [];
   searchWord = '';
   statusFilter = '';
@@ -28,23 +33,34 @@ export class ServiceRequestsComponent implements OnInit {
   showDeleteModal = false;
   selectedRequestIdToDelete: number | null = null;
   disabledId: number | null = null;
+selectedRequestToEdit: any = null;
+showEditModal: boolean = false;
+showCancelModal: boolean = false;
+selectedRequestToCancel: any = null;
+serviceRequests: DisabledRequestwithdetails[] = []; 
+selectedRequestDetails: DisabledRequestwithdetails | null = null;
+showDetailsModal: boolean = false;
+showCompleteModal = false;
+selectedRequestToComplete: any = null;
 
 
-  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService) {}
 
-  ngOnInit() {
-   this.userProfileService.getDisabledIdForCurrentUser().subscribe(disabledId => {
-  this.disabledId = disabledId;
-  this.fetchRequests();
-     this.requestService.getServiceCategories().subscribe(categories => {
+  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService,private router: Router) {}
+
+ ngOnInit() {
+  this.userProfileService.getDisabledIdForCurrentUser().subscribe(disabledId => {
+    this.disabledId = disabledId;
+    this.fetchRequests();
+
+    this.requestService.getServiceCategories().subscribe(categories => {
       this.serviceCategories = categories.map((cat: any) => ({
         id: cat.id,
         name: cat.name || cat.categoryName || cat.serviceCategoryName
       }));
     });
-  }
-  );
-  } 
+  });
+}
+
 fetchRequests() {
   if (!this.disabledId) return;
 
@@ -53,7 +69,7 @@ fetchRequests() {
       this.disabledId,
       this.pageNumber,
       this.pageSize,
-      this.statusFilter || undefined,
+this.statusFilter?.trim() === '' ? undefined : this.statusFilter,
       this.selectedCategoryId != null ? this.selectedCategoryId : undefined,
       this.searchWord || undefined,
     
@@ -113,6 +129,204 @@ handleOutsideClick(event: MouseEvent) {
   if (dialog && !dialog.contains(event.target as Node)) {
     this.closeDeleteModal();
   }
+}
+  openDetailsModal(id: number) {
+    this.requestService.getRequestDetailsById(id).subscribe({
+      next: (details) => {
+        this.selectedRequestDetails = details;
+        this.showDetailsModal = true;
+        document.body.style.overflow = 'hidden';
+      },
+      error: (err) => {
+        console.error('Failed to load details:', err);
+      }
+    });
+  }
+
+  closeDetailsModal() {
+    this.selectedRequestDetails = null;
+    this.showDetailsModal = false;
+    document.body.style.overflow = '';
+
+  }
+openEditModal(request: any): void {
+  this.selectedRequestToEdit = JSON.parse(JSON.stringify(request));
+ console.log('Request to edit:', this.selectedRequestToEdit);
+  if (this.selectedRequestToEdit.start) {
+    const startDate = new Date(this.selectedRequestToEdit.start);
+    this.selectedRequestToEdit.start = new Date(this.selectedRequestToEdit.start).toISOString();
+
+
+  }
+  
+  if (this.selectedRequestToEdit.end) {
+    const endDate = new Date(this.selectedRequestToEdit.end);
+this.selectedRequestToEdit.end = new Date(this.selectedRequestToEdit.end).toISOString();  }
+  
+  this.showEditModal = true;
+  console.log('Request to edit:', this.selectedRequestToEdit);
+}
+submitEdit() {
+  if (!this.selectedRequestToEdit) {
+    console.error('No request selected for edit');
+    return;
+  }
+  if (!this.selectedRequestToEdit.description || 
+      !this.selectedRequestToEdit.start || 
+      !this.selectedRequestToEdit.end) {
+    alert('Please fill all required fields');
+    return;
+  }
+
+const updatedRequest = {
+  id: this.selectedRequestToEdit.id,
+  description: this.selectedRequestToEdit.description?.trim(),
+  start: new Date(this.selectedRequestToEdit.start).toISOString(),
+  end: new Date(this.selectedRequestToEdit.end).toISOString(),
+  price: this.selectedRequestToEdit.price ?? 0,
+  disabledId: this.selectedRequestToEdit.disabledId,
+  requestDate: new Date(this.selectedRequestToEdit.requestDate).toISOString() ,
+  status: this.selectedRequestToEdit.status,
+  helperServiceId: this.selectedRequestToEdit.helperServiceId ?? 1
+};
+
+
+
+  console.log('Submitting:', updatedRequest);
+console.log(JSON.stringify(updatedRequest, null, 2));
+
+  this.requestService.updateRequest(updatedRequest).subscribe({
+    next: () => {
+     // alert('Request updated successfully!');
+      this.fetchRequests();
+      this.closeEditModal();
+    },
+    error: (err) => {
+      console.error("Update failed:", err);
+     // alert('Error updating request. Please try again.');
+    }
+  });
+}
+
+closeEditModal() {
+  this.selectedRequestToEdit = null;
+  this.showEditModal = false;
+  document.body.style.overflow = '';
+}
+canEdit(request: any): boolean {
+  return request.status === 'Pending';
+}
+
+canDelete(request: any): boolean {
+  return request.status === 'Pending';
+}
+
+openCancelModal(request: any) {
+  this.selectedRequestToCancel = request;
+  this.showCancelModal = true;
+  document.body.style.overflow = 'hidden';
+}
+
+closeCancelModal() {
+  this.selectedRequestToCancel = null;
+  this.showCancelModal = false;
+  document.body.style.overflow = '';
+}
+
+confirmCancelRequest() {
+  if (!this.selectedRequestToCancel) return;
+
+  this.requestService.patchStatus(this.selectedRequestToCancel.id, 'Cancelled').subscribe({
+    next: () => {
+      this.fetchRequests();
+      this.closeCancelModal();
+    },
+    error: (err) => {
+      console.error('Failed to cancel request:', err);
+      this.closeCancelModal();
+    }
+  });
+}
+openCompleteModal(request: any) {
+  this.selectedRequestToComplete = request;
+  this.showCompleteModal = true;
+  document.body.style.overflow = 'hidden';
+}
+confirmCompleteRequest(request: DisabledRequest | null | undefined) {
+  if (!request || !request.id) {
+    console.error("Invalid request object or missing ID");
+    return;
+  }
+
+ this.requestService.getRequestDetailsById(request.id).subscribe({
+  next: (details) => {
+
+  this.router.navigate(['/payment'], {
+  state: {
+    patientName: details.patientName || 'N/A',
+    helperName: details.helperName || 'N/A',
+    serviceName: details.serviceDescription || 'N/A',
+    amount: details.price || 0,
+    disabledRequestId: details.id
+  }
+});
+  },
+});
+
+}
+
+
+
+
+
+
+closeCompleteModal() {
+  this.selectedRequestToComplete = null;
+  this.showCompleteModal = false;
+  document.body.style.overflow = '';
+}
+
+canCancel(request: any): boolean {
+  if (request.status !== 'Accepted') return false;
+  const now = new Date();
+  const startDate = new Date(request.start);
+  const diffHours = (startDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+  return diffHours >= 24;
+}
+cancelRequest(request: any) {
+  if (confirm("Are you sure you want to cancel this request?")) {
+    this.requestService.patchStatus(request.id, 'Cancelled').subscribe({
+      next: () => {
+        alert("Request cancelled successfully.");
+        this.fetchRequests();
+      },
+      error: (err) => {
+        console.error('Failed to cancel request:', err);
+        alert("Cancel failed.");
+      }
+    });
+  }
+}
+canComplete(request: any): boolean {
+  return request.status === 'Accepted';
+}
+markAsComplete(request: any) {
+  if (confirm("Are you sure you want to mark this request as completed?")) {
+    this.requestService.patchStatus(request.id, 'Completed').subscribe({
+      next: () => {
+        alert("Request marked as completed.");
+        this.fetchRequests();
+      },
+      error: (err) => {
+        console.error('Failed to complete request:', err);
+        alert("Failed to mark request as completed.");
+      }
+    });
+  }
+}
+
+showBlockedDeleteModal() {
+  alert("You can't delete this request unless it's Pending or Rejected.");
 }
 
 }
