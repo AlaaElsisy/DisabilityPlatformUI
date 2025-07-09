@@ -34,9 +34,6 @@ export class DisabledOfferService {
   }
 
   updateOfferStatus(offerId: number, status: string) {
-    console.log(offerId);
-    console.log(status);
-    console.log("Magda Elromy");
     return this.http.patch(`${this.apiUrl}/request/status`, null, {
       params: new HttpParams().set('offerId', offerId.toString()).set('status', status)
     });

@@ -4,6 +4,7 @@ import { HelperRequestService } from '../../app/services/helper-request.service'
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DisabledOfferService } from '../../app/services/disabled-offer.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-offer-proposals',
@@ -29,7 +30,8 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
   constructor(
     private helperRequestService: HelperRequestService,
     private route: ActivatedRoute,
-    private disabledOfferService: DisabledOfferService
+    private disabledOfferService: DisabledOfferService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -39,12 +41,12 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
         if (id) {
           this.offerId = +id;
           this.fetchOfferStartTime();
-          this.fetchProposals();
+          this.fetchProposalsWithMarkCompletedCheck();
         }
       });
     } else {
       this.fetchOfferStartTime();
-      this.fetchProposals();
+      this.fetchProposalsWithMarkCompletedCheck();
     }
   }
 
@@ -55,7 +57,21 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
     }
   }
 
-  private fetchProposals() {
+  private fetchProposalsWithMarkCompletedCheck() {
+    this.fetchProposals(() => {
+      const nav = window.history.state;
+      if (nav && nav.markCompleted && nav.helperRequestId) {
+        setTimeout(() => {
+          const proposal = this.proposals.find(p => p.id === nav.helperRequestId);
+          if (proposal) {
+            this.markCompleted(proposal);
+          }
+        }, 0);
+      }
+    });
+  }
+
+  private fetchProposals(callback?: () => void) {
     if (this.offerId) {
       this.helperRequestService.getProposalsByOfferId(this.offerId, {
         minTotalPrice: this.minTotalPrice,
@@ -66,13 +82,13 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
      }).subscribe(response => {
         const proposals = response.items || response;
     
-          // Sort: non-rejected first, then rejected
         this.proposals = proposals.sort((a: any, b: any) => {
           if (a.status === 'Rejected' && b.status !== 'Rejected') return 1;
           if (a.status !== 'Rejected' && b.status === 'Rejected') return -1;
           return 0;
         });
         this.totalCount = response.totalCount || (response.items ? response.items.length : 0);
+        if (callback) callback();
       });
     } 
   }
@@ -114,6 +130,7 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
   }
 
   markCompleted(proposal: any) {
+    console.log('asdkjnasdkjnjibnsdjkbn')
     if (!proposal.id || !this.offerId) return;
     this.helperRequestService.updateProposalStatus(proposal.id, 'Completed').subscribe({
       next: () => {
@@ -180,4 +197,15 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
 
   deleteProposal(index: number): void {
   } 
+
+  goToPayment(proposal: any) {
+    console.log(proposal.id);
+    this.router.navigate(['/payment'], {
+      state: {
+        amount: proposal.totalPrice,
+        helperRequestId: proposal.id,
+        offerId: this.offerId,
+      }
+    });
+  }
 } 
