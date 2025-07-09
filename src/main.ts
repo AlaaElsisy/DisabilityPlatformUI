@@ -7,6 +7,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './app/services/auth.interceptor'; 
 import { appConfig } from './app/app.config';
+import { register } from 'swiper/element';
+
+register();
+
 
 bootstrapApplication(AppComponent, {
   providers: [

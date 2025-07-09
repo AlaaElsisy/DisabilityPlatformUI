@@ -27,7 +27,7 @@ scrollTo(sectionId: string) {
   localStorage.removeItem('authToken');
   localStorage.removeItem('userId');
   localStorage.removeItem('role');
- this._Router.navigate(['/register'])
+ this._Router.navigate(['/login'])
    
   }
 }
