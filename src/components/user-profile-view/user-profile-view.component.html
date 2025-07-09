@@ -33,7 +33,7 @@
           </div>
         </div>
       </nav>
-      <h3 class="mb-4 text-center">Patient Profile</h3>
+      <h3 class="mb-4 text-center">User Profile</h3>
       <div class="row mb-4">
         <div class="col-md-3 text-center">
           <img
@@ -75,7 +75,7 @@
               <input
                 type="text"
                 class="form-control"
-                [value]="userProfile?.user?.phone"
+                [value]="userProfile?.user?.phoneNumber"
                 disabled
               />
             </div>
@@ -90,12 +90,13 @@
             </div>
             <div class="col-md-6">
               <label class="form-label">Gender</label>
-              <input
-                type="text"
-                class="form-control text-capitalize"
-                [value]="userProfile?.user?.gender"
-                disabled
-              />
+           <input
+  type="text"
+  class="form-control text-capitalize"
+  [value]="userProfile.user.gender === 0 ? 'male' : (userProfile.user.gender === 1 ? 'female' : 'N/A')"
+  disabled
+/>
+
             </div>
             <div class="col-md-6">
               <label class="form-label">Address</label>

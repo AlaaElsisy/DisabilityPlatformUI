@@ -3,9 +3,9 @@ export interface PatientProfile {
    id?: string;
   fullName: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   dateOfBirth: string | Date;
-  gender: 'male' | 'female';
+  gender: number;
   address:string;
   zone: string | null;
   profileImage: string | null;
