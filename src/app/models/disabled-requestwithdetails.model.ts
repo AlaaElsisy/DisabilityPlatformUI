@@ -15,4 +15,5 @@ export interface DisabledRequestwithdetails {
   availableDateFrom?: string;
   availableDateTo?: string;
   disabledId?: number;
+  patientName?:string;
 }
