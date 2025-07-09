@@ -336,11 +336,6 @@ stroke: #e53935;
   stroke: #fff;
   transform: scale(1.12) rotate(-8deg);
 }
-/* .delete-offer-btn:hover {
-  background: linear-gradient(90deg, #ff1744 60%, #e53935 100%);
-  box-shadow: 0 8px 32px rgba(229, 57, 53, 0.22);
-  transform: translateY(-2px) scale(1.04);
-} */
 
 .delete-offer-btn:hover svg {
   transform: scale(1.18) rotate(-10deg);
@@ -737,7 +732,7 @@ stroke: #e53935;
   z-index: 9999 !important;
   position: relative;
 }
-.modal-dialog {
+.modal-dialog1 {
   /* z-index: 2000; */
   position: relative;
 }
@@ -745,4 +740,80 @@ stroke: #e53935;
   pointer-events: auto !important;
   z-index: 9999 !important;
   position: relative;
+}
+.modal-overlay1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-dialog1 {
+  background-color: #fff;
+  padding: 24px 32px;
+  border-radius: 16px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-title {
+  margin: 0 0 12px;
+  font-size: 22px;
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.modal-message {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-cancel-btn {
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-cancel-btn:hover {
+  background-color: #d5d5d5;
+}
+
+.modal-confirm-btn {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-confirm-btn:hover {
+  background-color: #1b5e20;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
 }

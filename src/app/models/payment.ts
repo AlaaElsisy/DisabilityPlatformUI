@@ -6,8 +6,9 @@ export interface Payment {
   amount: number;
   token: string;            
   paymentMethod: string;   
-  toHelperId: number;
-  fromPatientId: number;
   helperRequestId?: number | null;
   disabledRequestId?: number | null;
-}
+  offerId : number | null ;
+} 
+
+

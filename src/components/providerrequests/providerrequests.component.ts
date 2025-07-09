@@ -39,8 +39,11 @@ categoryFilter: string = '';
 showCancelModal = false;
 requestIdToCancel: number | null = null;
 
+
+
 ngOnInit() {
-  this.userDataService.getuserData().subscribe({
+
+this.userDataService.getuserData().subscribe({
     next: (userData) => {
       const helperId = userData.id;
       this.loadPagedProposals(helperId);
@@ -50,13 +53,14 @@ ngOnInit() {
 
   this.helperRequestsService.getCategoriesDropdown().subscribe({
     next: (res) => {
-      this.categories = res; 
+      this.categories = res;
     },
     error: (err) => {
       console.error('Error fetching categories:', err);
     }
   });
 }
+
 
 
 onFilterChange() {
@@ -150,8 +154,9 @@ closeDeleteModal(): void {
 
 confirmDelete(): void {
   const proposal = this.helperProposals.find(p => p.id === this.requestIdToDelete);
-  if (proposal?.status !== 'Pending') {
-    alert('Only pending proposals can be deleted.');
+  
+  if (proposal?.status !== 'Pending' && proposal?.status !== 'Rejected') {
+    alert('Only proposals with status Pending or Rejected can be deleted.');
     this.closeDeleteModal();
     return;
   }
@@ -167,6 +172,7 @@ confirmDelete(): void {
     }
   });
 }
+
 canCancel(startDate: string | Date): boolean {
   const today = new Date();
   const start = new Date(startDate);
