@@ -39,7 +39,7 @@ export class HelperRequestService {
   getHelperRequestById(id: number): Observable<any> {
     return this.http.get(`${environment.apiBaseUrl}/HelperRequest/request/${id}`);
   }
-} 
+}
 
 
 
