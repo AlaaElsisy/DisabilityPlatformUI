@@ -1,3 +1,4 @@
+import { authGuardGuard } from './../core/Guards/auth-guard.guard';
 import { NotfoundComponent } from './../components/notfound/notfound.component';
 import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from './../components/login/login.component';
@@ -34,16 +35,19 @@ import { UserProfileViewComponent } from 'components/user-profile-view/user-prof
 
 
 import { ProviderOrdersComponent } from 'components/provider-orders/provider-orders.component';
+import { cantReturnToLoginGuard } from 'core/Guards/cant-return-to-login.guard';
+import { roleGuardsGuard } from 'core/Guards/role-guards.guard';
 
 
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full', title: 'Home' },
+  { path: '', redirectTo: 'home',  pathMatch: 'full', title: 'Home' },
   { path: 'home', component: HomeComponent, title: 'Home' },
-  { path: 'login', component: LoginComponent, title: 'Login' },
-  { path: 'register', component: RegisterComponent, title: 'Register' },
+  { path: 'login', component: LoginComponent,canActivate: [cantReturnToLoginGuard], title: 'Login' },
+  { path: 'register', component: RegisterComponent,canActivate: [cantReturnToLoginGuard], title: 'Register' },
   { path: 'about', component: NotfoundComponent },
-   {path:'provider', component:ProviderLayoutComponent,children:[
+   {path:'provider', component:ProviderLayoutComponent,data: { expectedRole: 'helper' },
+  canActivate: [authGuardGuard, roleGuardsGuard] ,children:[
  {path:'home',component:ProviderhomeComponent, title:'Home'},
   {path:'services',component:ProviderservicesComponent, title:'Services'},
   {path:'requests',component:ProviderRequestsComponent, title:'Requests'},
@@ -68,6 +72,8 @@ export const routes: Routes = [
   {
     path: '',
     component: PatientLayoutComponent,
+    data: { expectedRole: 'patient' },
+  canActivate: [authGuardGuard, roleGuardsGuard],
     children: [
       { path: 'patienthome', component: PatienthomeComponent, title: 'Home' },
       { path: 'userProfile', component: UserProfileComponent, title: 'Profile' },
@@ -88,6 +94,7 @@ export const routes: Routes = [
       {
   path: 'user-view-profile',
   component: UserProfileViewComponent
+  ,canActivate:[authGuardGuard,roleGuardsGuard]
 }
 
 

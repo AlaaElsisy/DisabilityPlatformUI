@@ -1,86 +1,130 @@
-<!-- <div class="container "> -->
-  <app-mainhomenavbar></app-mainhomenavbar>
-<section id="home" class="mySection   section-hidden " style="background-color: #EFF7FD;" >
-<div class="mainSection d-flex justify-content-evenly">
-<div class="textbox   ">
-<h2>
-  The Platform 
-Dedicated to
-   <span style="color: #0876CD;">  Disability Support</span> 
-  
-</h2>
-<p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil iure inventore voluptatem in consequuntur corrupti, porro minus hic, ex asperiores nostrum ad commodi. Accusamus maxime temporibus atque delectus consectetur? Magni!
-</p>
-<div class="ms-5">
-    <img src="https://udservices.org/wp-content/uploads/2020/04/swoop-blue.svg" class="" alt="">
-</div>
-<div class="AuthButtons d-flex justify-content-center mt-4">
-    <a class="btn registerbtn btn-primary me-4 rounded-4" routerLink="/register">Register</a>
-    <a class="btn loginbtn border border-1 rounded-4" routerLink="/login">Login</a>
+<app-mainhomenavbar></app-mainhomenavbar>
 
+<section id="home" class="mySection section-hidden py-5" style="background-color: #F8F9FA;">
+  <div class="mainSection d-flex justify-content-evenly ">
+    <div class="textbox  ">
+      <h2>
+        The Platform <br />
+        Dedicated to <span style="color: #0876CD;">Disability Support</span>
+      </h2>
+      <p>
+        We are committed to connecting individuals with disabilities to reliable services, support,
+        and inclusive opportunities that empower their independence and well-being.
+      </p>
+      <div class="ms-5">
+        <img src="https://udservices.org/wp-content/uploads/2020/04/swoop-blue.svg" alt="">
+      </div>
+      <div class="AuthButtons d-flex justify-content-center mt-4">
+        <a class="btn registerbtn btn-primary me-4 rounded-4" (click)="gotoRegister()">Register</a>
+        <a class="btn loginbtn border  rounded-4" (click)="gotoLogin()">Login</a>
+      </div>
+    </div>
 
-</div>
+    <div class="w-50 h-75 ">
+<swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
+    centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false">
+    <swiper-slide><img class="w-100" src="./slider1.jpg" alt=""></swiper-slide>
+    <swiper-slide><img class="w-100" src="./slider2.jpg" alt=""></swiper-slide>
+    <swiper-slide><img class="w-100" src="./slider3.jpg" alt=""></swiper-slide>
+    <swiper-slide><img class="w-100" src="./slider4.jpg" alt=""></swiper-slide>
+    <swiper-slide><img class="w-100" src="./slider5.jpg" alt=""></swiper-slide>
+    <swiper-slide><img class="w-100" src="./slider6.jpg" alt=""></swiper-slide>
+    <swiper-slide><img class="w-100" src="./slider7.jpg" alt=""></swiper-slide>
+    <swiper-slide><img class="w-100" src="./slider8.jpg" alt=""></swiper-slide>
+    <swiper-slide><img class="w-100" src="./slider9.jpg" alt=""></swiper-slide>
+    <swiper-slide><img class="w-100" src="./slider10.jpg" alt=""></swiper-slide>
 
-</div>
-<div class="image">
+    <div class="autoplay-progress" slot="container-end">
+      <svg viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r="20"></circle>
+      </svg>
+      <span></span>
+    </div>
+  </swiper-container>
 
-<img src="./homeMainpage.png"   alt="">
-</div>
-</div>
+    </div>
+  </div>
 </section>
- <section id="services" class="mt-5  mySection section-hidden">
+
+<section id="services" class=" mySection section-hidden text-center">
   <app-service-categories></app-service-categories>
- </section>
+</section>
 
+<section id="OurMission" class="mt-5 mySection section-hidden">
+  <div class="container mt-5">
+    <div class="row align-items-center">
+    
+      <div class="col-lg-6 order-lg-1 order-2">
+        <h2 class="MainTitle mb-4">Our Mission</h2>
+        <div class="mission-content">
+          <p class="lead">
+            At AccessHub, we are driven by a singular mission: to empower individuals with disabilities 
+            by seamlessly connecting them to essential services and nurturing a vibrant, supportive community.
+          </p>
+          <p>
+            We champion inclusivity, accessibility, and the unwavering belief in equal opportunities for all.
+          </p>
+          <button class="btn btn-primary mt-3">Learn More</button>
+        </div>
+      </div>
+      
+     
+      <div class="col-lg-6 order-lg-2 order-1 mb-4 mb-lg-0">
+        <div class="OurMission-img">
+          <img src="./Mession.png" alt="Our Mission" class="img-fluid rounded shadow">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section id="OurMission " class="mt-5 mySection section-hidden  ">
-   <div class="container mt-5">
-     <h2 class="text-center MainTitle  mt-5">Our Mission</h2>
-     <div class="w-75 mx-auto mt-4  text-center">
-        <p >At AccessHub, we are driven by a singular mission: to empower individuals with disabilities 
-by seamlessly connecting them to essential services and nurturing a vibrant
-, supportive community. We champion inclusivity, accessibility, and the unwavering belief
- in equal opportunities for all.</p>
-
-     </div>
-     <div>
+<section id="contact" class="mySection section-hidden py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h2 class="MainTitle mb-5">
+          <span class="contact-title">Get in Touch</span>
+        </h2>
         
-     </div>
-  <div class="OurMission  text-center "><img src="./ourMession.png" class=" " alt=""> </div> 
+        <div class="contact-form-container p-4 p-lg-5 shadow rounded">
+          <form class="contact-form">
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="name" placeholder="Your Name">
+                  <label for="name">Your Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="form-floating">
+                  <input type="email" class="form-control" id="email" placeholder="Your Email">
+                  <label for="email">Your Email</label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <div class="form-floating">
+                <textarea class="form-control" id="message" placeholder="Your Message" style="height: 150px"></textarea>
+                <label for="message">Your Message</label>
+              </div>
+            </div>
+            
+            <div class="text-center">
+              <button type="submit" class="btn btn-send">
+                <span class="btn-text">Send Message</span>
+                <i class="fas fa-paper-plane ms-2"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        
+      </div>
     </div>
-
-
-
-</section>
-<section id="contact" class="mySection section-hidden">
-<div class="container mt-5">
-    <h2 class="text-center MainTitle mt-5 "><span style="color: #0876CD;">Get in Touch</span></h2>
-    <div class="w-25 mx-auto mt-4  ">
-
-         <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Name</label>
-    <input type="email" class="form-control" placeholder="your Name.." id="exampleInputEmail1" aria-describedby="emailHelp">
-    
   </div>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email</label>
-    <input type="email" class="form-control" placeholder="your Email.." id="exampleInputEmail1" aria-describedby="emailHelp">
-    
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Massage</label>
-    <textarea class="form-control" id="exampleInputPassword1" rows="3"></textarea>
-  </div>
-  
-
-  <div class="d-flex flex-row-reverse rounded rounded-5"><button type="submit" class="btn btn-primary">send</button></div>
-
-    </div>
-   </div>
 </section>
 
-<!-- </div> -->
-<section id="footer" class="mt-5 mySection section-hidden" >
-<app-footer></app-footer>
+<section id="footer" class="mt-5 mySection section-hidden">
+  <app-footer></app-footer>
 </section>

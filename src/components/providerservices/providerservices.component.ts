@@ -5,6 +5,8 @@ import { HelperservicesService } from '../../core/services/helperservices.servic
 import { Router } from '@angular/router';
 import { Ihelperservices } from '../../core/interfaces/ihelperservices';
 import { CommonModule } from '@angular/common';
+import { GetloggineduserDataService } from 'core/services/getloggineduser-data.service';
+import { ServiceCategoryService } from '@services/service-category.service';
 
 @Component({
   standalone: true,
@@ -15,8 +17,12 @@ import { CommonModule } from '@angular/common';
 })
 export class ProviderservicesComponent implements OnInit {
    AllServices:Ihelperservices[] = [];
+   Allcategories:[]=[];
   private router = inject(Router);
+   userid!:number
+    private readonly _getLoggingHelper = inject(GetloggineduserDataService);
   private readonly _helperservicesService = inject(HelperservicesService);
+ 
    addservice() {
     this.router.navigate(['/provider/helperaddservice']);
   }
@@ -26,7 +32,14 @@ export class ProviderservicesComponent implements OnInit {
   const headers = new HttpHeaders({
     Authorization: `Bearer ${token}`,
   });
-  this._helperservicesService.gethelprservices(1,headers).subscribe({
+
+  this._getLoggingHelper.getuserData().subscribe({
+      next:(value)=> {
+          console.log(value)
+          this.userid=value.id;
+         
+          console.log(this.userid)
+          this._helperservicesService.gethelprservices(this.userid,headers).subscribe({
     next:(res)=>{
       console.log(res);
       this.AllServices = res;
@@ -35,6 +48,12 @@ export class ProviderservicesComponent implements OnInit {
       console.log(err);
     }
   })
+
+      },error:(err)=>{
+      console.log(err)
+      }})
+
+  
   
  }
 

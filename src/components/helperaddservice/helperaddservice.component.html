@@ -28,20 +28,29 @@
   </div>
   
   <div class="id-fields">
-    <div class="form-field">
-      <label for="helperId">helperId</label>
-      <input type="text" id="helperId" name="helperId" class="form-control" 
-             formControlName="helperId">
-    </div>
     
-    <div class="form-field">
+    
+    <!-- <div class="form-field">
       <label for="serviceCategoryId">serviceCategoryId</label>
       <input type="text" id="serviceCategoryId" name="serviceCategoryId" class="form-control" 
              formControlName="serviceCategoryId">
-    </div>
+    </div> -->
+    <!-- Example single danger button -->
+
+
+    <select class="form-select form-control" formControlName="serviceCategoryId" aria-label="Default select example">
+  
+      <option class="">Open this select menu</option>
+      @for (cat of Allcategories; track $index) {
+    <option [value]='cat.id'>{{cat.name}}</option>
+                                       }
+</select>
+
+ 
+
   </div>
   
- <button type="submit" class="submit-button">
+ <button type="submit" class="submit-button mt-3">
   {{ isEditMode ? 'Update' : 'Add' }}
   @if (isloading) {
     <i class="fas fa-spin fa-spinner"></i>
