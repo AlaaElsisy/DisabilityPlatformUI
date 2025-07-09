@@ -199,7 +199,7 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
   } 
 
   goToPayment(proposal: any) {
-    this.router.navigate(['/patient-request-payment'], {
+    this.router.navigate(['/provider-request-payment'], {
       state: {
         amount: proposal.totalPrice,
         helperRequestId: proposal.id,

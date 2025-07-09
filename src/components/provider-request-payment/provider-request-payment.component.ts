@@ -8,13 +8,13 @@ import { HelperRequestService } from 'app/services/helper-request.service';
 import { DisabledOfferService } from '@services/disabled-offer.service';
 
 @Component({
-  selector: 'app-patient-request-payment',
-  templateUrl: './patient-request-payment.component.html',
-  styleUrls: ['./patient-request-payment.component.css'],
+  selector: 'app-provider-request-payment',
+  templateUrl: './provider-request-payment.component.html',
+  styleUrls: ['./provider-request-payment.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export class PatientRequestPaymentComponent implements OnInit {
+export class ProviderRequestPaymentComponent implements OnInit {
   @ViewChild('paymentForm') paymentForm!: NgForm;
 
   payment: Payment = {
