@@ -27,6 +27,7 @@ import { PatientRequestsComponent } from 'components/patient-requests/patient-re
 import { PatientOfferProposalsComponent } from 'components/patient-offer-proposals/patient-offer-proposals.component';
 import { ServiceRequestsComponent } from 'components/Patient/service-Requests/service-Requests.component';
 import { PaymentComponent } from 'components/payment/payment/payment.component';
+import { PatientRequestPaymentComponent } from 'components/patient-request-payment/patient-request-payment.component';
 
 import { UserProfileComponent } from 'components/userProfile/patientProfile.component';
 import { UserProfileViewComponent } from 'components/user-profile-view/user-profile-view.component';
@@ -81,7 +82,8 @@ export const routes: Routes = [
       { path: 'patient-offer-proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
       { path: 'offers/:id/proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
        { path: 'payment', component: PaymentComponent, title: 'Payment' },
-       
+       { path: 'patient-request-payment', component: PatientRequestPaymentComponent, title: 'Patient Request Payment' },
+
 
       {
   path: 'user-view-profile',

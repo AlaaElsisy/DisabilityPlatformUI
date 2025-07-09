@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PaymentService } from '@services/payment/payment.service';
 import { Payment } from 'app/models/payment';
@@ -9,13 +8,13 @@ import { HelperRequestService } from 'app/services/helper-request.service';
 import { DisabledOfferService } from '@services/disabled-offer.service';
 
 @Component({
-  selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.css'],
+  selector: 'app-patient-request-payment',
+  templateUrl: './patient-request-payment.component.html',
+  styleUrls: ['./patient-request-payment.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export class PaymentComponent implements OnInit {
+export class PatientRequestPaymentComponent implements OnInit {
   @ViewChild('paymentForm') paymentForm!: NgForm;
 
   payment: Payment = {
@@ -52,8 +51,6 @@ export class PaymentComponent implements OnInit {
       this.payment.offerId = state.offerId || null ;
     } 
   }
-
-
 
   ngOnInit(): void {
     if (this.payment.helperRequestId) {
@@ -106,9 +103,7 @@ export class PaymentComponent implements OnInit {
             this.helperRequestService.updateProposalStatus(helperRequestId, 'Completed').subscribe({
               next: () => {
                 this.disabledOfferService.updateOfferStatus(offerId, 'Completed').subscribe();
-                // 1. اعرض رسالة النجاح
                 this.paymentResult = { success: true, message: 'Successful payment!' };
-                // 2. انتظر ثانية ثم انتقل
                 setTimeout(() => {
                   this.router.navigate([`/offers/${offerId}/proposals`], {
                     state: {
@@ -134,10 +129,7 @@ export class PaymentComponent implements OnInit {
   }
 
   resetForm() {
-   
     this.paymentForm.resetForm();
-    
-   
     this.payment = {
       cardNumber: '',
       expMonth: '',
@@ -151,5 +143,4 @@ export class PaymentComponent implements OnInit {
       disabledRequestId: null      
     };
   }
- 
 }

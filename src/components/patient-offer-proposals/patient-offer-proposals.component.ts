@@ -199,8 +199,7 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
   } 
 
   goToPayment(proposal: any) {
-    console.log(proposal.id);
-    this.router.navigate(['/payment'], {
+    this.router.navigate(['/patient-request-payment'], {
       state: {
         amount: proposal.totalPrice,
         helperRequestId: proposal.id,
