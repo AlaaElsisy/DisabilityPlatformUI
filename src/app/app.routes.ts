@@ -29,6 +29,7 @@ import { PatientOfferProposalsComponent } from 'components/patient-offer-proposa
 import { ServiceRequestsComponent } from 'components/Patient/service-Requests/service-Requests.component';
 import { PaymentComponent } from 'components/payment/payment/payment.component';
 
+
 import { UserProfileComponent } from 'components/userProfile/patientProfile.component';
 import { UserProfileViewComponent } from 'components/user-profile-view/user-profile-view.component';
 
@@ -45,16 +46,16 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent,canActivate: [cantReturnToLoginGuard], title: 'Login' },
   { path: 'register', component: RegisterComponent,canActivate: [cantReturnToLoginGuard], title: 'Register' },
   { path: 'about', component: NotfoundComponent },
-   {path:'provider', component:ProviderLayoutComponent,data: { expectedRole: 'helper' },
+  {path:'provider', component:ProviderLayoutComponent,data: { expectedRole: 'helper' },
   canActivate: [authGuardGuard, roleGuardsGuard] ,children:[
- {path:'home',component:ProviderhomeComponent, title:'Home'},
+  {path:'home',component:ProviderhomeComponent, title:'Home'},
   {path:'services',component:ProviderservicesComponent, title:'Services'},
   {path:'requests',component:ProviderRequestsComponent, title:'Requests'},
   { path: 'helperaddservice', component: HelperaddserviceComponent, title: 'Add Service' },
   { path: 'helperaddservice/:id', component: HelperaddserviceComponent, title: 'Edit Service' },
   {path:'offers',component:HelperExploreOffersComponent, title:'Offers'},
-   { path: 'applyoffer/:id', component: OneOfferWithPropozelsComponent, title: 'Offer Proposal' },
-   { path: 'AddRequest/:id', component: HelperAddRequestToOfferComponent, title: 'New Request' },
+  { path: 'applyoffer/:id', component: OneOfferWithPropozelsComponent, title: 'Offer Proposal' },
+  { path: 'AddRequest/:id', component: HelperAddRequestToOfferComponent, title: 'New Request' },
 
    { path: 'profile', component: UserProfileComponent, title: 'My Profile' },
 
@@ -87,7 +88,8 @@ export const routes: Routes = [
       { path: 'patient-offer-proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
       { path: 'offers/:id/proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
        { path: 'payment', component: PaymentComponent, title: 'Payment' },
-       
+      
+
 
       {
   path: 'user-view-profile',
