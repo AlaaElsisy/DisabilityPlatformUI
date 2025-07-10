@@ -21,8 +21,12 @@
 <div *ngIf="proposals.length > 0; else noProposals" class="proposals-list">
   <div *ngFor="let proposal of proposals; let i = index" class="proposal-card">
     <div class="proposal-header">
-      <img *ngIf="proposal.helperImage" [src]="proposal.helperImage" alt="Helper Image" class="helper-avatar" />
-      <span class="helper-name"><strong>{{ proposal.helperName }}</strong></span>
+      <a [routerLink]="['/user-view-profile']"
+         [queryParams]="{ userId: proposal.userId, role: 'helper' }"
+         style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+        <img *ngIf="proposal.helperImage" [src]="proposal.helperImage" alt="Helper Image" class="helper-avatar" />
+        <span class="helper-name"><strong>{{ proposal.helperName }}</strong></span>
+      </a>
       <span class="status-badge" [ngClass]="proposal.status.toLowerCase()">{{ proposal.status }}</span>
     </div>
     <p><strong>Application Date:</strong> {{ proposal.applicationDate | date:'medium' }}</p>
