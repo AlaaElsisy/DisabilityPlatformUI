@@ -29,10 +29,11 @@ export class UserProfileViewComponent implements OnInit {
   ngOnInit(): void {
     const userId = this.route.snapshot.queryParamMap.get('userId');
     this.role = this.route.snapshot.queryParamMap.get('role');
-
+ 
     if (userId && this.role) {
       this.userProfileService.getProfileFromUrl(userId, this.role).subscribe({
         next: (profile) => {
+          
           if (this.role?.toLowerCase() === 'patient') {
             this.patientProfile = profile as PatientProfile;
           } else if (this.role?.toLowerCase() === 'helper') {

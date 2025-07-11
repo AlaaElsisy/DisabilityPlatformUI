@@ -1,58 +1,82 @@
 <div class="services-container">
-
-  <div class="add-service-btn-container">
+  <!-- Filter/Search Row -->
+  <div class="filter-row">
     <button class="add-service-btn" (click)="addservice()">
       <i class="fas fa-plus-circle me-2"></i> Add New Service
     </button>
+
+    <div class="search-group">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search services..."
+        class="search-input"
+      />
+    </div>
+
+    <select [(ngModel)]="statusFilter" class="status-select">
+      <option value="all">All Statuses</option>
+      <option value="pending">Pending</option>
+      <option value="accepted">Accepted</option>
+      <option value="cancelled">Cancelled</option>
+      <option value="completed">Completed</option>
+    </select>
   </div>
 
-  <div class="services-list">
-    @for (service of AllServices; track $index) {
-      <div class="service-card">
-        <div class="service-header">
-          <h3 class="service-title">{{service.description.split(' ',1).join(' ')}}</h3>
-          
-        
-          <h4 class="service-title service-price text-primary p-2">
-            {{
-              service.status === 0 ? 'Pending' :
-              service.status === 1 ? 'Accepted' :
-              service.status === 2 ? 'Cancelled' :
-              service.status === 3 ? 'Completed' :
-              'Unknown'
-            }}
-          </h4>
-          
-          <span class="service-price">{{service.pricePerHour}} Egp/hour</span>
+  <!-- Services Grid -->
+  <div class="services-grid">
+    <div *ngFor="let service of paginatedServices" class="service-card">
+      <div class="card-header">
+        <div class="service-info">
+          <h3 class="service-title">{{ service.description.split(' ', 1).join(' ') }}</h3>
+          <span class="service-rate">{{ service.pricePerHour }} EGP/hour</span>
         </div>
-
-        <div class="service-dates">
-          <div class="date-item">
-            <i class="far fa-calendar-alt me-2"></i>
-            <span>From: {{service.availableDateFrom}}</span>
-          </div>
-          <div class="date-item">
-            <i class="far fa-calendar-alt me-2"></i>
-            <span>To: {{service.availableDateTo}}</span>
-          </div>
-        </div>
-
-        <div class="service-actions">
-          <button  class="action-btn btn btn-outline-success " (click)="goTosericrPropozels(service.id)">
-  <i class="fa-solid fa-arrow-up-right-from-square"></i> proposel
-</button>
-<button *ngIf="service.status !== 1" class="action-btn edit-btn" (click)="editService(service.id)">
-  <i class="far fa-edit me-1"></i> Edit
-</button>
-
-<button *ngIf="service.status !== 1" class="action-btn delete-btn" (click)="deleteService(service.id)">
-  <i class="far fa-trash-alt me-1"></i> Delete
-</button>
-
-        </div>
-      
-
+        <span class="status-badge" [ngClass]="{
+          'status-pending': service.status === 0,
+          'status-accepted': service.status === 1,
+          'status-cancelled': service.status === 2,
+          'status-completed': service.status === 3
+        }">
+          {{ getStatusText(service.status) }}
+        </span>
       </div>
-    }
+
+      <div class="date-range">
+        <div class="date-item">
+          <i class="far fa-calendar-alt"></i>
+          <span>From: {{ service.availableDateFrom | date:'mediumDate' }}</span>
+        </div>
+        <div class="date-item">
+          <i class="far fa-calendar-alt"></i>
+          <span>To: {{ service.availableDateTo | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="action-btn view-proposals" (click)="goTosericrPropozels(service.id)">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Proposals
+        </button>
+        <div class="action-group">
+          <button *ngIf="service.status !== 1" class="action-btn edit" (click)="editService(service.id)">
+            <i class="far fa-edit"></i>
+          </button>
+          <button *ngIf="service.status !== 1" class="action-btn delete" (click)="deleteService(service.id)">
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-controls">
+    <button class="pagination-btn prev" (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">
+      <i class="fas fa-chevron-left"></i> Previous
+    </button>
+    <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="pagination-btn next" (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages">
+      Next <i class="fas fa-chevron-right"></i>
+    </button>
   </div>
 </div>

@@ -16,7 +16,7 @@ export class UserProfileViewService {
     if (!userId || !role) {
       return throwError(() => new Error('User ID or Role is missing in URL'));
     }
-
+  
     const lowerRole = role.toLowerCase();
 
     if (lowerRole === 'patient') {
