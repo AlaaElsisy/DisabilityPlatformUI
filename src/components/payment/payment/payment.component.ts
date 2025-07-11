@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PaymentService } from '@services/payment/payment.service';
 import { Payment } from 'app/models/payment';
@@ -7,6 +6,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HelperRequestService } from 'app/services/helper-request.service';
 import { DisabledOfferService } from '@services/disabled-offer.service';
+import { PaymentDataService } from '@services/payment/payment-data.service';
 
 @Component({
   selector: 'app-payment',
@@ -31,78 +31,109 @@ export class PaymentComponent implements OnInit {
     disabledRequestId: null      
   };
 
+  patientName: string = '';
+  helperName: string = '';
+  serviceName: string = '';
+  paymentResult: any = null;
 
-patientName: string = '';
-helperName: string = '';
-serviceName: string = '';
-paymentResult: any = null;
+constructor(private router: Router, private paymentService: PaymentService, private paymentDataService: PaymentDataService) {}
 
+ngOnInit(): void {
+  const nav = this.router.getCurrentNavigation();
+ const state = this.paymentDataService.getData();
 
-  constructor(private paymentService: PaymentService) {}
-ngOnInit() {
-  const navState = history.state;
-  this.patientName = navState.patientName || 'N/A';
-  this.helperName = navState.helperName || 'N/A';
-  this.serviceName = navState.serviceName || 'N/A';
-  this.payment.amount = navState.amount || 0;
-  this.payment.disabledRequestId = navState.disabledRequestId || null;
+if (!state) {
+  console.error(" No payment data found in service.");
+  return;
 }
+
+  this.patientName = state.patientName || 'N/A';
+  this.helperName = state.helperName || 'N/A';
+  this.serviceName = state.serviceName || 'N/A';
+  this.payment.amount = state.amount || 0;
+  this.payment.disabledRequestId = state.disabledRequestId ?? null;
+  this.payment.helperRequestId = state.helperRequestId ?? null;
+}
+
+
 
 
   async submitPayment() {
-  if (!this.payment.cardNumber || !this.payment.expMonth || !this.payment.expYear || !this.payment.cvc || !this.payment.amount) {
-    this.paymentResult = { success: false, message: 'Please fill all payment details.' };
-    return;
-  }
+    if (!this.payment.cardNumber || !this.payment.expMonth || !this.payment.expYear || !this.payment.cvc || !this.payment.amount) {
+      this.paymentResult = { success: false, message: 'Please fill all payment details.' };
+      return;
+    }
 
-  const paymentRequest = {
-    Amount: this.payment.amount,
-    Currency: 'egp',
-    CardNumber: this.payment.cardNumber,
-    ExpMonth: this.payment.expMonth,
-    ExpYear: this.payment.expYear,
-    Cvc: this.payment.cvc,
-    HelperRequestId: this.payment.helperRequestId,
-    DisabledRequestId: this.payment.disabledRequestId
-  };
+   const paymentRequest = {
+  Amount: this.payment.amount,
+  Currency: 'egp',
+  CardNumber: this.payment.cardNumber,
+  DisabledRequestId: this.payment.disabledRequestId
+};
 
-  this.paymentService.chargeCard(paymentRequest).subscribe({
-    next: (res: any) => {
-      this.paymentResult = { 
-        success: res.success, 
-        message: res.message,
-        paymentId: res.paymentId 
-      };
-      
+
+    this.paymentService.chargeCard(paymentRequest).subscribe({
+      next: (res: any) => {
+        this.paymentResult = { 
+          success: res.success, 
+          message: res.message,
+          paymentId: res.paymentId 
+        };
+        
       if (res.success) {
+  this.paymentService.getDisabledRequestById(this.payment.disabledRequestId!).subscribe({
+    next: (disabledRequest: any) => {
+      console.log(' Disabled Request:', disabledRequest); 
 
-       this.paymentService.patchRequestStatus(this.payment.disabledRequestId!, '3').subscribe({
-          next: () => {
-            console.log("Request status updated to Completed");
-          },
-          error: (err) => {
-            console.error("Failed to update request status:", err);
-          }
-        });
+      const requestId = disabledRequest.id;
+      const helperServiceId = disabledRequest.helperServiceId;
 
-        this.resetForm();
+      if (!requestId) {
+        console.error(' Request ID is null or invalid');
+        return;
       }
+
+      if (!helperServiceId) {
+        console.error(' helperServiceId is null or invalid');
+        return;
+      }
+
+      this.paymentService.patchRequestStatus(requestId, '3').subscribe({
+        next: () => {
+          console.log(" Request status updated to Completed");
+
+          this.paymentService.updateServiceStatus(helperServiceId, 3).subscribe({
+            next: () => {
+              console.log(" Service marked as Completed");
+
+              this.resetForm();
+              this.router.navigate(['/patient-serviceRequests']); 
+            },
+            error: err => console.error(" Error updating service status", err)
+          });
+        },
+        error: err => console.error(" Error updating request status:", err)
+      });
     },
     error: (err) => {
-      this.paymentResult = { 
-        success: false, 
-        message: err.error?.message || 'Payment failed. Please try again.' 
-      };
+      console.error("Error fetching disabled request by ID:", err);
     }
   });
-}
 
+          this.resetForm();
+        }
+      },
+      error: (err) => {
+        this.paymentResult = { 
+          success: false, 
+          message: err.error?.message || 'Payment failed. Please try again.' 
+        };
+      }
+    });
+  }
 
   resetForm() {
-   
     this.paymentForm.resetForm();
-    
-   
     this.payment = {
       cardNumber: '',
       expMonth: '',
@@ -116,5 +147,4 @@ ngOnInit() {
       disabledRequestId: null      
     };
   }
- 
 }

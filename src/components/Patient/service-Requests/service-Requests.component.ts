@@ -6,6 +6,7 @@ import { ServiceCategory } from 'app/models/service-category.model';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { PaymentDataService } from 'app/services/payment/payment-data.service'; 
 import { DisabledRequestwithdetails } from 'app/models/disabled-requestwithdetails.model'; 
 import { GetloggineduserDataService } from 'core/services/getloggineduser-data.service';
 
@@ -45,7 +46,7 @@ selectedRequestToComplete: any = null;
 
 
 
-  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService,private router: Router) {}
+  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService,private router: Router,private paymentDataService: PaymentDataService) {}
 
  ngOnInit() {
   this.userProfileService.getDisabledIdForCurrentUser().subscribe(disabledId => {
@@ -258,21 +259,20 @@ confirmCompleteRequest(request: DisabledRequest | null | undefined) {
     return;
   }
 
- this.requestService.getRequestDetailsById(request.id).subscribe({
-  next: (details) => {
-
-  this.router.navigate(['/payment'], {
-  state: {
-    patientName: details.patientName || 'N/A',
-    helperName: details.helperName || 'N/A',
-    serviceName: details.serviceDescription || 'N/A',
-    amount: details.price || 0,
-    disabledRequestId: details.id
-  }
-});
-  },
+  this.requestService.getRequestDetailsById(request.id).subscribe({
+    next: (details) => {
+    this.paymentDataService.setData({
+  patientName: details.patientName || 'N/A',
+  helperName: details.helperName || 'N/A',
+  serviceName: details.serviceDescription || 'N/A',
+  amount: details.price || 0,
+  disabledRequestId: details.id
 });
 
+this.router.navigate(['/payment']);
+
+    }
+  });
 }
 
 
