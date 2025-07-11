@@ -3,15 +3,17 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class GetloggineduserDataService {
   private readonly _httpclient=inject(HttpClient)
-  constructor() { }
-  getuserData():Observable<any>{    
-     const token=localStorage.getItem('token')
+getuserData():Observable<any>{    
+     const token=localStorage.getItem('token');
+     const userId = localStorage.getItem('userId');
       const headers = { Authorization: `${token}` };
-      return this._httpclient.get("https://localhost:7037/api/UserProfile/helper", { headers });
+      return this._httpclient.get(`https://localhost:7037/api/UserProfile/helper?userId=${userId}, { headers }`);
   }
+
 }
