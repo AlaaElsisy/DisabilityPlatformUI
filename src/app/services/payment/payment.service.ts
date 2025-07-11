@@ -26,11 +26,24 @@ patchRequestStatus(id: number, newStatus: string): Observable<any> {
   const headers = { Authorization: `Bearer ${token}` };
 
   return this.http.patch(
-    `https://localhost:7037/api/DisabledRequest/request/status?requestId=${id}&status=${newStatus}`,
+    `${environment.apiBaseUrl}/DisabledRequest/request/status?requestId=${id}&status=${newStatus}`,
     {}, 
     { headers }
   );
 }
+// payment.service.ts
+
+updateHelperServiceStatus(requestId: number, status: string): Observable<any> {
+  return this.http.patch(`${environment.apiBaseUrl}/HelperService/service/status?requestId=${requestId}&status=${status}`, {});
+}
+
+updateServiceStatus(serviceId: number, status: number): Observable<any> {
+  return this.http.patch(`${environment.apiBaseUrl}/HelperService/service/status?requestId=${serviceId}&status=${status}`, {});
+}
+getDisabledRequestById(id: number): Observable<any> {
+  return this.http.get(`${environment.apiBaseUrl}/DisabledRequest/details/${id}`);
+}
+
   //   createPayment(payload: { helperRequestId?: number|null; disabledRequestId?: number|null }) {
   //   return this.http.post<{ sessionUrl: string }>(`${this.baseUrl}/create`, payload);
   // }
