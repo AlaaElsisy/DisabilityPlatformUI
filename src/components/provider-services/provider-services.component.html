@@ -55,8 +55,12 @@
             
             <div class="provider-card-availability mb-1">Available from {{ service.availableDateFrom | date:'MMM d, y' }} to {{ service.availableDateTo | date:'MMM d, y' }}</div>
             <div class="provider-card-user-row d-flex align-items-center">
-              <img *ngIf="service.helperImage" [src]="service.helperImage" alt="Helper Image" class="provider-card-avatar-img me-2" />
-              <span class="provider-card-user">{{ service.helperName }}</span>
+              <a [routerLink]="['/user-view-profile']"
+                 [queryParams]="{ userId: service.userId, role: 'helper' }"
+                 style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <img *ngIf="service.helperImage" [src]="service.helperImage" alt="Helper Image" class="provider-card-avatar-img me-2" />
+                <span class="provider-card-user">{{ service.helperName }}</span>
+              </a>
             </div>
             <div class="provider-card-price"><span class="fw-bold">Price/Hour : </span> <span class="text-success">{{ service.pricePerHour || 'N/A' }} EGP</span></div>
           </div>
@@ -87,9 +91,5 @@
     </div>
   </section>
 
-  <!-- Modal for Add Patient Request -->
-  <!-- (Modal removed) -->
 
-  <!-- DEBUG: Render form outside modal to test interactivity -->
-  <!-- <app-add-patient-request [helperServiceId]="1" [helperName]="'Debug Helper'"></app-add-patient-request> -->
 </div>

@@ -5,11 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DisabledOfferService } from '../../app/services/disabled-offer.service';
 import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-patient-offer-proposals',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './patient-offer-proposals.component.html',
   styleUrl: './patient-offer-proposals.component.css'
 })
