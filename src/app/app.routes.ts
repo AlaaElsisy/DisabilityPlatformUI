@@ -1,4 +1,8 @@
+
 import { authGuardGuard } from './../core/Guards/auth-guard.guard';
+
+import {  TestNotificationComponent } from 'components/test/test.component';
+
 import { NotfoundComponent } from './../components/notfound/notfound.component';
 import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from './../components/login/login.component';
@@ -40,6 +44,7 @@ import { roleGuardsGuard } from 'core/Guards/role-guards.guard';
 
 
 
+
 export const routes: Routes = [
   { path: '', redirectTo: 'home',  pathMatch: 'full', title: 'Home' },
   { path: 'home', component: HomeComponent, title: 'Home' },
@@ -54,8 +59,14 @@ export const routes: Routes = [
   { path: 'helperaddservice', component: HelperaddserviceComponent, title: 'Add Service' },
   { path: 'helperaddservice/:id', component: HelperaddserviceComponent, title: 'Edit Service' },
   {path:'offers',component:HelperExploreOffersComponent, title:'Offers'},
+
   { path: 'applyoffer/:id', component: OneOfferWithPropozelsComponent, title: 'Offer Proposal' },
   { path: 'AddRequest/:id', component: HelperAddRequestToOfferComponent, title: 'New Request' },
+
+   { path: 'applyoffer/:id', component: OneOfferWithPropozelsComponent, title: 'Offer Proposal' },
+   { path: 'AddRequest/:id', component: HelperAddRequestToOfferComponent, title: 'New Request' },
+   { path: 'test', component: TestNotificationComponent, title: 'test' },
+
 
    { path: 'profile', component: UserProfileComponent, title: 'My Profile' },
 
@@ -65,7 +76,8 @@ export const routes: Routes = [
 }
 ,
 
-   { path: 'orders/:id', component: ProviderOrdersComponent, title: 'orders' }
+   { path: 'orders/:id', component: ProviderOrdersComponent, title: 'orders' },
+
 
   ]},
 
@@ -87,9 +99,13 @@ export const routes: Routes = [
 
       { path: 'patient-offer-proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
       { path: 'offers/:id/proposals', component: PatientOfferProposalsComponent, title: 'Patient Offer Proposals' },
+
        { path: 'payment', component: PaymentComponent, title: 'Payment' },
        { path: 'provider-request-payment', component: ProviderRequestPaymentComponent, title: 'Provider Request Payment' },
 
+
+
+      { path: 'test', component: TestNotificationComponent, title: 'test' },
 
       {
   path: 'user-view-profile',

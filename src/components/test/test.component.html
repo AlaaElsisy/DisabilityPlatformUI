@@ -1,0 +1,24 @@
+<div class="card p-4">
+  <h2>📢 Test Notifications</h2>
+
+  <div class="mb-3">
+    <label>Message:</label>
+    <input class="form-control" [(ngModel)]="message" />
+  </div>
+
+  <div class="mb-3">
+    <label>User ID (for personal message):</label>
+    <input class="form-control" [(ngModel)]="userId" />
+  </div>
+
+  <button class="btn btn-primary me-2" (click)="sendToAll()">Send To All</button>
+  <button class="btn btn-success" (click)="sendToUser()">Send To User</button>
+
+  <hr />
+
+  <h5>📝 Received Notifications</h5>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let msg of receivedMessages">{{ msg }}</li>
+  </ul>
+</div>
+
