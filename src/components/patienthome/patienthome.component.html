@@ -26,9 +26,9 @@
       <div class="d-flex justify-content-center">
         <a
           class="btn primary-btn rounded-4 px-4 py-2"
-          routerLink="/new-request"
+          [routerLink]="['/patient-add-proposal']"
         >
-          <i class="fas fa-plus-circle me-2"></i> Create New Request
+          <i class="fas fa-plus-circle me-2"></i> Create New Offer
         </a>
       </div>
     </div>
@@ -87,31 +87,6 @@
   </div>
 </section>
 
-<!-- Contact -->
-<section id="contact" class="mySection section-hidden">
-  <div class="container mt-5">
-    <h2 class="text-center MainTitle mt-5">
-      <span style="color: #0876cd">Get in Touch</span>
-    </h2>
-    <div class="w-25 mx-auto mt-4">
-      <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input type="text" class="form-control" placeholder="Your name.." />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-control" placeholder="Your email.." />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Message</label>
-        <textarea class="form-control" rows="3"></textarea>
-      </div>
-      <div class="d-flex flex-row-reverse">
-        <button type="submit" class="btn btn-primary">Send</button>
-      </div>
-    </div>
-  </div>
-</section>
 
 
 <!-- Footer -->

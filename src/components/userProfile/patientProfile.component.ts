@@ -23,6 +23,7 @@ export class UserProfileComponent implements OnInit {
   constructor(private userProfileService: UserProfileService) {}
 
   ngOnInit(): void {
+    console.log("Ahmed");
      this.role = localStorage.getItem('role');
 
     this.userProfileService.getProfile().subscribe({

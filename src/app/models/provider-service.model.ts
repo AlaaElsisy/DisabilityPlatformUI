@@ -9,6 +9,7 @@ export interface ProviderService {
     helperName?: string;
     serviceCategoryId: number;
     serviceCategoryName?: string;
+    userId? : string;
 }
 
 
