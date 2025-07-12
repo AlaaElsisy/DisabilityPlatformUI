@@ -11,11 +11,5 @@ import { register } from 'swiper/element';
 
 register();
 
+bootstrapApplication(AppComponent, appConfig); 
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes),
-    importProvidersFrom(ReactiveFormsModule),
-    provideHttpClient(withInterceptors([authInterceptor]))
-  ],
-});
