@@ -34,7 +34,7 @@
     <div class="Under-data my-3"></div>
 
     <div class="offer-footer">
-      <div class="user-info" (click)="gotoPatientProfile(item.disabled.id)">
+      <div class="user-info" (click)="gotoPatientProfile(item.disabled.userId)">
         <img [src]="item.disabled.profileImage || './hero.jpg'" alt="Profile image" class="user-avatar" />
         <div class="user-details-grid">
           <div class="user-meta">
@@ -106,7 +106,7 @@
   <p class="mt-2"><strong>Message:</strong> {{ request.Request.message }}</p>
   <p><strong>Total Price:</strong> {{ request.Request.totalPrice | currency:'EGP' }}</p>
 
-  <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.id)">
+  <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.userId)">
     <strong>Provider:</strong> {{ request.providerData.fullName }} -
     {{ request.providerData.zone }}, {{ request.providerData.address }}
   </div>

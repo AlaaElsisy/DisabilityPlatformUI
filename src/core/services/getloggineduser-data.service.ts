@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class GetloggineduserDataService {
   private readonly _httpclient=inject(HttpClient)
+
   constructor() { }
   
   getuserData():Observable<any>{    

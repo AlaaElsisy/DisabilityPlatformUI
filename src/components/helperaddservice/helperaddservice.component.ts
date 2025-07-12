@@ -5,13 +5,16 @@ import { HelperservicesService } from '../../core/services/helperservices.servic
 import { Router, ActivatedRoute } from '@angular/router';
 import { GetloggineduserDataService } from 'core/services/getloggineduser-data.service';
 import { ServiceCategory, ServiceCategoryService } from '@services/service-category.service';
+import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-helperaddservice',
   standalone: true,
   templateUrl: './helperaddservice.component.html',
   styleUrl: './helperaddservice.component.css',
-  imports: [ReactiveFormsModule, HttpClientModule]
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule]
+
 })
 export class HelperaddserviceComponent implements OnInit {
 
@@ -19,6 +22,7 @@ export class HelperaddserviceComponent implements OnInit {
   private router = inject(Router);
   private readonly _helperservicesService = inject(HelperservicesService);
   private readonly _getLoggingHelper = inject(GetloggineduserDataService);
+  private readonly _toster=inject(ToastrService)
 
   isloading: boolean = false;
   isEditMode: boolean = false;
@@ -104,11 +108,13 @@ export class HelperaddserviceComponent implements OnInit {
       this._helperservicesService.updateService(this.serviceId, data, headers).subscribe({
         next: (res) => {
           this.isloading = false;
+           this._toster.success('service updated successfully')
           this.router.navigate(['/provider/services']);
           console.log('Service updated:', res);
         },
         error: (err) => {
           this.isloading = false;
+             this._toster.error(' cannot  update this service ')
           console.error('Update error:', err);
         }
       });
@@ -116,11 +122,13 @@ export class HelperaddserviceComponent implements OnInit {
       this._helperservicesService.addhelperservice(data, headers).subscribe({
         next: (res) => {
           this.isloading = false;
+          this._toster.success('service Added successfully')
           this.router.navigate(['/provider/services']);
           console.log('Service added:', res);
         },
         error: (err) => {
           this.isloading = false;
+           this._toster.error(' cannot add this service ')
           console.error('Add error:', err);
         }
       });

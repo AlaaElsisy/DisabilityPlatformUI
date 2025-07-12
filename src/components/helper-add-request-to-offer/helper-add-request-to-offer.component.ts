@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { GetloggineduserDataService } from 'core/services/getloggineduser-data.service';
 import { HelperRequestsService } from 'core/services/helper-requests.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-helper-add-request-to-offer',
@@ -16,6 +17,7 @@ export class HelperAddRequestToOfferComponent implements OnInit {
   private readonly _router=inject(Router)
   private readonly _getlogginedUser = inject(GetloggineduserDataService);
   private readonly _HelperRequestsService = inject(HelperRequestsService);
+  private readonly _toster=inject(ToastrService)
 
   offerId!: number;
   helperId!: number;
@@ -24,9 +26,12 @@ export class HelperAddRequestToOfferComponent implements OnInit {
   console.log(this.addRequestForm.value)
   this._HelperRequestsService.AddRequestToOffer(this.addRequestForm.value).subscribe({
     next:(res)=>{
+       this._toster.success('request added successfully')
        this._router.navigate([`/provider/applyoffer/${this.offerId}`]);
           console.log('Request added succesfully:', res);
-    }
+    },error:(err)=> {
+         this._toster.error('cannot add your request')
+    },
   })
 
 
@@ -44,7 +49,7 @@ export class HelperAddRequestToOfferComponent implements OnInit {
               this.helperId = res.id;
               console.log('Helper ID:', this.helperId);
 
-            
+
               this.addRequestForm = new FormGroup({
                 applicationDate: new FormControl(new Date().toISOString()),
                 status: new FormControl('Pending'),

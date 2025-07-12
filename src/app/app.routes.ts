@@ -49,6 +49,7 @@ import { NotificationsComponent } from 'components/notification/notification.com
 export const routes: Routes = [
   { path: '', redirectTo: 'home',  pathMatch: 'full', title: 'Home' },
   { path: 'home', component: HomeComponent, title: 'Home' },
+ 
   { path: 'login', component: LoginComponent,canActivate: [cantReturnToLoginGuard], title: 'Login' },
   { path: 'register', component: RegisterComponent,canActivate: [cantReturnToLoginGuard], title: 'Register' },
   { path: 'about', component: NotfoundComponent },
@@ -73,17 +74,14 @@ export const routes: Routes = [
 
    { path: 'profile', component: UserProfileComponent, title: 'My Profile' },
 
-     {
-       path: 'userprofile',
-  component: UserProfileViewComponent
-}
+    {path: 'userprofile', component: UserProfileViewComponent}
 ,
 
    { path: 'orders/:id', component: ProviderOrdersComponent, title: 'orders' },
 
 
   ]},
-
+  
   {
     path: '',
     component: PatientLayoutComponent,
@@ -112,11 +110,7 @@ export const routes: Routes = [
 
       { path: 'test', component: TestNotificationComponent, title: 'test' },
 
-      {
-  path: 'user-view-profile',
-  component: UserProfileViewComponent
-  ,canActivate:[authGuardGuard,roleGuardsGuard]
-}
+  
 
 
     ]
@@ -126,7 +120,12 @@ export const routes: Routes = [
   component: UserProfileViewComponent
   
 },
-  { path: '**', component: NotfoundComponent }
+  { path: '**', component: NotfoundComponent },
+      {
+  path: 'user-view-profile',
+  component: UserProfileViewComponent
+  ,canActivate:[authGuardGuard,roleGuardsGuard]
+}
 ];
 
 
