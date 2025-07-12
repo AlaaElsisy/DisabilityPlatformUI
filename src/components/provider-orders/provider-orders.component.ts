@@ -106,10 +106,9 @@ export class ProviderOrdersComponent implements OnInit {
           const otherOrders = this.Orders.filter(o => o.id !== acceptedId);
           otherOrders.forEach((order) => {
             this._ProviderOrdersServicesService.changeServiceStatus(order.id, 2).subscribe();
-            console.log(order.userId)
             // Notify rejected users
             if (order.userId) {
-              this.signalrService.sendNotificationToClient('Your order was not accepted.', order.userId);
+              this.signalrService.sendNotificationToClient(`Your order(${order.description}) was not accepted.`, order.userId);
             }
           });
 
@@ -129,7 +128,7 @@ export class ProviderOrdersComponent implements OnInit {
           // Notify accepted user
           const acceptedOrder = this.Orders.find(o => o.id === acceptedId);
           if (acceptedOrder && acceptedOrder.userId) {
-            this.signalrService.sendNotificationToClient('Your order has been accepted!', acceptedOrder.userId);
+            this.signalrService.sendNotificationToClient(`Your order(${acceptedOrder.description}) has been accepted!`, acceptedOrder.userId);
           }
         },
         complete: () => {
