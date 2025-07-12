@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
 
 :host {
   display: block;
-  font-family: 'Jost', sans-serif;
+  font-family: "Jost", sans-serif;
   background: #f4f8fb;
   min-height: 100vh;
   padding: 32px 0;
@@ -11,7 +11,7 @@
 h2 {
   font-size: 36px;
   font-weight: 600;
-  color: #0876CD;
+  color: #0876cd;
   margin-bottom: 24px;
   text-align: center;
 }
@@ -26,7 +26,7 @@ h2 {
 
 .filter-label {
   font-size: 1.15rem;
-  color: #0876CD;
+  color: #0876cd;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -43,12 +43,12 @@ h2 {
   -webkit-appearance: none;
   -moz-appearance: none;
   background: #f7fbff;
-  border: 2px solid #0876CD;
+  border: 2px solid #0876cd;
   border-radius: 16px;
   padding: 12px 48px 12px 20px;
   font-size: 1.08rem;
   color: #222;
-  font-family: 'Jost', sans-serif;
+  font-family: "Jost", sans-serif;
   font-weight: 500;
   box-shadow: 0 2px 8px rgba(8, 118, 205, 0.08);
   outline: none;
@@ -66,7 +66,7 @@ h2 {
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  color: #0876CD;
+  color: #0876cd;
   font-size: 1.2em;
 }
 
@@ -103,7 +103,7 @@ h2 {
 
 .offer-accent {
   width: 10px;
-  background: linear-gradient(180deg, #09c 0%, #0876CD 100%);
+  background: linear-gradient(180deg, #09c 0%, #0876cd 100%);
   border-radius: 10px 0 0 10px;
 }
 
@@ -142,7 +142,7 @@ h2 {
   display: flex;
   flex-direction: column;
   font-size: 1.02rem;
-  color: #0876CD;
+  color: #0876cd;
   font-weight: 500;
   gap: 4px;
   min-width: 160px;
@@ -156,7 +156,7 @@ h2 {
 
 .date-value {
   font-size: 1.1rem;
-  color: #0876CD;
+  color: #0876cd;
   font-weight: 600;
 }
 
@@ -170,7 +170,7 @@ h2 {
 .offer-price-row {
   font-size: 1.7rem;
   font-weight: 800;
-  color: #0876CD;
+  color: #0876cd;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -193,14 +193,14 @@ h2 {
   border-radius: 20px;
   font-size: 1rem;
   font-weight: 600;
-  color: #0876CD;
+  color: #0876cd;
   text-transform: capitalize;
   box-shadow: 0 4px 12px rgba(8, 118, 205, 0.12);
   transition: all 0.25s ease-in-out;
 }
 
 .offer-status-badge.open {
-  background: linear-gradient(90deg, #42a5f5, #0876CD);
+  background: linear-gradient(90deg, #42a5f5, #0876cd);
   color: white;
 }
 .offer-status-badge.pending {
@@ -208,7 +208,7 @@ h2 {
   color: white;
 }
 .offer-status-badge.accepted {
-  background: linear-gradient(90deg, #0876CD, #42a5f5);
+  background: linear-gradient(90deg, #0876cd, #42a5f5);
   color: white;
 }
 .offer-status-badge.completed {
@@ -242,7 +242,7 @@ h2 {
 }
 
 .apply-btn {
-  background: linear-gradient(90deg, #0876CD 60%, #09c 100%);
+  background: linear-gradient(90deg, #0876cd 60%, #09c 100%);
   color: #fff;
   border: none;
   border-radius: 32px;
@@ -266,7 +266,7 @@ h2 {
   margin-left: 6px;
 }
 .apply-btn:hover {
-  background: linear-gradient(90deg, #09c 60%, #0876CD 100%);
+  background: linear-gradient(90deg, #09c 60%, #0876cd 100%);
   box-shadow: 0 8px 32px rgba(8, 118, 205, 0.22);
   transform: translateY(-2px) scale(1.04);
 }
@@ -290,7 +290,7 @@ h2 {
 }
 
 .pagination button {
-  background: #0876CD;
+  background: #0876cd;
   color: white;
   border: none;
   border-radius: 8px;
@@ -350,7 +350,7 @@ h2 {
 
 .view-offer-btn {
   background: #f7fbff;
-  color: #0876CD;
+  color: #0876cd;
   border: 1.5px solid #b3d6f6;
   border-radius: 28px;
   font-size: 1.05rem;
@@ -371,7 +371,7 @@ h2 {
   margin-right: 6px;
   width: 18px;
   height: 18px;
-  stroke: #0876CD;
+  stroke: #0876cd;
   transition: transform 0.18s, stroke 0.18s;
 }
 .view-offer-btn:hover {
@@ -391,7 +391,7 @@ h2 {
   right: 36px;
   z-index: 2;
   margin: 0;
-  box-shadow: 0 2px 8px rgba(8, 118, 205, 0.10);
+  box-shadow: 0 2px 8px rgba(8, 118, 205, 0.1);
   padding: 8px 22px;
   font-size: 1.08rem;
 }
@@ -405,8 +405,9 @@ h2 {
   font-size: 1.05rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(229, 57, 53, 0.10);
-  transition: background 0.22s, color 0.22s, border 0.22s, box-shadow 0.22s, transform 0.18s;
+  box-shadow: 0 2px 8px rgba(229, 57, 53, 0.1);
+  transition: background 0.22s, color 0.22s, border 0.22s, box-shadow 0.22s,
+    transform 0.18s;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -454,7 +455,7 @@ h2 {
 .modal-dialog {
   background: #fff;
   border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.20);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
   padding: 3.5rem 3.5rem 2.5rem 3.5rem;
   max-width: 520px;
   width: 100%;
@@ -463,8 +464,14 @@ h2 {
 }
 
 @keyframes modalFadeIn {
-  from { transform: translateY(30px) scale(0.98); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
+  from {
+    transform: translateY(30px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-dialog h3 {
@@ -511,7 +518,7 @@ h2 {
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(229, 57, 53, 0.10);
+  box-shadow: 0 2px 8px rgba(229, 57, 53, 0.1);
   transition: background 0.18s;
 }
 
@@ -568,7 +575,7 @@ h2 {
   margin-left: 0;
 }
 .offer-price-highlight .offer-price-label {
-  color: #0876CD;
+  color: #0876cd;
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 2px;
@@ -608,7 +615,7 @@ h2 {
   display: flex;
   flex-direction: column;
   font-weight: 600;
-  color: #0876CD;
+  color: #0876cd;
   margin-bottom: 4px;
 }
 .edit-offer-form input,
@@ -627,10 +634,27 @@ h2 {
 }
 .edit-offer-form input:focus,
 .edit-offer-form textarea:focus {
-  border-color: #0876CD;
-  box-shadow: 0 2px 8px rgba(8, 118, 205, 0.10);
+  border-color: #0876cd;
+  box-shadow: 0 2px 8px rgba(8, 118, 205, 0.1);
 }
 .edit-offer-form textarea {
   min-height: 60px;
   resize: vertical;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+h2 {
+  font-size: 1.6rem;
 }

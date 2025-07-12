@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { DisabledOfferService } from '../../app/services/disabled-offer.service';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { SignalrService } from '../../app/services/signalr.service';
+import { ProposalStatusService } from '../../app/services/proposal-status.service';
 
 @Component({
   selector: 'app-patient-offer-proposals',
@@ -32,7 +34,9 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
     private helperRequestService: HelperRequestService,
     private route: ActivatedRoute,
     private disabledOfferService: DisabledOfferService,
-    private router: Router
+    private router: Router,
+    private signalrService: SignalrService,
+    private proposalStatusService: ProposalStatusService
   ) {}
 
   ngOnInit(): void {
@@ -111,33 +115,16 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
 
   acceptProposal(proposal: any) {
     if (!proposal.id || !this.offerId) return;
-    this.helperRequestService.updateProposalStatus(proposal.id, 'Accepted').subscribe({
-      next: () => {
-        this.disabledOfferService.updateOfferStatus(this.offerId!, 'Pending').subscribe();
-        this.helperRequestService.getProposalsByOfferId(this.offerId!, { pageNumber: 1, pageSize: 1000 }).subscribe(allResponse => {
-          const allProposals = allResponse.items || allResponse;
-          const rejectCalls = allProposals
-            .filter((p: any) => p.id !== proposal.id && p.status !== 'Rejected' && p.status !== 'Completed')
-            .map((p: any) => this.helperRequestService.updateProposalStatus(p.id, 'Rejected'));
-          if (rejectCalls.length > 0) {
-            Promise.all(rejectCalls.map((obs: any) => obs.toPromise())).then(() => this.fetchProposals());
-          } else {
-            this.fetchProposals();
-          }
-        });
-      },
+    this.proposalStatusService.acceptProposal(proposal, this.offerId).subscribe({
+      next: () => this.fetchProposals(),
       error: err => alert('Failed to accept proposal: ' + (err?.error?.message || err.message || err))
     });
   }
 
   markCompleted(proposal: any) {
-    console.log('asdkjnasdkjnjibnsdjkbn')
     if (!proposal.id || !this.offerId) return;
-    this.helperRequestService.updateProposalStatus(proposal.id, 'Completed').subscribe({
-      next: () => {
-        this.disabledOfferService.updateOfferStatus(this.offerId!, 'Completed').subscribe();
-        this.fetchProposals();
-      },
+    this.proposalStatusService.markCompleted(proposal, this.offerId).subscribe({
+      next: () => this.fetchProposals(),
       error: err => alert('Failed to mark as completed: ' + (err?.error?.message || err.message || err))
     });
   }
@@ -163,11 +150,8 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
       alert('You can only request cancellation at least 24 hours before the start date of the offer.');
       return;
     }
-    this.helperRequestService.updateProposalStatus(proposal.id, 'Cancelled').subscribe({
-      next: () => {
-        this.disabledOfferService.updateOfferStatus(this.offerId!, 'Cancelled').subscribe();
-        this.fetchProposals();
-      },
+    this.proposalStatusService.cancelProposal(proposal, this.offerId).subscribe({
+      next: () => this.fetchProposals(),
       error: err => alert('Failed to request cancellation: ' + (err?.error?.message || err.message || err))
     });
   }

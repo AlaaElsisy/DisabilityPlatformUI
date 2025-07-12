@@ -1,11 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
   <div class="container">
     <a class="navbar-brand mt-1 ms-4" routerLink="home">
-      <img src="./mainlogo.jpg" class="logo-img" alt="Talabat Logo"> 
+      <img src="./mainlogo.jpg" class="logo-img" alt="Talabat Logo" />
       <span class="logo"><span>Helper</span></span>
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -34,13 +39,26 @@
             <i class="fas fa-inbox me-1"></i> Requests
           </a>
         </li>
- <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="profile">
             <i class="fas fa-inbox me-1"></i> profile
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link bg-primary text-white rounded-5" routerLinkActive="active" (click)="sginout()">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            routerLink="notification/{{ userId }}"
+          >
+            <i class="fas fa-bell fa-lg"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link bg-primary text-white rounded-5"
+            routerLinkActive="active"
+            (click)="sginout()"
+          >
             <i class="fas fa-right-from-bracket me-1"></i> Sign Out
           </a>
         </li>

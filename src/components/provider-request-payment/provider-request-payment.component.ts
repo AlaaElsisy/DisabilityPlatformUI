@@ -6,6 +6,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HelperRequestService } from 'app/services/helper-request.service';
 import { DisabledOfferService } from '@services/disabled-offer.service';
+import { ProposalStatusService } from 'app/services/proposal-status.service';
 
 @Component({
   selector: 'app-provider-request-payment',
@@ -40,7 +41,7 @@ export class ProviderRequestPaymentComponent implements OnInit {
     private router: Router,
     private helperRequestService: HelperRequestService , 
     private disabledOfferService: DisabledOfferService,
-
+    private proposalStatusService: ProposalStatusService
   ) {
     const nav = this.router.getCurrentNavigation();
     const state = nav?.extras.state as any;
@@ -88,6 +89,7 @@ export class ProviderRequestPaymentComponent implements OnInit {
 
     this.paymentService.chargeCard(paymentRequest).subscribe({
       next: (res: any) => {
+        console.log(paymentRequest)
         this.paymentResult = { 
           success: res.success, 
           message: res.message,
@@ -100,21 +102,25 @@ export class ProviderRequestPaymentComponent implements OnInit {
           this.resetForm();
           if (offerId != null) {
             if (!helperRequestId) return;
-            this.helperRequestService.updateProposalStatus(helperRequestId, 'Completed').subscribe({
-              next: () => {
-                this.disabledOfferService.updateOfferStatus(offerId, 'Completed').subscribe();
-                this.paymentResult = { success: true, message: 'Successful payment!' };
-                setTimeout(() => {
-                  this.router.navigate([`/offers/${offerId}/proposals`], {
-                    state: {
-                      markCompleted: true,
-                      helperRequestId: this.payment.helperRequestId,
-                      offerId: offerId
-                    }
-                  });
-                }, 1000);
+            this.helperRequestService.getHelperRequestById(helperRequestId).subscribe({
+              next: (proposal) => {
+                this.proposalStatusService.markCompleted(proposal, offerId).subscribe({
+                  next: () => {
+                    this.paymentResult = { success: true, message: 'Successful payment!' };
+                    setTimeout(() => {
+                      this.router.navigate([`/offers/${offerId}/proposals`], {
+                        state: {
+                          markCompleted: true,
+                          helperRequestId: this.payment.helperRequestId,
+                          offerId: offerId
+                        }
+                      });
+                    }, 1000);
+                  },
+                  error: err => alert('Failed to mark as completed: ' + (err?.error?.message || err.message || err))
+                });
               },
-              error: err => alert('Failed to mark as completed: ' + (err?.error?.message || err.message || err))
+              error: err => alert('Failed to fetch proposal: ' + (err?.error?.message || err.message || err))
             });
           }
         }       
