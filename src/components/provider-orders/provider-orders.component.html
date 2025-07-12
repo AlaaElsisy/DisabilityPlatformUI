@@ -1,9 +1,8 @@
 <div class="container">
 
+  <!-- Service Info -->
   <div class="service-summary-card mt-3">
-    <div class="service-icon">
-      <i class="fas fa-tools"></i>
-    </div>
+    <div class="service-icon"><i class="fas fa-tools"></i></div>
     <div class="service-details">
       <h3>{{ _service.description }}</h3>
       <div class="service-meta">
@@ -19,7 +18,7 @@
   </div>
 
   <!-- Orders Header -->
-  <div class="section-header">
+  <div class="section-header d-flex justify-content-between align-items-center flex-wrap">
     <div>
       <h2>Service Orders</h2>
       <p class="subtitle">Manage incoming service requests</p>
@@ -30,12 +29,22 @@
     </div>
   </div>
 
+  <!-- 🔍 Filter Input -->
+  <div class="form-group mb-3">
+    <input type="text"
+           class="form-control"
+           placeholder="Search by description, status, or price..."
+           [(ngModel)]="searchTerm"
+           (input)="filterOrders()" />
+  </div>
+
   <!-- Orders List -->
-  <div *ngIf="Orders.length > 0; else noOrders" class="orders-list">
-    <div *ngFor="let order of Orders; let i = index" class="order-card" [class.highlight]="order.status.toLowerCase() === 'pending'">
+  <div *ngIf="paginatedOrders.length > 0; else noOrders" class="orders-list">
+    <div *ngFor="let order of paginatedOrders; let i = index" class="order-card"
+         [class.highlight]="order.status.toLowerCase() === 'pending'">
       <div class="order-header">
         <div class="order-title">
-          <span class="order-number">#{{ i + 1 }}</span>
+          <span class="order-number">#{{ (page - 1) * pageSize + i + 1 }}</span>
           <h4>{{ order.description }}</h4>
         </div>
         <span class="order-status" [ngClass]="'status-' + order.status.toLowerCase()">{{ order.status }}</span>
@@ -70,15 +79,25 @@
           <span>Total Price</span>
           <h3>{{ order.price }} EGP</h3>
         </div>
-       <button *ngIf="!isAcceptedAlready" class="action-btn accept-btn" (click)="openModal(order.id)">
-  <i class="fas fa-check-circle"></i> Accept
-</button>
-
-         
+        <button *ngIf="!isAcceptedAlready" class="action-btn accept-btn" (click)="openModal(order.id)">
+          <i class="fas fa-check-circle"></i> Accept
+        </button>
       </div>
     </div>
   </div>
 
+  <!-- Pagination Controls -->
+  <div *ngIf="totalPages > 1" class="pagination-controls mt-3 d-flex justify-content-between align-items-center">
+    <button class="btn btn-outline-primary" [disabled]="page === 1" (click)="changePage(-1)">
+      <i class="fas fa-chevron-left"></i> Prev
+    </button>
+    <span>Page {{ page }} of {{ totalPages }}</span>
+    <button class="btn btn-outline-primary" [disabled]="page === totalPages" (click)="changePage(1)">
+      Next <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Empty State -->
   <ng-template #noOrders>
     <div class="empty-state">
       <img src="assets/images/no-orders.svg" alt="No orders">
@@ -90,18 +109,12 @@
   <!-- Confirmation Modal -->
   <div *ngIf="showConfirmModal" class="modal-overlay" (click)="cancelAccept()">
     <div class="modal-dialog" (click)="$event.stopPropagation()" style="pointer-events: all">
-      <div class="modal-icon">
-        <i class="fas fa-question-circle"></i>
-      </div>
+      <div class="modal-icon"><i class="fas fa-question-circle"></i></div>
       <h3>Confirm Acceptance</h3>
       <p>Are you sure you want to accept this service request?</p>
       <div class="modal-actions">
-        <button class="btn-secondary" (click)="cancelAccept()">
-          <i class="fas fa-times"></i> Cancel
-        </button>
-        <button class="btn-primary" (click)="confirmAccept($event)">
-          <i class="fas fa-check"></i> Confirm
-        </button>
+        <button class="btn-secondary" (click)="cancelAccept()"><i class="fas fa-times"></i> Cancel</button>
+        <button class="btn-primary" (click)="confirmAccept($event)"><i class="fas fa-check"></i> Confirm</button>
       </div>
     </div>
   </div>

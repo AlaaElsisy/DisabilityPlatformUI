@@ -1,0 +1,7 @@
+<div class="chat-container">
+  <div class="chat-box" #chatBox></div>
+  <div class="input-area">
+    <input type="text" [(ngModel)]="userText" (keyup.enter)="handleUserInput()" placeholder="Type your message..." />
+    <button (click)="handleUserInput()">Send</button>
+  </div>
+</div>

@@ -2,8 +2,119 @@
 html {
   scroll-behavior: smooth;
 }
+/* start*/
+.underOverlay{
+  margin-top: 10px;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+.overlay{
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+}
+.overlay .caption p::after
+{
+    content: "|";
+  animation: typing 15s  1s infinite ;
+  font-size: 40px;
+  background: linear-gradient(45deg, #43e97b, #38f9d7, #2f80ed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}
+.caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 20px;
+
+  color: white;
+}
+.caption h1 {
+  background: linear-gradient(45deg, #3a8dde, #00dbde);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 80px;
+}
+.caption p {
+  background: linear-gradient(45deg, #3a8dde, #00dbde);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 30px;
+}
+
+@keyframes typing
+{
+    0% {content:"Here for You|"}
+    4% {content:"Here for Yo|"}
+    8% {content:"Here for |"}
+    12% {content:"Here fo|"}
+    16% {content:"Here| "}
+    20% {content:"Here|"}
+    24% {content:"Her|"}
+    28% {content:"He|"}
+    32% {content:"H|"}
+    36% {content:"|"}
+    40% {content:"su|"}
+    44% {content:"supp|"}
+    48% {content:"suppor|"}
+    52% {content:"support|"}
+    56% {content:"supporter|"}
+    60% {content:"suppor|"}
+    64% {content:"supp|"}
+    68% {content:"su|"}
+    72% {content:"s|"}
+    76% {content:"|"}
+    80% {content:"H|"}
+    84% {content:"Hel"}
+    86% {content:"Help|"}
+    88% {content:"Helper|"}
+    92% {content:"Helpe|"}
+    94% {content:"Hel|"}
+    96% {content:"He|"}
+    96% {content:"H|"}
+    100% {content:"|"}
+  
+
+} 
 
 
+.bor-icon {
+  font-size: 22px;
+  position: relative;
+  z-index: 1;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background:  
+             linear-gradient(45deg, #3a8dde, #00dbde) border-box;
+  -webkit-background-clip: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 2px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.6s ease;
+}
+
+.bor-icon:hover{
+  font-size: 25px;
+   transform: rotate(360deg);
+
+}
+/**/
 .textbox {
  
   width: 400px;

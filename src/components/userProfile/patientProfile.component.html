@@ -1,19 +1,31 @@
-<div class="container mt-5 my-5">
+<div class="container mt-5 my-5" [formGroup]="form">
   <div class="card shadow-lg rounded-4">
     <div class="card-body">
-      <nav class="navbar-custom">
-        <div class="container">
-          <div class="d-flex justify-content-center w-100">
-            
+      <div class="row align-items-center mb-3">
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4 text-center">
+          <h3 class="mb-0">Profile</h3>
+        </div>
+
+        <div class="col-md-4 text-end">
+          <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-outline-primary" (click)="toggleEditMode()">
+              {{ editMode ? 'Cancel' : 'Edit' }}
+            </button>
+            <button *ngIf="editMode" class="btn btn-success" (click)="saveChanges()">Save Changes</button>
           </div>
         </div>
-      </nav>
-      <h3 class="mb-4 text-center">Profile</h3>
+      </div>
+      <div *ngIf="successMessage" class="alert alert-success text-center py-1 px-2 mb-4" role="alert" style="font-size: 14px;">
+        {{ successMessage }}
+      </div>
+
       <div class="row mb-4">
         <div class="col-md-3 text-center">
           <img
-            *ngIf="userProfile?.user?.profileImage; else defaultImage"
-            [src]="userProfile?.user?.profileImage"
+            *ngIf="previewImageUrl; else defaultImage"
+            [src]="previewImageUrl"
             class="img-thumbnail rounded-circle shadow-sm"
             alt="Profile Image"
             style="width: 150px; height: 150px; object-fit: cover"
@@ -22,102 +34,63 @@
             <div
               class="bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center"
               style="width: 150px; height: 150px"
-            ></div>
+            >No Image</div>
           </ng-template>
+
+          <div *ngIf="editMode" class="mt-2">
+            <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*" />
+          </div>
         </div>
+
         <div class="col-md-9">
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label">Full Name</label>
-              <input
-                type="text"
-                class="form-control"
-                [value]="userProfile?.user?.fullName"
-                disabled
-              />
+              <input type="text" class="form-control" formControlName="fullName" [disabled]="!editMode" />
             </div>
             <div class="col-md-6">
               <label class="form-label">Email</label>
-              <input
-                type="text"
-                class="form-control"
-                [value]="userProfile?.user?.email"
-                disabled
-              />
+              <input type="text" class="form-control" formControlName="email" [disabled]="!editMode" />
             </div>
             <div class="col-md-6">
               <label class="form-label">Phone</label>
-              <input
-                type="text"
-                class="form-control"
-                [value]="userProfile?.user?.phoneNumber"
-                disabled
-              />
+              <input type="text" class="form-control" formControlName="phoneNumber" [disabled]="!editMode" />
             </div>
             <div class="col-md-6">
               <label class="form-label">Date of Birth</label>
-              <input
-                type="text"
-                class="form-control"
-                [value]="userProfile?.user?.dateOfBirth | date : 'longDate'"
-                disabled
-              />
+              <input type="date" class="form-control" formControlName="dateOfBirth" [disabled]="!editMode" />
             </div>
             <div class="col-md-6">
               <label class="form-label">Gender</label>
-         <input
-  type="text"
-  class="form-control text-capitalize"
-  [value]="userProfile?.user?.gender === 0 ? 'male' : (userProfile?.user?.gender === 1 ? 'female' : 'N/A')"
-  disabled
-/>
-
-
+              <select class="form-control" formControlName="gender" [disabled]="!editMode">
+                <option [value]="0">Male</option>
+                <option [value]="1">Female</option>
+              </select>
             </div>
             <div class="col-md-6">
               <label class="form-label">Address</label>
-              <input
-                type="text"
-                class="form-control"
-                [value]="userProfile?.user?.address"
-                disabled
-              />
+              <input type="text" class="form-control" formControlName="address" [disabled]="!editMode" />
             </div>
             <div class="col-md-6">
               <label class="form-label">Zone</label>
-              <input
-                type="text"
-                class="form-control"
-                [value]="userProfile?.user?.zone || 'N/A'"
-                disabled
-              />
+              <input type="text" class="form-control" formControlName="zone" [disabled]="!editMode" />
             </div>
           </div>
         </div>
       </div>
 
-      <hr />
+      <hr *ngIf="role?.toLowerCase() === 'patient'">
 
       <div *ngIf="role?.toLowerCase() === 'patient'">
         <h5 class="mb-3">Disability Information</h5>
         <div class="row g-3 mb-4">
           <div class="col-md-6">
             <label class="form-label">Disability Type</label>
-            <input
-              type="text"
-              class="form-control"
-              [value]="patientProfile?.disabilityType || 'N/A'"
-              disabled
-            />
+            <input type="text" class="form-control" formControlName="disabilityType" [disabled]="!editMode" />
           </div>
           <div class="col-md-6">
             <label class="form-label">Medical Condition</label>
-            <input
-              type="text"
-              class="form-control"
-              [value]="patientProfile?.medicalConditionDescription || 'N/A'"
-              disabled
-            />
+            <input type="text" class="form-control" formControlName="medicalConditionDescription" [disabled]="!editMode" />
           </div>
         </div>
 
@@ -127,33 +100,23 @@
         <div class="row g-3">
           <div class="col-md-4">
             <label class="form-label">Name</label>
-            <input
-              type="text"
-              class="form-control"
-              [value]="patientProfile?.emergencyContactName || 'N/A'"
-              disabled
-            />
+            <input type="text" class="form-control" formControlName="emergencyContactName" [disabled]="!editMode" />
           </div>
           <div class="col-md-4">
             <label class="form-label">Phone</label>
-            <input
-              type="text"
-              class="form-control"
-              [value]="patientProfile?.emergencyContactPhone || 'N/A'"
-              disabled
-            />
+            <input type="text" class="form-control" formControlName="emergencyContactPhone" [disabled]="!editMode" />
           </div>
           <div class="col-md-4">
             <label class="form-label">Relation</label>
-            <input
-              type="text"
-              class="form-control"
-              [value]="patientProfile?.emergencyContactRelation || 'N/A'"
-              disabled
-            />
+            <input type="text" class="form-control" formControlName="emergencyContactRelation" [disabled]="!editMode" />
           </div>
         </div>
       </div>
+<div class="col-md-12" *ngIf="role?.toLowerCase() === 'helper'">
+  <label class="form-label">Bio</label>
+  <textarea class="form-control" rows="3" formControlName="bio" [disabled]="!editMode"></textarea>
+</div>
+
     </div>
   </div>
 </div>

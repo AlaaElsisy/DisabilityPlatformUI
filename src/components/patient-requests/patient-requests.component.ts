@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DisabledOfferService } from '../../app/services/disabled-offer.service';
 import { UserProfileService } from '../../app/services/user-profile.service';
 import { DisabledOffer } from '../../app/models/disabled-offer.model';
@@ -33,6 +33,7 @@ export class PatientRequestsComponent implements OnInit {
   editOfferData: DisabledOffer | null = null;
   showDeleteErrorModal = false;
   deleteErrorMessage = '';
+
 
   constructor(
     private disabledOfferService: DisabledOfferService,
@@ -203,4 +204,5 @@ export class PatientRequestsComponent implements OnInit {
   onEditDateChange(): void {
     this.editErrorMessage = '';
   }
+
 }

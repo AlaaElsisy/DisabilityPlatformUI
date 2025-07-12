@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AddProposalServiceService } from '@services/add-proposal-service.service';
 import { ServiceRequest } from 'app/models/add-proposal.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-proposal',
@@ -14,6 +15,7 @@ import { ServiceRequest } from 'app/models/add-proposal.model';
 export class AddProposalComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private addProposalServiceService = inject(AddProposalServiceService);
+  private route = inject(ActivatedRoute);
 
   serviceForm: FormGroup;
   isLoading = false;
@@ -22,6 +24,7 @@ export class AddProposalComponent implements OnInit {
   isSubmitted = false;
 
   categories: any[] = [];
+  selectedCategoryId: string | null = null;
 
   constructor() {
     this.serviceForm = this.formBuilder.group({
@@ -35,9 +38,13 @@ export class AddProposalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedCategoryId = this.route.snapshot.queryParamMap.get('categoryId');
     this.addProposalServiceService.getServiceCategories().subscribe({
       next: (data) => {
         this.categories = data;
+        if (this.selectedCategoryId && this.categories.some(cat => cat.id == this.selectedCategoryId)) {
+          this.serviceForm.patchValue({ serviceNeededId: this.selectedCategoryId });
+        }
       },
       error: (err) => {
         console.error('Error fetching categories', err);

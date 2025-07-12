@@ -1,0 +1,24 @@
+<div class="notifications-container my-5">
+  <div class="notifications-header">
+    <h2 class="notifications-title">Notifications</h2>
+  </div>
+
+  <div class="notifications-content">
+    <div *ngIf="notifications.length === 0" class="empty-state">
+      <div class="empty-icon">🔔</div>
+      <h3>No notifications</h3>
+      <p>You're all caught up! We'll notify you when something new happens.</p>
+    </div>
+
+    <div *ngFor="let notification of notifications" class="notification-item">
+      <div class="notification-content">
+        <div class="notification-message">
+          {{ notification.message }}
+        </div>
+        <div class="notification-time">
+          {{ notification.notificationDateTime | date : "medium" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
