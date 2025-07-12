@@ -1,19 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patientnavbar',
   standalone: true,
-  imports: [RouterModule], 
+  imports: [RouterModule],
   templateUrl: './patientnavbar.component.html',
-  styleUrls: ['./patientnavbar.component.css'] 
+  styleUrls: ['./patientnavbar.component.css']
 })
 export class PatientnavbarComponent {
+  userId = localStorage.getItem('userId') || '';
   constructor(private router: Router) {}
 
   logout() {
- 
+
     localStorage.removeItem('token');
     sessionStorage.clear();
     this.router.navigate(['/login']);
