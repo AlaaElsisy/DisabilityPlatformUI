@@ -1,9 +1,9 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { HelperProfile } from 'app/models/helper-profile.model';
 import { PatientProfile } from 'app/models/patient-profile.model';
 import { environment } from 'environments/environment';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +14,15 @@ export class UserProfileService {
   constructor(private http: HttpClient) {}
 
   getUserId(): string | null {
-    console.log('getUserId called', localStorage.getItem('userId'));
-
     return localStorage.getItem('userId');
   }
 
   getRole(): string | null {
-    console.log('getRole called');
-
     return localStorage.getItem('role');
   }
 
   getProfile(): Observable<PatientProfile | HelperProfile> {
     const userId = this.getUserId();
-    console.log('getProfile called with userId:', userId);
     const role = this.getRole();
 
     if (!userId || !role) {
@@ -41,5 +36,24 @@ export class UserProfileService {
     } else {
       return throwError(() => new Error('Unsupported role'));
     }
+  }
+
+  uploadProfileImage(fileData: FormData): Observable<{ imageUrl: string }> {
+    return this.http.post<{ imageUrl: string }>(
+      `${this.baseUrl}/upload-image`,
+      fileData
+    );
+  }
+
+  
+ updatePatientProfile(data: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/Patient`, data, {
+    observe: 'response'
+  });
+}
+
+
+  updateHelperProfile(data: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/Helper`, data);
   }
 }
