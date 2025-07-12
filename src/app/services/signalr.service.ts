@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
+import { ToastrService } from 'ngx-toastr';
+import { Notification } from '../../app/models/notification.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,7 @@ export class SignalrService {
   private hubConnection!: signalR.HubConnection;
   private userId: string = '';
 
-
+constructor(private toastr: ToastrService) {}
 
   startConnection(userId: string) {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -23,6 +25,20 @@ export class SignalrService {
       this.saveUserConnection(userId);
     })
       .catch(err => console.error('Error while starting SignalR connection: ', err));
+
+      this.listenToNotifications();
+  }
+
+  private listenToNotifications() {
+    this.hubConnection.on('ReceivedNotification', (notification: Notification) => {
+      console.log('Notification received:', notification);
+      this.toastr.info(notification.message, 'Notification');
+    });
+
+    this.hubConnection.on('ReceivedPersonalNotification', (notification: Notification, userId: string) => {
+      console.log(`Personal notification for ${userId}:`, notification);
+      this.toastr.info(notification.message, 'Personal Notification');
+    });
   }
 
   onNotification(callback: (message: string) => void) {
