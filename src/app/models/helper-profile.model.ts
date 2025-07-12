@@ -11,4 +11,6 @@ export interface HelperProfile {
   profileImage: string | null;
   createdAt: string;
  }
+  bio: string | null;
+
 }
