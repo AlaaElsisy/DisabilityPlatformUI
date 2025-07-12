@@ -38,6 +38,8 @@ export class SignalrService {
   }
 
   sendNotificationToClient(message: string, userId: string) {
+    console.log(message);
+    console.log(userId);
     return this.hubConnection.invoke('SendNotificationToClient', message, userId);
   }
 

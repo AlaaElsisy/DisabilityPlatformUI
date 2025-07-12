@@ -6,6 +6,8 @@ import { HelperservicesService } from 'core/services/helperservices.service';
 import { Ihelperservices } from 'core/interfaces/ihelperservices';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SignalrService } from 'app/services/signalr.service';
+import { DisabledDataService } from 'core/services/disabled-data.service';
 
 @Component({
   standalone: true,
@@ -18,6 +20,8 @@ export class ProviderOrdersComponent implements OnInit {
   private _ActivatedRoute = inject(ActivatedRoute);
   private _ProviderOrdersServicesService = inject(ProviderOrdersServicesService);
   private _helperService = inject(HelperservicesService);
+  private signalrService = inject(SignalrService);
+  private disabledDataService = inject(DisabledDataService);
 
   Orders: IproviderOrders[] = [];
   filteredOrders: IproviderOrders[] = [];
@@ -91,6 +95,7 @@ export class ProviderOrdersComponent implements OnInit {
     this.showConfirmModal = true;
   }
 
+  
   confirmAccept(event?: Event): void {
     if (event) event.stopPropagation();
     if (this.selectedOrderId != null) {
@@ -101,6 +106,11 @@ export class ProviderOrdersComponent implements OnInit {
           const otherOrders = this.Orders.filter(o => o.id !== acceptedId);
           otherOrders.forEach((order) => {
             this._ProviderOrdersServicesService.changeServiceStatus(order.id, 2).subscribe();
+            console.log(order.userId)
+            // Notify rejected users
+            if (order.userId) {
+              this.signalrService.sendNotificationToClient('Your order was not accepted.', order.userId);
+            }
           });
 
           this._ProviderOrdersServicesService.changeHelperServiceStatus(this.serviceId, 1).subscribe();
@@ -115,6 +125,12 @@ export class ProviderOrdersComponent implements OnInit {
 
           this.isAcceptedAlready = true;
           this.filterOrders();
+
+          // Notify accepted user
+          const acceptedOrder = this.Orders.find(o => o.id === acceptedId);
+          if (acceptedOrder && acceptedOrder.userId) {
+            this.signalrService.sendNotificationToClient('Your order has been accepted!', acceptedOrder.userId);
+          }
         },
         complete: () => {
           this.showConfirmModal = false;
