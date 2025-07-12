@@ -8,12 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class GetloggineduserDataService {
   private readonly _httpclient=inject(HttpClient)
+
   constructor() { }
   
   getuserData():Observable<any>{    
-     const token=localStorage.getItem('token');
-     const userId = localStorage.getItem('userId');
-      const headers = { Authorization: `${token}` };
-      return this._httpclient.get(`https://localhost:7037/api/UserProfile/helper?userId=${userId}`, { headers });
-  }
+    const token=localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+     const headers = { Authorization: `${token}` };
+     return this._httpclient.get(`https://localhost:7037/api/UserProfile/helper?userId=${userId}`, { headers });
+  }
 }

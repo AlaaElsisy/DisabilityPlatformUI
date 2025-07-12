@@ -47,19 +47,15 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/patient-serviceRequests">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            routerLink="/patient-serviceRequests"
+          >
             <i class="fas fa-inbox me-1"></i>My Requests
           </a>
         </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/patient-add-proposal"
-            routerLinkActive="active"
-          >
-            <i class="fas fa-plus-circle me-1"></i> New Offer
-          </a>
-        </li>
+
 
         <li class="nav-item">
           <a
@@ -72,6 +68,15 @@
         </li>
 
         <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            routerLink="/notification/{{ userId }}"
+          >
+            <i class="fas fa-bell fa-lg"></i>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" style="cursor: pointer" (click)="logout()">
             <i class="fas fa-sign-out-alt me-1"></i> Logout
           </a>
@@ -80,3 +85,4 @@
     </div>
   </div>
 </nav>
+

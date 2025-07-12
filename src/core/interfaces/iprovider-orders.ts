@@ -8,4 +8,5 @@ export interface IproviderOrders  {
   price: any
   disabledId: number
   helperServiceId: number
+  userId: string
 }

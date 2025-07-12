@@ -41,6 +41,7 @@ import { UserProfileViewComponent } from 'components/user-profile-view/user-prof
 import { ProviderOrdersComponent } from 'components/provider-orders/provider-orders.component';
 import { cantReturnToLoginGuard } from 'core/Guards/cant-return-to-login.guard';
 import { roleGuardsGuard } from 'core/Guards/role-guards.guard';
+import { NotificationsComponent } from 'components/notification/notification.component';
 
 
 
@@ -67,6 +68,8 @@ export const routes: Routes = [
    { path: 'applyoffer/:id', component: OneOfferWithPropozelsComponent, title: 'Offer Proposal' },
    { path: 'AddRequest/:id', component: HelperAddRequestToOfferComponent, title: 'New Request' },
    { path: 'test', component: TestNotificationComponent, title: 'test' },
+      { path: 'notification/:id', component: NotificationsComponent, title: 'notification' },
+
 
 
    { path: 'profile', component: UserProfileComponent, title: 'My Profile' },
@@ -102,6 +105,7 @@ export const routes: Routes = [
        { path: 'provider-request-payment', component: ProviderRequestPaymentComponent, title: 'Provider Request Payment' },
 
 
+      { path: 'notification/:id', component: NotificationsComponent, title: 'notification' },
 
 
       { path: 'test', component: TestNotificationComponent, title: 'test' },
