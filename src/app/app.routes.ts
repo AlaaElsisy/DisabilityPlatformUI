@@ -73,17 +73,17 @@ export const routes: Routes = [
 
    { path: 'profile', component: UserProfileComponent, title: 'My Profile' },
 
-     {
-       path: 'userprofile',
-  component: UserProfileViewComponent
-}
-,
+  
 
    { path: 'orders/:id', component: ProviderOrdersComponent, title: 'orders' },
 
 
   ]},
-
+   {
+       path: 'userprofile',
+  component: UserProfileViewComponent
+}
+,
   {
     path: '',
     component: PatientLayoutComponent,

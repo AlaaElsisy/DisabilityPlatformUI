@@ -3,11 +3,13 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class GetloggineduserDataService {
   private readonly _httpclient=inject(HttpClient)
+
   constructor() { }
   
   getuserData():Observable<any>{    
