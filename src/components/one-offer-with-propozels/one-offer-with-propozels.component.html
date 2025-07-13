@@ -35,7 +35,7 @@
 
     <div class="offer-footer">
       <div class="user-info" (click)="gotoPatientProfile(item.disabled.userId)">
-        <img [src]="item.disabled.profileImage || './hero.jpg'" alt="Profile image" class="user-avatar" />
+        <img [src]="item.disabled.profileImage || './Avatar.jpg'" alt="Profile image" class="user-avatar" />
         <div class="user-details-grid">
           <div class="user-meta">
             <h4 class="user-name"><i class="fas fa-user me-1"></i>Full Name</h4>
@@ -98,7 +98,8 @@
 <div *ngFor="let request of paginatedRequests; let i = index" class="request-card mt-3">
   
   <div class="request-header d-flex justify-content-between align-items-center">
-    <span class="fw-bold">Request #{{ (page - 1) * pageSize + i + 1 }}</span>
+    
+    <span class="fw-bold">Request {{ (page - 1) * pageSize + i + 1 }}</span>
     <span class="badge bg-info">{{ request.Request.status }}</span>
     <span>{{ request.Request.applicationDate | date:'MMM d, y - h:mm a' }}</span>
   </div>
@@ -107,7 +108,7 @@
   <p><strong>Total Price:</strong> {{ request.Request.totalPrice | currency:'EGP' }}</p>
 
   <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.userId)">
-    <strong>Provider:</strong> {{ request.providerData.fullName }} -
+    <strong><img [src]="request.providerData.profileImage||'./Avatar.jpg'" class="user-avatar" alt=""></strong> {{ request.providerData.fullName }} -
     {{ request.providerData.zone }}, {{ request.providerData.address }}
   </div>
 </div>

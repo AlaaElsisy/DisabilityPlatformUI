@@ -12,7 +12,7 @@ html {
 .overlay{
   width: 100%;
   height: 100vh;
-  background-color: rgba(0,0,0,0.4);
+background-color: rgba(0,0,0,0.6);
   position: absolute;
   top: 0;
   right: 0;
@@ -57,34 +57,40 @@ html {
 @keyframes typing
 {
     0% {content:"Here for You|"}
-    4% {content:"Here for Yo|"}
-    8% {content:"Here for |"}
-    12% {content:"Here fo|"}
-    16% {content:"Here| "}
-    20% {content:"Here|"}
-    24% {content:"Her|"}
-    28% {content:"He|"}
-    32% {content:"H|"}
+    3% {content:"Here for You|"}
+    6% {content:"Here for You|"}
+    9% {content:"Here for You|"}
+    12% {content:"Here for Yo|"}
+    15% {content:"Here for |"}
+    18% {content:"Here fo|"}
+    21% {content:"Here| "}
+    24% {content:"Here|"}
+    27% {content:"Her|"}
+    30% {content:"He|"}
+    33% {content:"H|"}
     36% {content:"|"}
-    40% {content:"su|"}
-    44% {content:"supp|"}
-    48% {content:"suppor|"}
-    52% {content:"support|"}
-    56% {content:"supporter|"}
-    60% {content:"suppor|"}
-    64% {content:"supp|"}
-    68% {content:"su|"}
-    72% {content:"s|"}
-    76% {content:"|"}
-    80% {content:"H|"}
-    84% {content:"Hel"}
-    86% {content:"Help|"}
-    88% {content:"Helper|"}
-    92% {content:"Helpe|"}
-    94% {content:"Hel|"}
-    96% {content:"He|"}
+    39% {content:"su|"}
+    42% {content:"supp|"}
+    45% {content:"suppor|"}
+    48% {content:"support|"}
+    51% {content:"supporter|"}
+    54% {content:"supporter|"}
+    57% {content:"suppor|"}
+  60% {content:"supp|"}
+   63% {content:"su|"}
+   66% {content:"s|"}
+    69% {content:"|"}
+   72% {content:"H|"}
+    75% {content:"Hel"}
+    78% {content:"Help|"}
+    81% {content:"Helper|"}
+    84% {content:"Helper|"}
+    87% {content:"Helpe|"}
+    90% {content:"Hel|"}
+    93% {content:"He|"}
     96% {content:"H|"}
     100% {content:"|"}
+  
   
 
 } 
@@ -377,7 +383,7 @@ swiper-slide {
 }
 
 .contact-title {
-  color: #0876CD;
+
   position: relative;
   display: inline-block;
 }
