@@ -59,12 +59,14 @@
   border-radius: 20px;
   padding: 5px 15px;
   transition: all 0.3s;
+   cursor: page;
 }
 
 .sign-out-btn:hover {
   background: #09c;
   color: white !important;
   box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+  cursor: pointer;
 }
 
 
@@ -82,4 +84,7 @@
 
 .nav-link:hover {
   color: #09c;
+}
+.icon:hover{
+  cursor: pointer;
 }

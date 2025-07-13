@@ -1,8 +1,13 @@
-<app-patientnavbar></app-patientnavbar>
-<section class="main-section">
-  <router-outlet></router-outlet>
-</section>
-<!-- Footer -->
-<section id="footer">
-    <app-footer></app-footer>
+<div  class="layout-wrapper">
+
+  <app-patientnavbar></app-patientnavbar>
+  <section class="main-content">
+    <router-outlet></router-outlet>
   </section>
+   <div class="position-fixed top-100 left-0 z-3 ">
+  <app-chatbot></app-chatbot>
+ </div>
+  
+      <app-footer></app-footer>
+    
+</div>

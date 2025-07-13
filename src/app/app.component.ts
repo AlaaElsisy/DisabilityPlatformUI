@@ -3,12 +3,13 @@ import { RouterOutlet } from '@angular/router';
 import { MainhomenavbarComponent } from "../components/mainhomenavbar/mainhomenavbar.component";
 import { AddPatientRequestComponent } from 'components/add-patient-request/add-patient-request.component';
 import { SignalrService } from './services/signalr.service';
+import { ChatbotComponent } from "components/chatbot/chatbot.component";
 
 
 @Component({
   selector: 'app-root',
    standalone: true,
-  imports: [RouterOutlet, MainhomenavbarComponent, AddPatientRequestComponent],
+  imports: [RouterOutlet, MainhomenavbarComponent, AddPatientRequestComponent, ChatbotComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
