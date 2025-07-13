@@ -37,7 +37,7 @@ export class OneOfferWithPropozelsComponent implements OnInit {
     searchTerm: '',
     status: '',
     minPrice: null as number | null,
-    maxPrice: null as number | null
+    maxPrice: null as number | null,
   };
 
   statusOptions: string[] = ['Pending', 'Accepted', 'Rejected', 'Cancelled'];
@@ -46,6 +46,15 @@ export class OneOfferWithPropozelsComponent implements OnInit {
   page: number = 1;
   pageSize: number = 3;
   totalPages: number = 0;
+
+  get paginatedRequests() {
+    const start = (this.page - 1) * this.pageSize;
+    return this.filteredRequests.slice(start, start + this.pageSize);
+  }
+
+  get totalPagesArray(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
 
   ngOnInit(): void {
     this.ActivatedRoute.paramMap.subscribe({
@@ -73,17 +82,17 @@ export class OneOfferWithPropozelsComponent implements OnInit {
                             this.RequestWithProviderData.push({ Request: request, providerData });
                             this.filterRequests();
                             this.cd.detectChanges();
-                          }
+                          },
                         });
                       });
-                    }
+                    },
                   });
-                }
+                },
               });
-            }
+            },
           });
         }
-      }
+      },
     });
   }
 
@@ -107,34 +116,36 @@ export class OneOfferWithPropozelsComponent implements OnInit {
     this.page = 1;
   }
 
-  get paginatedRequests() {
-    const start = (this.page - 1) * this.pageSize;
-    return this.filteredRequests.slice(start, start + this.pageSize);
+  changePage(step: number): void {
+    const newPage = this.page + step;
+    if (newPage >= 1 && newPage <= this.totalPages) {
+      this.page = newPage;
+    }
   }
 
-  changePage(step: number): void {
-    this.page += step;
-    if (this.page < 1) this.page = 1;
-    if (this.page > this.totalPages) this.page = this.totalPages;
+  changePageTo(pageNum: number): void {
+    if (pageNum >= 1 && pageNum <= this.totalPages) {
+      this.page = pageNum;
+    }
   }
 
   Apply(): void {
     this._Route.navigate([`/provider/AddRequest/${this.offerId}`]);
   }
 
-
   gotoproviderProfile(userId: string): void {
+
 
     this._Route.navigate(['/user-view-profile'], {
 
       queryParams: { userId, role: 'helper' }
+
     });
   }
 
   gotoPatientProfile(userId: string): void {
-
     this._Route.navigate(['/user-view-profile'], {
-      queryParams: { userId, role: 'patient' }
+      queryParams: { userId, role: 'patient' },
     });
   }
 }

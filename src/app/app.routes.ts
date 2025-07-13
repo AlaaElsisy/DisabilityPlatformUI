@@ -50,7 +50,7 @@ import { ChatbotComponent } from 'components/chatbot/chatbot.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'home',  pathMatch: 'full', title: 'Home' },
   { path: 'home', component: HomeComponent, title: 'Home' },
-
+{ path: 'chat', component: ChatbotComponent, title: 'chat' },
   { path: 'login', component: LoginComponent,canActivate: [cantReturnToLoginGuard], title: 'Login' },
   { path: 'register', component: RegisterComponent,canActivate: [cantReturnToLoginGuard], title: 'Register' },
   { path: 'about', component: NotfoundComponent },
@@ -113,7 +113,7 @@ export const routes: Routes = [
 
 
       { path: 'test', component: TestNotificationComponent, title: 'test' },
-      { path: 'chat', component: ChatbotComponent, title: 'chat' },
+      
 
 
 
@@ -127,8 +127,9 @@ export const routes: Routes = [
 
 },
 
-  { path: '**', component: NotfoundComponent }
 
+
+  { path: '**', component: NotfoundComponent },
 ];
 
 

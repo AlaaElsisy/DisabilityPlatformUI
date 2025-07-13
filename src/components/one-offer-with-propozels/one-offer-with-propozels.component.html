@@ -1,58 +1,39 @@
 <div class="offers-container">
   <!-- Offers Section -->
-  <div
-    *ngFor="let item of offersWithDisabledData; let i = index"
-    class="offer-card"
-  >
+  <div *ngFor="let item of offersWithDisabledData" class="offer-card">
     <div class="offer-header">
       <h3 class="offer-title">{{ item.offer.description }}</h3>
       <span class="offer-date">
         <i class="far fa-clock me-1"></i>
-        Posted: {{ item.offer.offerPostDate | date : "MMM d, y - h:mm a" }}
+        Posted: {{ item.offer.offerPostDate | date: 'MMM d, y - h:mm a' }}
       </span>
     </div>
 
     <div class="offer-details">
       <div class="detail-item">
-        <span class="detail-label"
-          ><i class="fas fa-wheelchair me-1"></i>Disability Type</span
-        >
+        <span class="detail-label"><i class="fas fa-wheelchair me-1"></i>Disability Type</span>
         <span class="disability-type">{{ item.disabled.disabilityType }}</span>
       </div>
-
       <div class="detail-item">
-        <span class="detail-label"
-          ><i class="fas fa-map-marker-alt me-1"></i>Location</span
-        >
+        <span class="detail-label"><i class="fas fa-map-marker-alt me-1"></i>Location</span>
         <span class="location">{{ item.disabled.address }}</span>
       </div>
-
       <div class="detail-item">
-        <span class="detail-label"
-          ><i class="fas fa-money-bill-wave me-1"></i>Budget</span
-        >
-        <span class="budget text-success">{{
-          item.offer.budget | currency : "EGP" : "symbol" : "1.0-0"
-        }}</span>
+        <span class="detail-label"><i class="fas fa-money-bill-wave me-1"></i>Budget</span>
+        <span class="budget text-success">
+          {{ item.offer.budget | currency: 'EGP' : 'symbol' : '1.0-0' }}
+        </span>
       </div>
-
       <div class="detail-item">
-        <span class="detail-label"
-          ><i class="fas fa-info-circle me-1"></i>Status</span
-        >
-        <span class="disability-type status-{{ item.offer.status }}">{{
-          item.offer.status
-        }}</span>
+        <span class="detail-label"><i class="fas fa-info-circle me-1"></i>Status</span>
+        <span class="disability-type status-{{ item.offer.status }}">{{ item.offer.status }}</span>
       </div>
     </div>
-
-    <div class="Under-data my-3"></div>
 
     <div class="offer-footer">
       <div class="user-info" (click)="gotoPatientProfile(item.disabled.userId)">
 
-        <img [src]="item.disabled.profileImage || './Avatar.jpg'" alt="Profile image" class="user-avatar" />
-
+        <img [src]="item.disabled.profileImage || './Avatar.jpg'" class="user-avatar" alt="Profile image" />
 
         <div class="user-details-grid">
           <div class="user-meta">
@@ -64,28 +45,24 @@
             <span class="user-bio">{{ item.disabled.address }}</span>
           </div>
           <div class="user-meta">
-            <h4 class="user-name">
-              <i class="fas fa-medal me-1"></i>Disability Type
-            </h4>
+            <h4 class="user-name"><i class="fas fa-medal me-1"></i>Disability Type</h4>
             <span class="user-bio">{{ item.disabled.disabilityType }}</span>
           </div>
           <div class="user-meta">
-            <h4 class="user-name">
-              <i class="fas fa-file-medical me-1"></i>Description
-            </h4>
-            <span class="user-bio">{{
-              item.disabled.medicalConditionDescription
-            }}</span>
+            <h4 class="user-name"><i class="fas fa-file-medical me-1"></i>Description</h4>
+            <span class="user-bio">{{ item.disabled.medicalConditionDescription }}</span>
           </div>
         </div>
       </div>
+
       <button class="apply-btn" (click)="Apply()">
         <i class="fas fa-paper-plane me-2"></i>Apply Now
       </button>
     </div>
   </div>
 </div>
-<div class="container">
+
+<div class="container mt-5">
   <div class="requests-header">
     <div class="d-flex justify-content-between align-items-center flex-wrap">
       <h5 class="requests-title">
@@ -99,11 +76,7 @@
 
     <div class="row mt-3 gx-2 gy-2">
       <div class="col-md-2">
-        <select
-          [(ngModel)]="filters.status"
-          (change)="filterRequests()"
-          class="form-select"
-        >
+        <select [(ngModel)]="filters.status" (change)="filterRequests()" class="form-select">
           <option value="">All Statuses</option>
           <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
         </select>
@@ -129,51 +102,34 @@
     </div>
   </div>
 
-  <div
-    *ngFor="let request of paginatedRequests; let i = index"
-    class="request-card mt-3"
-  >
-    <div
-      class="request-header d-flex justify-content-between align-items-center"
-    >
-      <span class="fw-bold">Request #{{ (page - 1) * pageSize + i + 1 }}</span>
+  <div *ngFor="let request of paginatedRequests; let i = index" class="request-card mt-3">
+    <div class="request-header d-flex justify-content-between align-items-center">
+      <span class="fw-bold">Request {{ (page - 1) * pageSize + i + 1 }}</span>
       <span class="badge bg-info">{{ request.Request.status }}</span>
-      <span>{{
-        request.Request.applicationDate | date : "MMM d, y - h:mm a"
-      }}</span>
+      <span>{{ request.Request.applicationDate | date: 'MMM d, y - h:mm a' }}</span>
     </div>
-
     <p class="mt-2"><strong>Message:</strong> {{ request.Request.message }}</p>
-    <p>
-      <strong>Total Price:</strong>
-      {{ request.Request.totalPrice | currency : "EGP" }}
-    </p>
 
-
-    <div
-      class="provider-info mt-2"
-      (click)="gotoproviderProfile(request.providerData.userId)"
-    >
-      <strong>Provider:</strong> {{ request.providerData.fullName }} -
-      {{ request.providerData.zone }}, {{ request.providerData.address }}
+    <p><strong>Total Price:</strong> {{ request.Request.totalPrice | currency: 'EGP' }}</p>
+    <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.userId)">
+      <strong><img [src]="request.providerData.profileImage || './Avatar.jpg'" class="user-avatar" alt=""></strong>
+      {{ request.providerData.fullName }} - {{ request.providerData.zone }}, {{ request.providerData.address }}
     </div>
 
-<div *ngFor="let request of paginatedRequests; let i = index" class="request-card mt-3">
-  
-  <div class="request-header d-flex justify-content-between align-items-center">
-    
-    <span class="fw-bold">Request {{ (page - 1) * pageSize + i + 1 }}</span>
-    <span class="badge bg-info">{{ request.Request.status }}</span>
-    <span>{{ request.Request.applicationDate | date:'MMM d, y - h:mm a' }}</span>
-
   </div>
 
-  <p class="mt-2"><strong>Message:</strong> {{ request.Request.message }}</p>
-  <p><strong>Total Price:</strong> {{ request.Request.totalPrice | currency:'EGP' }}</p>
-
-  <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.userId)">
-    <strong><img [src]="request.providerData.profileImage||'./Avatar.jpg'" class="user-avatar" alt=""></strong> {{ request.providerData.fullName }} -
-    {{ request.providerData.zone }}, {{ request.providerData.address }}
-
-  </div>
+  <!-- Pagination -->
+  <nav *ngIf="totalPages > 1" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="page === 1">
+        <a class="page-link" (click)="changePage(-1)">Previous</a>
+      </li>
+      <li *ngFor="let p of totalPagesArray" class="page-item" [class.active]="page === p">
+        <a class="page-link" (click)="changePageTo(p)">{{ p }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="page === totalPages">
+        <a class="page-link" (click)="changePage(1)">Next</a>
+      </li>
+    </ul>
+  </nav>
 </div>
