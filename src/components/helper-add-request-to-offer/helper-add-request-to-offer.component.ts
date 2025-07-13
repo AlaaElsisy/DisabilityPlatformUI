@@ -17,7 +17,7 @@ export class HelperAddRequestToOfferComponent implements OnInit {
   private readonly _router=inject(Router)
   private readonly _getlogginedUser = inject(GetloggineduserDataService);
   private readonly _HelperRequestsService = inject(HelperRequestsService);
-    private readonly _toster=inject(ToastrService)
+  private readonly _toster=inject(ToastrService)
 
   offerId!: number;
   helperId!: number;
@@ -49,7 +49,7 @@ export class HelperAddRequestToOfferComponent implements OnInit {
               this.helperId = res.id;
               console.log('Helper ID:', this.helperId);
 
-            
+
               this.addRequestForm = new FormGroup({
                 applicationDate: new FormControl(new Date().toISOString()),
                 status: new FormControl('Pending'),

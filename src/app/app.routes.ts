@@ -42,6 +42,7 @@ import { ProviderOrdersComponent } from 'components/provider-orders/provider-ord
 import { cantReturnToLoginGuard } from 'core/Guards/cant-return-to-login.guard';
 import { roleGuardsGuard } from 'core/Guards/role-guards.guard';
 import { NotificationsComponent } from 'components/notification/notification.component';
+import { ChatbotComponent } from 'components/chatbot/chatbot.component';
 
 
 
@@ -49,7 +50,7 @@ import { NotificationsComponent } from 'components/notification/notification.com
 export const routes: Routes = [
   { path: '', redirectTo: 'home',  pathMatch: 'full', title: 'Home' },
   { path: 'home', component: HomeComponent, title: 'Home' },
- 
+
   { path: 'login', component: LoginComponent,canActivate: [cantReturnToLoginGuard], title: 'Login' },
   { path: 'register', component: RegisterComponent,canActivate: [cantReturnToLoginGuard], title: 'Register' },
   { path: 'about', component: NotfoundComponent },
@@ -74,14 +75,17 @@ export const routes: Routes = [
 
    { path: 'profile', component: UserProfileComponent, title: 'My Profile' },
 
-    {path: 'userprofile', component: UserProfileViewComponent}
+     {
+       path: 'userprofile',
+  component: UserProfileViewComponent
+}
 ,
 
    { path: 'orders/:id', component: ProviderOrdersComponent, title: 'orders' },
 
 
   ]},
-  
+
   {
     path: '',
     component: PatientLayoutComponent,
@@ -109,8 +113,14 @@ export const routes: Routes = [
 
 
       { path: 'test', component: TestNotificationComponent, title: 'test' },
+      { path: 'chat', component: ChatbotComponent, title: 'chat' },
 
-  
+
+      {
+  path: 'user-view-profile',
+  component: UserProfileViewComponent
+  ,canActivate:[authGuardGuard,roleGuardsGuard]
+}
 
 
     ]
@@ -118,14 +128,18 @@ export const routes: Routes = [
   {
   path: 'user-view-profile',
   component: UserProfileViewComponent
-  
+
 },
+
   { path: '**', component: NotfoundComponent },
       {
   path: 'user-view-profile',
   component: UserProfileViewComponent
-  ,canActivate:[authGuardGuard,roleGuardsGuard]
-}
+   ,canActivate:[authGuardGuard,roleGuardsGuard]
+},
+
+  { path: '**', component: NotfoundComponent }
+
 ];
 
 
