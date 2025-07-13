@@ -1,12 +1,41 @@
-<div class="chatbot">
-  <input
-    #questionInput
-    type="text"
-    placeholder="Ask a question..."
-    class="form-control mb-2"
-  />
-  <button (click)="handleAsk()" class="btn btn-primary">Ask</button>
+ 
+<section class="chatbot-container">
+  <div class="chatbot-wrapper col-4">
+    <div class="chatbot d-flex flex-column">
+   
+      <div class="chat-header">
+        <div class="header-content">
+          <img src="assets/loginImg.png" alt="Disability Support Icon" class="header-icon">
+          <h2>EasAid</h2>
+        </div>
+      </div>
+      
+      <div class="chat-container" #chatContainer>
+        <div *ngFor="let message of messages" class="message" 
+             [class.user]="message.sender === 'user'" 
+             [class.bot]="message.sender === 'bot'">
+          <div class="message-content">
+            {{message.text}}
+          </div>
+          <div class="message-time">
+            {{message.timestamp | date:'shortTime'}}
+          </div>
+        </div>
+        <div #loading class="loading-indicator" style="display: none;">
+          <span id="spinner"></span> Thinking...
+        </div>
+      </div>
 
-  <div #loading class="mt-3 text-muted" style="display: none"></div>
-  <div #responseBox class="mt-2 border rounded p-2 bg-light"></div>
-</div>
+      <div class="input-area">
+        <input 
+          type="text" 
+          [(ngModel)]="userMessage" 
+          #questionInput 
+          placeholder="Type your question here..." 
+          (keyup.enter)="handleAsk()"
+        />
+        <button (click)="handleAsk()">Send</button>
+      </div>
+    </div>
+  </div>
+</section>
