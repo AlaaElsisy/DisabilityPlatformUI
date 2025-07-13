@@ -10,6 +10,7 @@ import { PaymentDataService } from 'app/services/payment/payment-data.service';
 import { DisabledRequestwithdetails } from 'app/models/disabled-requestwithdetails.model'; 
 import { GetloggineduserDataService } from 'core/services/getloggineduser-data.service';
 import { SignalrService } from 'app/services/signalr.service'; 
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-service-requests',
@@ -47,7 +48,7 @@ selectedRequestToComplete: any = null;
 
 
 
-  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService,private router: Router,private paymentDataService: PaymentDataService, private signalrService: SignalrService,  private getloggineduserDataService: GetloggineduserDataService) {}
+  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService,private router: Router,private paymentDataService: PaymentDataService, private signalrService: SignalrService,  private getloggineduserDataService: GetloggineduserDataService, private _toster: ToastrService) {}
 
  ngOnInit() {
    this.getloggineduserDataService.getuserData().subscribe(userId => {
@@ -151,7 +152,7 @@ document.body.classList.add('modal-open');
   closeDetailsModal() {
     this.selectedRequestDetails = null;
     this.showDetailsModal = false;
-    document.body.style.overflow = '';
+document.body.classList.remove('modal-open');
 
   }
 openEditModal(request: any): void {
@@ -203,12 +204,18 @@ console.log(JSON.stringify(updatedRequest, null, 2));
   this.requestService.updateRequest(updatedRequest).subscribe({
     next: () => {
      // alert('Request updated successfully!');
+      this._toster.success('Request updated successfully!', 'Update Successful', {
+        positionClass: 'toast-top-center'
+      });
       this.fetchRequests();
       this.closeEditModal();
     },
     error: (err) => {
       console.error("Update failed:", err);
      // alert('Error updating request. Please try again.');
+      this._toster.error('Error updating request. Please try again.', 'Update Failed', {
+        positionClass: 'toast-top-center'
+      });
     }
   });
 }
@@ -216,7 +223,7 @@ console.log(JSON.stringify(updatedRequest, null, 2));
 closeEditModal() {
   this.selectedRequestToEdit = null;
   this.showEditModal = false;
-  document.body.style.overflow = '';
+document.body.classList.remove('modal-open');
 }
 canEdit(request: any): boolean {
   return request.status === 'Pending';
@@ -278,7 +285,7 @@ confirmCancelRequest(request: any) {
 openCompleteModal(request: any) {
   this.selectedRequestToComplete = request;
   this.showCompleteModal = true;
-  document.body.style.overflow = 'hidden';
+document.body.classList.add('modal-open');
 }
 confirmCompleteRequest(request: DisabledRequest | null | undefined) {
   if (!request || !request.id) {
@@ -329,12 +336,18 @@ cancelRequest(request: any) {
   if (confirm("Are you sure you want to cancel this request?")) {
     this.requestService.patchStatus(request.id, 'Cancelled').subscribe({
       next: () => {
-        alert("Request cancelled successfully.");
+       // alert("Request cancelled successfully.");
+        this._toster.success('Request cancelled successfully.', 'Cancellation Successful', {
+          positionClass: 'toast-top-center'
+        });
         this.fetchRequests();
       },
       error: (err) => {
         console.error('Failed to cancel request:', err);
-        alert("Cancel failed.");
+        //alert("Cancel failed.");
+        this._toster.error('Cancel failed.', 'Cancellation Failed', {
+          positionClass: 'toast-top-center'
+        });
       }
     });
   }
@@ -346,19 +359,28 @@ markAsComplete(request: any) {
   if (confirm("Are you sure you want to mark this request as completed?")) {
     this.requestService.patchStatus(request.id, 'Completed').subscribe({
       next: () => {
-        alert("Request marked as completed.");
+       // alert("Request marked as completed.");
+        this._toster.success('Request marked as completed.', 'Completion Successful', {
+          positionClass: 'toast-top-center'
+        });
         this.fetchRequests();
       },
       error: (err) => {
         console.error('Failed to complete request:', err);
-        alert("Failed to mark request as completed.");
+      //  alert("Failed to mark request as completed.");
+        this._toster.error('Failed to mark request as completed.', 'Completion Failed', {
+          positionClass: 'toast-top-center'
+        });
       }
     });
   }
 }
 
 showBlockedDeleteModal() {
-  alert("You can't delete this request unless it's Pending or Rejected.");
+ // alert("You can't delete this request unless it's Pending or Rejected.");
+  this._toster.error("You can't delete this request unless it's Pending or Rejected.", 'Delete Blocked', {
+    positionClass: 'toast-top-center'
+  });
 }
 
 }

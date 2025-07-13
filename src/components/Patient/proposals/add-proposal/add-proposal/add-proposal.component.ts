@@ -27,14 +27,18 @@ export class AddProposalComponent implements OnInit {
   selectedCategoryId: string | null = null;
 
   constructor() {
-    this.serviceForm = this.formBuilder.group({
-      serviceNeededId: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      startDateTime: ['', Validators.required],
-      endDateTime: ['', Validators.required],
-      location: ['', [Validators.required, Validators.minLength(5)]],
-      expectedCost: ['', [Validators.required, Validators.min(0)]]
-    });
+   this.serviceForm = this.formBuilder.group(
+  {
+    serviceNeededId: ['', Validators.required],
+    description: ['', [Validators.required, Validators.minLength(20)]],
+    startDateTime: ['', Validators.required],
+    endDateTime: ['', Validators.required],
+    location: ['', [Validators.required, Validators.minLength(5)]],
+    expectedCost: ['', [Validators.required, Validators.min(0)]],
+  },
+  { validators: this.dateValidator }
+);
+
   }
 
   ngOnInit(): void {
@@ -56,6 +60,24 @@ export class AddProposalComponent implements OnInit {
     const field = this.serviceForm.get(fieldName);
     return !!field && field.invalid && (field.dirty || field.touched);
   }
+dateValidator(group: FormGroup) {
+  const start = new Date(group.get('startDateTime')?.value);
+  const end = new Date(group.get('endDateTime')?.value);
+  const now = new Date();
+  now.setSeconds(0, 0); 
+
+  const errors: any = {};
+
+  if (start < now) {
+    errors.startInPast = true;
+  }
+
+  if (end <start) {
+    errors.endBeforeStart = true;
+  }
+
+  return Object.keys(errors).length > 0 ? errors : null;
+}
 
   onSubmit(): void {
     if (this.serviceForm.invalid) {

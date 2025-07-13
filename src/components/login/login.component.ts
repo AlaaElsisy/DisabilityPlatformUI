@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private _toster: ToastrService,
     private authService: AuthService
   ) {}
 
@@ -40,6 +42,7 @@ export class LoginComponent implements OnInit {
         ]
       ]
     });
+    
   }
 
   decodeToken(token: string): any {
@@ -80,7 +83,10 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           console.error('Login error:', err);
-          alert('Invalid email or password!');
+         // alert('Invalid email or password!');
+          this._toster.error('Invalid email or password!', 'Login Failed', {
+            positionClass: 'toast-top-center'});
+
         }
       });
     }
