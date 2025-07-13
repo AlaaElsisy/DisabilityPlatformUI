@@ -29,7 +29,7 @@
     <div *ngFor="let service of paginatedServices" class="service-card">
       <div class="card-header">
         <div class="service-info">
-          <h3 class="service-title">{{ service.description.split(' ', 1).join(' ') }}</h3>
+          <h3 class="service-title">{{ service.description.split(' ', 5).join(' ') }}</h3>
           <span class="service-rate">{{ service.pricePerHour }} EGP/hour</span>
         </div>
         <span class="status-badge" [ngClass]="{
