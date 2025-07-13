@@ -300,6 +300,7 @@
   <!-- Edit Modal -->
   <div class="modal-overlay" *ngIf="showEditModal">
     <div class="modal-dialog">
+      <button class="modal-close-btn" (click)="closeEditModal()" aria-label="Close">&times;</button>
       <h3>Edit Offer</h3>
       <p *ngIf="editErrorMessage">{{ editErrorMessage }}</p>
       <div *ngIf="!editErrorMessage && editOfferData">
