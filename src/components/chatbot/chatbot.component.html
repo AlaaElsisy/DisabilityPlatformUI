@@ -1,0 +1,12 @@
+<div class="chatbot">
+  <input
+    #questionInput
+    type="text"
+    placeholder="Ask a question..."
+    class="form-control mb-2"
+  />
+  <button (click)="handleAsk()" class="btn btn-primary">Ask</button>
+
+  <div #loading class="mt-3 text-muted" style="display: none"></div>
+  <div #responseBox class="mt-2 border rounded p-2 bg-light"></div>
+</div>
