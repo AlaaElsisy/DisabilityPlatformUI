@@ -50,7 +50,9 @@
 
     <div class="offer-footer">
       <div class="user-info" (click)="gotoPatientProfile(item.disabled.userId)">
+
         <img [src]="item.disabled.profileImage || './Avatar.jpg'" alt="Profile image" class="user-avatar" />
+
 
         <div class="user-details-grid">
           <div class="user-meta">
@@ -147,6 +149,15 @@
       {{ request.Request.totalPrice | currency : "EGP" }}
     </p>
 
+
+    <div
+      class="provider-info mt-2"
+      (click)="gotoproviderProfile(request.providerData.userId)"
+    >
+      <strong>Provider:</strong> {{ request.providerData.fullName }} -
+      {{ request.providerData.zone }}, {{ request.providerData.address }}
+    </div>
+
 <div *ngFor="let request of paginatedRequests; let i = index" class="request-card mt-3">
   
   <div class="request-header d-flex justify-content-between align-items-center">
@@ -154,6 +165,7 @@
     <span class="fw-bold">Request {{ (page - 1) * pageSize + i + 1 }}</span>
     <span class="badge bg-info">{{ request.Request.status }}</span>
     <span>{{ request.Request.applicationDate | date:'MMM d, y - h:mm a' }}</span>
+
   </div>
 
   <p class="mt-2"><strong>Message:</strong> {{ request.Request.message }}</p>

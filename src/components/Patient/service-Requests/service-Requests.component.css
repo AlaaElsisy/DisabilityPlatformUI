@@ -751,7 +751,9 @@ stroke: #e53935;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 9999 !important;
+position: relative !important;
+
 }
 
 .modal-dialog1 {
@@ -762,6 +764,9 @@ stroke: #e53935;
   max-width: 90%;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.3s ease-in-out;
+  z-index: 9999 !important;
+position: relative !important;
+
 }
 
 .modal-title {
@@ -806,6 +811,9 @@ stroke: #e53935;
   font-weight: bold;
   cursor: pointer;
   transition: background 0.2s;
+  z-index: 9999 !important;
+position: relative !important;
+
 }
 
 .modal-confirm-btn:hover {
@@ -820,8 +828,30 @@ stroke: #e53935;
 .clickable {
   cursor: pointer;
   transition: background-color 0.2s ease;
+  z-index: 9999 !important;
+position: relative !important;
+
 }
 
 .clickable:hover {
   background-color: #f4f4f4;
+}
+.helper-name-clickable {
+  cursor: pointer;
+  color: #0876CD;
+  text-decoration: underline;
+  z-index: 9999 !important;
+  position: relative;
+}
+
+.helper-name-clickable:hover {
+  color: #065a9f;
+}
+.modal-dialog * {
+  pointer-events: auto !important;
+  z-index: 9999 !important;
+  position: relative !important;
+}
+body.modal-open {
+  overflow: hidden !important;
 }
