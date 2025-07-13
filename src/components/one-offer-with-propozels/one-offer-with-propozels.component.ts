@@ -122,6 +122,7 @@ export class OneOfferWithPropozelsComponent implements OnInit {
     this._Route.navigate([`/provider/AddRequest/${this.offerId}`]);
   }
 
+<<<<<<< HEAD
   gotoproviderProfile(userId: string): void {
     this._Route.navigate(['/user-view-profile'], {
       queryParams: { userId, role: 'Helper' }
@@ -129,6 +130,15 @@ export class OneOfferWithPropozelsComponent implements OnInit {
   }
 
   gotoPatientProfile(userId: string): void {
+=======
+  gotoproviderProfile(userId: number): void {
+    this._Route.navigate(['/provider/userprofile'], {
+      queryParams: { userId, role: 'helper' }
+    });
+  }
+
+  gotoPatientProfile(userId: number): void {
+>>>>>>> c9a9f92db85741100efd5d8588688caaf9dcad9c
     this._Route.navigate(['/user-view-profile'], {
       queryParams: { userId, role: 'patient' }
     });

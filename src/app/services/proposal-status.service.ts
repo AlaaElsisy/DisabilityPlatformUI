@@ -14,15 +14,15 @@ export class ProposalStatusService {
   ) {}
 
   markCompleted(proposal: any, offerId: number): Observable<any> {
+    console.log("skldfnjksdnfjksd,fnjksdnfjkdnfjksdnjkfnjksdnfjksdnf")
     if (!proposal.id || !offerId) return of(null);
+    console.log(proposal);
     return this.helperRequestService.updateProposalStatus(proposal.id, 'Completed').pipe(
       switchMap(() =>
         this.disabledOfferService.updateOfferStatus(offerId, 'Completed').pipe(
           switchMap(() => {
-            console.log(proposal)
-            const message = `${proposal.helperName} has completed your proposal for service: '${proposal.service}'.`;
             this.signalrService.sendNotificationToClient(
-              message,
+              'Your proposal has been marked as completed!',
               proposal.userId || proposal.helperId?.toString()
             );
             return of({ success: true });
@@ -41,10 +41,8 @@ export class ProposalStatusService {
       switchMap(() =>
         this.disabledOfferService.updateOfferStatus(offerId, 'Pending').pipe(
           switchMap(() => {
-            console.log(proposal)
-            const acceptedMessage = `Your proposal: '${proposal.message}' has been accepted!`;
             this.signalrService.sendNotificationToClient(
-              acceptedMessage,
+              'Your proposal has been accepted!',
               proposal.userId || proposal.helperId?.toString()
             );
             return this.helperRequestService.getProposalsByOfferId(offerId, { pageNumber: 1, pageSize: 1000 }).pipe(
@@ -56,9 +54,8 @@ export class ProposalStatusService {
                 allProposals
                   .filter((p: any) => p.id !== proposal.id && p.status !== 'Rejected' && p.status !== 'Completed')
                   .forEach((p: any) => {
-                    const rejectedMessage = `Your proposal: '${p.message}' was not accepted.`;
                     this.signalrService.sendNotificationToClient(
-                      rejectedMessage,
+                      'Your proposal was not accepted.',
                       p.userId || p.helperId?.toString()
                     );
                   });
@@ -84,9 +81,8 @@ export class ProposalStatusService {
       switchMap(() =>
         this.disabledOfferService.updateOfferStatus(offerId, 'Cancelled').pipe(
           switchMap(() => {
-            const message = `Your proposal: '${proposal.message}' has been cancelled by ${proposal.disabledName}.`;
             this.signalrService.sendNotificationToClient(
-              message,
+              'Your proposal has been cancelled by the patient.',
               proposal.userId || proposal.helperId?.toString()
             );
             return of({ success: true });
@@ -98,4 +94,4 @@ export class ProposalStatusService {
       })
     );
   }
-} 
+}

@@ -34,7 +34,11 @@
     <div class="Under-data my-3"></div>
 
     <div class="offer-footer">
+<<<<<<< HEAD
       <div class="user-info" (click)="gotoPatientProfile(item.disabled.userId)">
+=======
+      <div class="user-info" (click)="gotoPatientProfile(item.disabled.id)">
+>>>>>>> c9a9f92db85741100efd5d8588688caaf9dcad9c
         <img [src]="item.disabled.profileImage || './hero.jpg'" alt="Profile image" class="user-avatar" />
         <div class="user-details-grid">
           <div class="user-meta">
@@ -106,7 +110,11 @@
   <p class="mt-2"><strong>Message:</strong> {{ request.Request.message }}</p>
   <p><strong>Total Price:</strong> {{ request.Request.totalPrice | currency:'EGP' }}</p>
 
+<<<<<<< HEAD
   <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.userId)">
+=======
+  <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.id)">
+>>>>>>> c9a9f92db85741100efd5d8588688caaf9dcad9c
     <strong>Provider:</strong> {{ request.providerData.fullName }} -
     {{ request.providerData.zone }}, {{ request.providerData.address }}
   </div>
