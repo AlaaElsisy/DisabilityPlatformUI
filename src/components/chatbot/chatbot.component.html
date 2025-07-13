@@ -1,7 +1,12 @@
-<div class="chat-container">
-  <div class="chat-box" #chatBox></div>
-  <div class="input-area">
-    <input type="text" [(ngModel)]="userText" (keyup.enter)="handleUserInput()" placeholder="Type your message..." />
-    <button (click)="handleUserInput()">Send</button>
-  </div>
+<div class="chatbot">
+  <input
+    #questionInput
+    type="text"
+    placeholder="Ask a question..."
+    class="form-control mb-2"
+  />
+  <button (click)="handleAsk()" class="btn btn-primary">Ask</button>
+
+  <div #loading class="mt-3 text-muted" style="display: none"></div>
+  <div #responseBox class="mt-2 border rounded p-2 bg-light"></div>
 </div>

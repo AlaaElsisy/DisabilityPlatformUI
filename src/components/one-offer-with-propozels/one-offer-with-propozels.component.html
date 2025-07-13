@@ -1,45 +1,60 @@
 <div class="offers-container">
   <!-- Offers Section -->
-  <div *ngFor="let item of offersWithDisabledData; let i = index" class="offer-card">
+  <div
+    *ngFor="let item of offersWithDisabledData; let i = index"
+    class="offer-card"
+  >
     <div class="offer-header">
       <h3 class="offer-title">{{ item.offer.description }}</h3>
       <span class="offer-date">
         <i class="far fa-clock me-1"></i>
-        Posted: {{ item.offer.offerPostDate | date: 'MMM d, y - h:mm a' }}
+        Posted: {{ item.offer.offerPostDate | date : "MMM d, y - h:mm a" }}
       </span>
     </div>
 
     <div class="offer-details">
       <div class="detail-item">
-        <span class="detail-label"><i class="fas fa-wheelchair me-1"></i>Disability Type</span>
+        <span class="detail-label"
+          ><i class="fas fa-wheelchair me-1"></i>Disability Type</span
+        >
         <span class="disability-type">{{ item.disabled.disabilityType }}</span>
       </div>
 
       <div class="detail-item">
-        <span class="detail-label"><i class="fas fa-map-marker-alt me-1"></i>Location</span>
+        <span class="detail-label"
+          ><i class="fas fa-map-marker-alt me-1"></i>Location</span
+        >
         <span class="location">{{ item.disabled.address }}</span>
       </div>
 
       <div class="detail-item">
-        <span class="detail-label"><i class="fas fa-money-bill-wave me-1"></i>Budget</span>
-        <span class="budget text-success">{{ item.offer.budget | currency:'EGP':'symbol':'1.0-0' }}</span>
+        <span class="detail-label"
+          ><i class="fas fa-money-bill-wave me-1"></i>Budget</span
+        >
+        <span class="budget text-success">{{
+          item.offer.budget | currency : "EGP" : "symbol" : "1.0-0"
+        }}</span>
       </div>
-      
+
       <div class="detail-item">
-        <span class="detail-label"><i class="fas fa-info-circle me-1"></i>Status</span>
-        <span class="disability-type status-{{item.offer.status}}">{{ item.offer.status }}</span>
+        <span class="detail-label"
+          ><i class="fas fa-info-circle me-1"></i>Status</span
+        >
+        <span class="disability-type status-{{ item.offer.status }}">{{
+          item.offer.status
+        }}</span>
       </div>
     </div>
 
     <div class="Under-data my-3"></div>
 
     <div class="offer-footer">
-<<<<<<< HEAD
-      <div class="user-info" (click)="gotoPatientProfile(item.disabled.userId)">
-=======
       <div class="user-info" (click)="gotoPatientProfile(item.disabled.id)">
->>>>>>> c9a9f92db85741100efd5d8588688caaf9dcad9c
-        <img [src]="item.disabled.profileImage || './hero.jpg'" alt="Profile image" class="user-avatar" />
+        <img
+          [src]="item.disabled.profileImage || './hero.jpg'"
+          alt="Profile image"
+          class="user-avatar"
+        />
         <div class="user-details-grid">
           <div class="user-meta">
             <h4 class="user-name"><i class="fas fa-user me-1"></i>Full Name</h4>
@@ -50,12 +65,18 @@
             <span class="user-bio">{{ item.disabled.address }}</span>
           </div>
           <div class="user-meta">
-            <h4 class="user-name"><i class="fas fa-medal me-1"></i>Disability Type</h4>
+            <h4 class="user-name">
+              <i class="fas fa-medal me-1"></i>Disability Type
+            </h4>
             <span class="user-bio">{{ item.disabled.disabilityType }}</span>
           </div>
           <div class="user-meta">
-            <h4 class="user-name"><i class="fas fa-file-medical me-1"></i>Description</h4>
-            <span class="user-bio">{{ item.disabled.medicalConditionDescription  }}</span>
+            <h4 class="user-name">
+              <i class="fas fa-file-medical me-1"></i>Description
+            </h4>
+            <span class="user-bio">{{
+              item.disabled.medicalConditionDescription
+            }}</span>
           </div>
         </div>
       </div>
@@ -66,68 +87,96 @@
   </div>
 </div>
 <div class="container">
-<div class="requests-header">
-  <div class="d-flex justify-content-between align-items-center flex-wrap">
-    <h5 class="requests-title">
-      <i class="fas fa-list-alt me-2"></i>Requests for this Offer
-    </h5>
-    <span class="requests-count">
-      <span class="badge bg-primary me-2">{{ totalpropozel }}</span>
-      Showing: {{ filteredRequests.length }} requests
-    </span>
-  </div>
-
-  <div class="row mt-3 gx-2 gy-2">
-    
-    <div class="col-md-2">
-      <select [(ngModel)]="filters.status" (change)="filterRequests()" class="form-select">
-        <option value="">All Statuses</option>
-        <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
-      </select>
+  <div class="requests-header">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <h5 class="requests-title">
+        <i class="fas fa-list-alt me-2"></i>Requests for this Offer
+      </h5>
+      <span class="requests-count">
+        <span class="badge bg-primary me-2">{{ totalpropozel }}</span>
+        Showing: {{ filteredRequests.length }} requests
+      </span>
     </div>
-    <div class="col-md-2">
-      <input [(ngModel)]="filters.minPrice" (ngModelChange)="filterRequests()" type="number" class="form-control"
-        placeholder="Min Price" />
+
+    <div class="row mt-3 gx-2 gy-2">
+      <div class="col-md-2">
+        <select
+          [(ngModel)]="filters.status"
+          (change)="filterRequests()"
+          class="form-select"
+        >
+          <option value="">All Statuses</option>
+          <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <input
+          [(ngModel)]="filters.minPrice"
+          (ngModelChange)="filterRequests()"
+          type="number"
+          class="form-control"
+          placeholder="Min Price"
+        />
+      </div>
+      <div class="col-md-2">
+        <input
+          [(ngModel)]="filters.maxPrice"
+          (ngModelChange)="filterRequests()"
+          type="number"
+          class="form-control"
+          placeholder="Max Price"
+        />
+      </div>
     </div>
-    <div class="col-md-2">
-      <input [(ngModel)]="filters.maxPrice" (ngModelChange)="filterRequests()" type="number" class="form-control"
-        placeholder="Max Price" />
+  </div>
+
+  <div
+    *ngFor="let request of paginatedRequests; let i = index"
+    class="request-card mt-3"
+  >
+    <div
+      class="request-header d-flex justify-content-between align-items-center"
+    >
+      <span class="fw-bold">Request #{{ (page - 1) * pageSize + i + 1 }}</span>
+      <span class="badge bg-info">{{ request.Request.status }}</span>
+      <span>{{
+        request.Request.applicationDate | date : "MMM d, y - h:mm a"
+      }}</span>
+    </div>
+
+    <p class="mt-2"><strong>Message:</strong> {{ request.Request.message }}</p>
+    <p>
+      <strong>Total Price:</strong>
+      {{ request.Request.totalPrice | currency : "EGP" }}
+    </p>
+
+    <div
+      class="provider-info mt-2"
+      (click)="gotoproviderProfile(request.providerData.id)"
+    >
+      <strong>Provider:</strong> {{ request.providerData.fullName }} -
+      {{ request.providerData.zone }}, {{ request.providerData.address }}
     </div>
   </div>
-</div>
 
-
-
-
-<div *ngFor="let request of paginatedRequests; let i = index" class="request-card mt-3">
-  
-  <div class="request-header d-flex justify-content-between align-items-center">
-    <span class="fw-bold">Request #{{ (page - 1) * pageSize + i + 1 }}</span>
-    <span class="badge bg-info">{{ request.Request.status }}</span>
-    <span>{{ request.Request.applicationDate | date:'MMM d, y - h:mm a' }}</span>
+  <!-- Pagination -->
+  <div
+    class="pagination-controls mt-4 d-flex justify-content-between align-items-center"
+  >
+    <button
+      class="btn btn-outline-primary"
+      (click)="changePage(-1)"
+      [disabled]="page === 1"
+    >
+      <i class="fas fa-arrow-left me-1"></i>Previous
+    </button>
+    <span>Page {{ page }} of {{ totalPages }}</span>
+    <button
+      class="btn btn-outline-primary"
+      (click)="changePage(1)"
+      [disabled]="page === totalPages"
+    >
+      Next<i class="fas fa-arrow-right ms-1"></i>
+    </button>
   </div>
-
-  <p class="mt-2"><strong>Message:</strong> {{ request.Request.message }}</p>
-  <p><strong>Total Price:</strong> {{ request.Request.totalPrice | currency:'EGP' }}</p>
-
-<<<<<<< HEAD
-  <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.userId)">
-=======
-  <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.id)">
->>>>>>> c9a9f92db85741100efd5d8588688caaf9dcad9c
-    <strong>Provider:</strong> {{ request.providerData.fullName }} -
-    {{ request.providerData.zone }}, {{ request.providerData.address }}
-  </div>
-</div>
-
-<!-- Pagination -->
-<div class="pagination-controls mt-4 d-flex justify-content-between align-items-center">
-  <button class="btn btn-outline-primary" (click)="changePage(-1)" [disabled]="page === 1">
-    <i class="fas fa-arrow-left me-1"></i>Previous
-  </button>
-  <span>Page {{ page }} of {{ totalPages }}</span>
-  <button class="btn btn-outline-primary" (click)="changePage(1)" [disabled]="page === totalPages">
-    Next<i class="fas fa-arrow-right ms-1"></i>
-  </button>
-</div>
 </div>

@@ -11,22 +11,17 @@
     <input class="form-control" [(ngModel)]="userId" />
   </div>
 
-  <button class="btn btn-primary me-2" (click)="sendToAll()">Send To All</button>
+  <button class="btn btn-primary me-2" (click)="sendToAll()">
+    Send To All
+  </button>
   <button class="btn btn-success" (click)="sendToUser()">Send To User</button>
 
   <hr />
 
   <h5>📝 Received Notifications</h5>
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let msg of receivedMessages">{{ msg }}</li>
+    <li class="list-group-item" *ngFor="let msg of receivedMessages">
+      {{ msg }}
+    </li>
   </ul>
-<<<<<<< HEAD
 </div>
-
-=======
-
-  
-</div>
-
-
->>>>>>> c9a9f92db85741100efd5d8588688caaf9dcad9c

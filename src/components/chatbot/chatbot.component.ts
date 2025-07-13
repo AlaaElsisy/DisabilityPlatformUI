@@ -11,74 +11,94 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './chatbot.component.html',
   styleUrl: './chatbot.component.css'
 })
- 
+
 export class ChatbotComponent {
-  @ViewChild('chatBox') chatBox!: ElementRef;
-  userText: string = '';
+  @ViewChild('questionInput') questionInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('loading') loadingRef!: ElementRef<HTMLElement>;
+  @ViewChild('responseBox') responseBox!: ElementRef<HTMLElement>;
 
-  HF_TOKEN = '';
-  API_URL = 'https://router.huggingface.co/together/v1/chat/completions';
-  MODEL_ID = 'mistralai/Mixtral-8x7B-Instruct-v0.1';
-  MAX_HISTORY = 10;
+  OPENAI_API_KEY: string = "";
+  PROVIDER: string = "together";
+  MODEL: string = "mistralai/Mixtral-8x7B-Instruct-v0.1";
+  ENDPOINT: string = `https://router.huggingface.co/${this.PROVIDER}/v1/chat/completions`;
 
-  messages: any[] = [
-    {
-      role: 'system',
-      content: 'You are a helpful assistant for the Disability Support System...'
-    }
+  chunks: string[] = [
+   "The Disability Management System allows users with disabilities to register, search for support providers, and communicate with caregivers.",
+  "Support providers can create offers and receive requests from users through the platform.",
+  "The system includes a chatbot to assist users with frequently asked questions and navigation help.",
+  "Users can filter offers by type of disability, location, and service type.",
+  "Each offer includes details like provider name, service description, and availability dates.",
+  "Notifications are sent to users when new offers match their needs.",
+  "Admins can manage users, providers, and review feedback submitted on services.",
+  "The platform supports real-time messaging using SignalR between users and providers."
   ];
 
-  constructor(private http: HttpClient) {}
-
-  appendMessage(role: string, content: string) {
-    const msg = document.createElement('div');
-    msg.className = `messageDiv ${role === 'user' ? 'user-message' : 'bot-message'}`;
-    msg.textContent = content;
-    this.chatBox.nativeElement.appendChild(msg);
-    this.chatBox.nativeElement.scrollTop = this.chatBox.nativeElement.scrollHeight;
+  retrieveRelevantChunks(q: string): string[] {
+    const lower = q.toLowerCase();
+    return this.chunks.filter(
+      (chunk) =>
+        chunk.toLowerCase().includes("tesla") ||
+        (lower.includes("revenue") && lower.includes("revenue")) ||
+        (lower.includes("income") && lower.includes("income"))
+    );
   }
 
-  handleUserInput() {
-    if (!this.userText.trim()) return;
-
-    const userMessage = this.userText;
-    this.appendMessage('user', userMessage);
-    this.messages.push({ role: 'user', content: userMessage });
-    this.userText = '';
-
-    const loading = document.createElement('div');
-    loading.className = 'messageDiv bot-message';
-    loading.textContent = 'Loading...';
-    this.chatBox.nativeElement.appendChild(loading);
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.HF_TOKEN}`,
-      'Content-Type': 'application/json'
-    });
-
-    const body = {
-      model: this.MODEL_ID,
-      messages: this.messages,
-      temperature: 0.7,
-      max_tokens: 256
-    };
-
-    this.http.post<any>(this.API_URL, body, { headers }).subscribe({
-      next: res => {
-        loading.remove();
-        const reply = res.choices[0]?.message?.content || 'No reply.';
-        this.appendMessage('bot', reply);
-        this.messages.push({ role: 'assistant', content: reply });
-
-        if (this.messages.length > this.MAX_HISTORY * 2 + 1) {
-          this.messages.splice(1, 2);
-        }
+  buildPrompt(q: string, ctx: string[]): any[] {
+    return [
+      {
+        role: "system",
+        content:
+          "You are a helpful assistant that answers questions based on the provided context.",
       },
-      error: err => {
-        console.error('API error', err);
-        loading.textContent = 'Error occurred';
-        this.appendMessage('bot', 'Sorry, an error happened.');
-      }
+      {
+        role: "user",
+        content: `Context:\n${ctx.join("\n")}\n\nQuestion: ${q}`,
+      },
+    ];
+  }
+
+  async handleAsk(): Promise<void> {
+    const q = this.questionInput.nativeElement.value.trim();
+    if (!q) {
+      alert("Please enter a question.");
+      return;
+    }
+
+    this.responseBox.nativeElement.innerText = "";
+    this.loadingRef.nativeElement.innerHTML = `<span id="spinner"></span> Thinking...`;
+    this.loadingRef.nativeElement.style.display = "block";
+
+    const ctx = this.retrieveRelevantChunks(q);
+    const messages = this.buildPrompt(q, ctx);
+
+    const body = JSON.stringify({
+      model: this.MODEL,
+      messages,
+      temperature: 0.7,
+      max_tokens: 300,
     });
+
+    try {
+      const res = await fetch(this.ENDPOINT, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.OPENAI_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body,
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Error: ${res.status} - ${errorText}`);
+      }
+
+      const data = await res.json();
+      this.responseBox.nativeElement.innerText = data.choices[0].message.content;
+    } catch (error: any) {
+      this.responseBox.nativeElement.innerText = `Error: ${error.message}`;
+    } finally {
+      this.loadingRef.nativeElement.style.display = "none";
+    }
   }
 }
