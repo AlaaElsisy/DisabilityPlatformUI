@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { HelperRequestService } from 'app/services/helper-request.service';
 import { DisabledOfferService } from '@services/disabled-offer.service';
 import { PaymentDataService } from '@services/payment/payment-data.service';
-
+import { SignalrService } from '@services/signalr.service';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -36,7 +36,7 @@ export class PaymentComponent implements OnInit {
   serviceName: string = '';
   paymentResult: any = null;
 
-constructor(private router: Router, private paymentService: PaymentService, private paymentDataService: PaymentDataService) {}
+constructor(private router: Router, private paymentService: PaymentService, private paymentDataService: PaymentDataService, private signalrService: SignalrService ) {}
 
 ngOnInit(): void {
   const nav = this.router.getCurrentNavigation();
@@ -80,23 +80,24 @@ if (!state) {
           paymentId: res.paymentId 
         };
         
-      if (res.success) {
+     if (res.success) {
   this.paymentService.getDisabledRequestById(this.payment.disabledRequestId!).subscribe({
     next: (disabledRequest: any) => {
       console.log(' Disabled Request:', disabledRequest); 
 
       const requestId = disabledRequest.id;
       const helperServiceId = disabledRequest.helperServiceId;
+      const helperUserId = disabledRequest.helperUserId;
 
-      if (!requestId) {
-        console.error(' Request ID is null or invalid');
+      if (!requestId || !helperServiceId || !helperUserId) {
+        console.error('Missing requestId, helperServiceId, or helperUserId');
         return;
       }
 
-      if (!helperServiceId) {
-        console.error(' helperServiceId is null or invalid');
-        return;
-      }
+      const message = `The service “${disabledRequest.serviceDescription}” has been completed and paid by ${this.patientName}. Thank you for your support!`;
+      this.signalrService.sendNotificationToClient(message, helperUserId)
+        .then(() => console.log("Notification sent to helper after completion"))
+        .catch(err => console.error("Failed to send notification", err));
 
       this.paymentService.patchRequestStatus(requestId, '3').subscribe({
         next: () => {

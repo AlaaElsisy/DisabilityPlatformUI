@@ -121,11 +121,11 @@ export const routes: Routes = [
   
 },
   { path: '**', component: NotfoundComponent },
-      {
-  path: 'user-view-profile',
-  component: UserProfileViewComponent
-  ,canActivate:[authGuardGuard,roleGuardsGuard]
-}
+//       {
+//   path: 'user-view-profile',
+//   component: UserProfileViewComponent
+//    ,canActivate:[authGuardGuard,roleGuardsGuard]
+// }
 ];
 
 
