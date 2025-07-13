@@ -68,7 +68,7 @@
           <div class="ms-4 d-flex align-items-center">
             <a class="provider-card-apply-btn d-flex align-items-center" 
                [routerLink]="['/add-patient-request']" 
-               [queryParams]="{ helperServiceId: service.id, helperName: service.helperName }"
+               [queryParams]="{ helperServiceId: service.id, helperName: service.helperName, helperId: service.helperId , userId:service.userId , service:service.description }"
                title="Go to form page">
               Apply Now <i class="fas fa-arrow-right ms-2"></i>
             </a>

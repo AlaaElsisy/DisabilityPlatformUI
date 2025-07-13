@@ -141,7 +141,10 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
     if (!this.offerStartServiceTime) return false;
     const start = new Date(this.offerStartServiceTime).getTime();
     const now = Date.now();
-    return start - now > 24 * 60 * 60 * 1000;
+    console.log(start);
+    console.log(now);
+    console.log(start > now);
+    return start > now ;
   }
 
   requestCancellation(proposal: any) {
@@ -150,21 +153,25 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
       alert('You can only request cancellation at least 24 hours before the start date of the offer.');
       return;
     }
+    
     this.proposalStatusService.cancelProposal(proposal, this.offerId).subscribe({
       next: () => this.fetchProposals(),
       error: err => alert('Failed to request cancellation: ' + (err?.error?.message || err.message || err))
     });
   }
 
+
   showConfirm(action: 'accept' | 'completed' | 'cancel', index: number) {
     this.confirmAction = action;
     this.confirmIndex = index;
   }
 
+
   closeConfirm() {
     this.confirmAction = null;
     this.confirmIndex = null;
   }
+
 
   confirmActionHandler(proposal: any) {
     if (this.confirmAction === 'accept') {
@@ -176,6 +183,7 @@ export class PatientOfferProposalsComponent implements OnInit, OnChanges {
     }
     this.closeConfirm();
   }
+
 
   editProposal(index: number): void {
   }

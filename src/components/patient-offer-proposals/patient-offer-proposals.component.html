@@ -25,7 +25,7 @@
          [queryParams]="{ userId: proposal.userId, role: 'helper' }"
          style="text-decoration: none; color: inherit; display: flex; align-items: center;">
         <img *ngIf="proposal.helperImage" [src]="proposal.helperImage" alt="Helper Image" class="helper-avatar" />
-        <span class="helper-name"><strong>{{ proposal.helperName }}</strong></span>
+        <span class="helper-name">  <strong>{{ proposal.helperName }}</strong></span>
       </a>
       <span class="status-badge" [ngClass]="proposal.status.toLowerCase()">{{ proposal.status }}</span>
     </div>

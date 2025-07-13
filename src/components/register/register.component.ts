@@ -21,7 +21,7 @@ export class RegisterComponent {
       {
         fullName: ['', [Validators.required, Validators.minLength(3)]],
         phoneNumber: ['', [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)]],
-        region: ['',Validators.minLength(7)],
+        region: [''],
         email: ['', [
           Validators.required,
           Validators.email,

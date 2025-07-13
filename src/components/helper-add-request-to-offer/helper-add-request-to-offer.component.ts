@@ -23,7 +23,6 @@ export class HelperAddRequestToOfferComponent implements OnInit {
   helperId!: number;
   addRequestForm!: FormGroup;
  test():void{
-  console.log(this.addRequestForm.value)
   this._HelperRequestsService.AddRequestToOffer(this.addRequestForm.value).subscribe({
     next:(res)=>{
        this._toster.success('request added successfully')
@@ -42,13 +41,10 @@ export class HelperAddRequestToOfferComponent implements OnInit {
         const idParam = parameters.get('id');
         if (idParam !== null) {
           this.offerId = +idParam;
-          console.log('Offer ID:', this.offerId);
 
           this._getlogginedUser.getuserData().subscribe({
             next: (res) => {
               this.helperId = res.id;
-              console.log('Helper ID:', this.helperId);
-
 
               this.addRequestForm = new FormGroup({
                 applicationDate: new FormControl(new Date().toISOString()),
