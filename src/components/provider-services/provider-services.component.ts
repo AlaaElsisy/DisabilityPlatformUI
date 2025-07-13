@@ -37,9 +37,9 @@ export class ProviderServicesComponent implements OnInit, AfterViewInit {
   serviceCategoryId: number | undefined;
   categoryMap: { [key: string]: number } = {
     'Medical Service': 1,
-    'Delivery Service': 2,
-    'Driver Service': 3,
-    'Public Services': 4
+    'Driver Service': 2,
+    'Public Service': 3,
+    'Delivery Service': 4
   };
   showRequestModal = false;
   selectedServiceId: number | null = null;
@@ -127,9 +127,9 @@ export class ProviderServicesComponent implements OnInit, AfterViewInit {
   get categoryName(): string | null {
     switch (this.serviceCategoryId) {
       case 1: return 'Medical Service';
-      case 2: return 'Delivery Service';
-      case 3: return 'Driver Service';
-      case 4: return 'Public Services';
+      case 2: return 'Driver Service';
+      case 3: return 'Public Service';
+      case 4: return 'Dilevery Services';
       default: return null;
     }
   }
