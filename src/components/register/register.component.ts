@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -14,8 +15,7 @@ import { RouterModule } from '@angular/router';
 export class RegisterComponent {
 
   signupForm!: FormGroup;
-
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router,    private _toster: ToastrService) {
 
     this.signupForm = this.fb.group(
       {
@@ -66,12 +66,16 @@ onSubmit() {
 
     this.authService.register(formData).subscribe({
       next: (res) => {
-        alert(res.message);
+       // alert(res.message);
+        this._toster.success(res.message , 'Registration successful',{
+            positionClass: 'toast-top-center'});
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('Registration error:', err);
-        alert(err.error?.message || 'Registration failed');
+        //alert(err.error?.message || 'Registration failed');
+          this._toster.error(err.error?.message , 'Registration failed',{
+            positionClass: 'toast-top-center'});
       }
     });
   } 

@@ -8,6 +8,7 @@ import { HelperRequestService } from 'app/services/helper-request.service';
 import { DisabledOfferService } from '@services/disabled-offer.service';
 import { PaymentDataService } from '@services/payment/payment-data.service';
 import { SignalrService } from '@services/signalr.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -36,7 +37,7 @@ export class PaymentComponent implements OnInit {
   serviceName: string = '';
   paymentResult: any = null;
 
-constructor(private router: Router, private paymentService: PaymentService, private paymentDataService: PaymentDataService, private signalrService: SignalrService ) {}
+constructor(private router: Router, private paymentService: PaymentService, private paymentDataService: PaymentDataService, private signalrService: SignalrService, private _toster: ToastrService ) {}
 
 ngOnInit(): void {
   const nav = this.router.getCurrentNavigation();
@@ -60,7 +61,9 @@ if (!state) {
 
   async submitPayment() {
     if (!this.payment.cardNumber || !this.payment.expMonth || !this.payment.expYear || !this.payment.cvc || !this.payment.amount) {
-      this.paymentResult = { success: false, message: 'Please fill all payment details.' };
+     // this.paymentResult = { success: false, message: 'Please fill all payment details.' };
+             this._toster.error('Please fill all payment details.');
+
       return;
     }
 
@@ -106,9 +109,10 @@ if (!state) {
           this.paymentService.updateServiceStatus(helperServiceId, 3).subscribe({
             next: () => {
               console.log(" Service marked as Completed");
-
               this.resetForm();
               this.router.navigate(['/patient-serviceRequests']); 
+              this._toster.success('Payment processed successfully.');
+
             },
             error: err => console.error(" Error updating service status", err)
           });
