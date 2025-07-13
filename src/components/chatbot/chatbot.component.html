@@ -1,4 +1,4 @@
- 
+<!--  
 <section class="chatbot-container">
   <div class="chatbot-wrapper col-4">
     <div class="chatbot d-flex flex-column">
@@ -6,7 +6,7 @@
       <div class="chat-header">
         <div class="header-content">
           <img src="assets/loginImg.png" alt="Disability Support Icon" class="header-icon">
-          <h2>EasAid</h2>
+          <h2>EaseAid</h2>
         </div>
       </div>
       
@@ -38,4 +38,60 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
+
+
+
+ 
+<div class="chatbot-wrapper">
+ 
+  <div class="chatbot-icon" (click)="toggleChat()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+      <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/>
+      <path d="M8 9h8v2H8zm0 4h5v2H8z"/>
+    </svg>
+  </div>
+  
+ 
+  <div class="chatbot-container" [class.open]="isChatOpen">
+    <div class="chatbot d-flex flex-column">
+      <div class="chat-header">
+        <div class="header-content ">
+        
+          <img src="assets/loginImg.png" alt="Disability Support Icon" class="header-icon">
+          <h6>EasAid</h6>
+          <button class="close-btn" (click)="toggleChat()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <div class="chat-container" #chatContainer>
+        <div *ngFor="let message of messages" class="message" 
+             [class.user]="message.sender === 'user'" 
+             [class.bot]="message.sender === 'bot'">
+          <div class="message-content" [innerHTML]="formatMessage(message.text)"></div>
+          <div class="message-time">
+            {{message.timestamp | date:'shortTime'}}
+          </div>
+        </div>
+        <div #loading class="loading-indicator" style="display: none;">
+          <span id="spinner"></span> Thinking...
+        </div>
+      </div>
+
+      <div class="input-area">
+        <input 
+          type="text" 
+          [(ngModel)]="userMessage" 
+          #questionInput 
+          placeholder="Type your question here..." 
+          (keyup.enter)="handleAsk()"
+        />
+        <button (click)="handleAsk()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>

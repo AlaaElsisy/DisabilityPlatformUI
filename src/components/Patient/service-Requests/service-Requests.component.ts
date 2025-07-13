@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { PaymentDataService } from 'app/services/payment/payment-data.service'; 
 import { DisabledRequestwithdetails } from 'app/models/disabled-requestwithdetails.model'; 
 import { GetloggineduserDataService } from 'core/services/getloggineduser-data.service';
+import { SignalrService } from 'app/services/signalr.service'; 
 
 @Component({
   selector: 'app-service-requests',
@@ -46,9 +47,12 @@ selectedRequestToComplete: any = null;
 
 
 
-  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService,private router: Router,private paymentDataService: PaymentDataService) {}
+  constructor(private requestService: DisabledRequestService, private userProfileService: UserProfileService,private router: Router,private paymentDataService: PaymentDataService, private signalrService: SignalrService,  private getloggineduserDataService: GetloggineduserDataService) {}
 
  ngOnInit() {
+   this.getloggineduserDataService.getuserData().subscribe(userId => {
+    this.signalrService.startConnection(userId);
+  });
   this.userProfileService.getDisabledIdForCurrentUser().subscribe(disabledId => {
     this.disabledId = disabledId;
     this.fetchRequests();
@@ -234,20 +238,43 @@ closeCancelModal() {
   document.body.style.overflow = '';
 }
 
-confirmCancelRequest() {
-  if (!this.selectedRequestToCancel) return;
+confirmCancelRequest(request: any) {
+  this.requestService.getRequestDetailsById(request.id).subscribe({
+    next: (details) => {
+      const helperUserId = details.helperUserId;
 
-  this.requestService.patchStatus(this.selectedRequestToCancel.id, 'Cancelled').subscribe({
-    next: () => {
-      this.fetchRequests();
-      this.closeCancelModal();
+      if (!helperUserId) {
+        console.error('Helper user ID is missing in request details.');
+        return;
+      }
+
+      const message = `The request for "${details.serviceDescription}" has been cancelled by ${details.patientName}.`;
+
+      if (this.signalrService.isConnected()) {
+        this.signalrService.sendNotificationToClient(message, helperUserId)
+          .then(() => console.log("Notification sent to helper"))
+          .catch(err => console.error("Failed to send notification", err));
+      } else {
+        console.warn("SignalR is not connected yet");
+      }
+
+      this.requestService.patchStatus(request.id, 'Cancelled').subscribe({
+        next: () => {
+          this.fetchRequests();
+          this.closeCancelModal(); 
+        },
+        error: (err) => {
+          console.error('Failed to cancel request:', err);
+        }
+      });
     },
     error: (err) => {
-      console.error('Failed to cancel request:', err);
-      this.closeCancelModal();
+      console.error("Error getting request details:", err);
     }
   });
 }
+
+
 openCompleteModal(request: any) {
   this.selectedRequestToComplete = request;
   this.showCompleteModal = true;
@@ -275,7 +302,11 @@ this.router.navigate(['/payment']);
   });
 }
 
-
+gotoproviderProfile(userId: string): void {
+  this.router.navigate(['/user-view-profile'], {
+    queryParams: { userId, role: 'Helper' }
+  });
+}
 
 
 

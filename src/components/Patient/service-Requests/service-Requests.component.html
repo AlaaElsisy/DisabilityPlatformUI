@@ -150,7 +150,7 @@
     <p>Are you sure you want to cancel this request?</p>
     <div class="modal-actions">
       <button class="modal-cancel-btn" (click)="closeCancelModal()">Close</button>
-      <button class="modal-delete-btn" (click)="confirmCancelRequest()">Confirm Cancel</button>
+      <button class="modal-delete-btn" (click)="confirmCancelRequest(selectedRequestToCancel)">Confirm Cancel</button>
     </div>
   </div>
 </div>
@@ -162,12 +162,17 @@
     <h3>Service Info</h3>
 
     <div *ngIf="selectedRequestDetails; else loadingDetails">
-
       <!-- Helper Info -->
-      <div class="helper-info-modal" *ngIf="selectedRequestDetails.helperName || selectedRequestDetails.helperImage">
-        <img [src]="selectedRequestDetails.helperImage || 'assets/loginImg.png'" alt="Helper Image" class="helper-avatar" />
-        <span class="helper-name">{{ selectedRequestDetails.helperName || 'Unknown' }}</span>
-      </div>
+ <!-- <div class="helper-info-modal" *ngIf="selectedRequestDetails?.helperName"> -->
+  <p>
+    Post by:
+   <a 
+  (click)="gotoproviderProfile(selectedRequestDetails?.helperUserId!)" 
+  style="cursor: pointer; color: #0876CD; text-decoration: underline;">
+  {{ selectedRequestDetails.helperName }}
+</a>
+  </p>
+<!-- </div> -->
 
       <hr />
       <p><strong>Service Description:</strong> {{ selectedRequestDetails.serviceDescription }}</p>

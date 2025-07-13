@@ -10,5 +10,5 @@ export interface DisabledRequest {
   helperServiceId: number;
   helperName?: string;
   helperImage?: string;
- 
+ helperUserId?:string;
 }
