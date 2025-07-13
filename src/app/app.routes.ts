@@ -130,7 +130,16 @@ export const routes: Routes = [
   component: UserProfileViewComponent
 
 },
+
+  { path: '**', component: NotfoundComponent },
+      {
+  path: 'user-view-profile',
+  component: UserProfileViewComponent
+   ,canActivate:[authGuardGuard,roleGuardsGuard]
+},
+
   { path: '**', component: NotfoundComponent }
+
 ];
 
 
