@@ -166,11 +166,11 @@
  <!-- <div class="helper-info-modal" *ngIf="selectedRequestDetails?.helperName"> -->
   <p>
     Post by:
-   <a 
-  (click)="gotoproviderProfile(selectedRequestDetails?.helperUserId!)" 
-  style="cursor: pointer; color: #0876CD; text-decoration: underline;">
+ <span 
+  (click)="gotoPatientProfile(selectedRequestDetails.helperUserId!)" 
+  class="helper-name-clickable">
   {{ selectedRequestDetails.helperName }}
-</a>
+</span>
   </p>
 <!-- </div> -->
 

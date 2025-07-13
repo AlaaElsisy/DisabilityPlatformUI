@@ -32,7 +32,9 @@
 
     <div class="offer-footer">
       <div class="user-info" (click)="gotoPatientProfile(item.disabled.userId)">
+
         <img [src]="item.disabled.profileImage || './Avatar.jpg'" class="user-avatar" alt="Profile image" />
+
         <div class="user-details-grid">
           <div class="user-meta">
             <h4 class="user-name"><i class="fas fa-user me-1"></i>Full Name</h4>
@@ -107,11 +109,13 @@
       <span>{{ request.Request.applicationDate | date: 'MMM d, y - h:mm a' }}</span>
     </div>
     <p class="mt-2"><strong>Message:</strong> {{ request.Request.message }}</p>
+
     <p><strong>Total Price:</strong> {{ request.Request.totalPrice | currency: 'EGP' }}</p>
     <div class="provider-info mt-2" (click)="gotoproviderProfile(request.providerData.userId)">
       <strong><img [src]="request.providerData.profileImage || './Avatar.jpg'" class="user-avatar" alt=""></strong>
       {{ request.providerData.fullName }} - {{ request.providerData.zone }}, {{ request.providerData.address }}
     </div>
+
   </div>
 
   <!-- Pagination -->

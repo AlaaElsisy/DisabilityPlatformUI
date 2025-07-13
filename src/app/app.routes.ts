@@ -116,7 +116,7 @@ export const routes: Routes = [
       
 
 
- 
+
 
 
     ]
@@ -127,12 +127,6 @@ export const routes: Routes = [
 
 },
 
-  { path: '**', component: NotfoundComponent },
-      {
-  path: 'user-view-profile',
-  component: UserProfileViewComponent
-   ,canActivate:[authGuardGuard,roleGuardsGuard]
-},
 
 
   { path: '**', component: NotfoundComponent },

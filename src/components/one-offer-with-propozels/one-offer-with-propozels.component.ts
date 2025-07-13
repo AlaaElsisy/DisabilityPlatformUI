@@ -134,8 +134,12 @@ export class OneOfferWithPropozelsComponent implements OnInit {
   }
 
   gotoproviderProfile(userId: string): void {
-    this._Route.navigate(['/provider/userprofile'], {
-      queryParams: { userId, role: 'helper' },
+
+
+    this._Route.navigate(['/user-view-profile'], {
+
+      queryParams: { userId, role: 'helper' }
+
     });
   }
 
