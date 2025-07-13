@@ -21,4 +21,9 @@ export class UserProfileService {
   getHelperProfile(): Observable<HelperProfile> {
     return this.http.get<HelperProfile>(`${this.baseUrl}/Helper`);
   }
+
+  getMyDisabledProfile(): Observable<PatientProfile> {
+    return this.http.get<PatientProfile>(`${this.baseUrl}/Patient/data`);
+  }
+
 }

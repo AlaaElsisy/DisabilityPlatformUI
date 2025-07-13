@@ -24,8 +24,8 @@
       <div class="row mb-4">
         <div class="col-md-3 text-center">
           <img
-            *ngIf="previewImageUrl; else defaultImage"
-            [src]="previewImageUrl"
+           
+            [src]="previewImageUrl||'Avatar.jpg'"
             class="img-thumbnail rounded-circle shadow-sm"
             alt="Profile Image"
             style="width: 150px; height: 150px; object-fit: cover"

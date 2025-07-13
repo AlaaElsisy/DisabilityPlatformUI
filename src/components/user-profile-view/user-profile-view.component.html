@@ -6,8 +6,8 @@
         <div class="row mb-4">
         <div class="col-md-3 text-center">
           <img
-            *ngIf="userProfile?.user?.profileImage; else defaultImage"
-            [src]="userProfile?.user?.profileImage"
+           
+            [src]="userProfile?.user?.profileImage||'./Avatar.jpg'"
             class="img-thumbnail rounded-circle shadow-sm"
             alt="Profile Image"
             style="width: 150px; height: 150px; object-fit: cover"

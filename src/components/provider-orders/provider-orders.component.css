@@ -272,9 +272,9 @@ primary-color
 }
 
 .empty-state img {
-  width: 200px;
+  width: 500px;
   margin-bottom: 1.5rem;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 .empty-state h3 {

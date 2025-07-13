@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { DisabledRequestService } from '../../app/services/disabled-request.service';
 import { DisabledRequest } from '../../app/models/disabled-request.model';
 import { UserProfileService } from '../../app/services/user-profile.service';
+import { SignalrService } from '../../app/services/signalr.service';
+import { UserProfileService as PatientProfileService } from '../../app/services/patient-profile.service';
 
 @Component({
   selector: 'app-add-patient-request',
@@ -17,6 +19,8 @@ export class AddPatientRequestComponent implements OnInit, OnChanges {
   @Input() helperServiceId?: number;
   @Input() helperName?: string;
   @Input() helperId?: number;
+  @Input() userId?: string;
+  @Input() service?: string;
 
   requestForm!: FormGroup;
   submitted = false;
@@ -29,7 +33,9 @@ export class AddPatientRequestComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private disabledRequestService: DisabledRequestService,
-    private userProfileService: UserProfileService
+    private userProfileService: UserProfileService,
+    private signalrService: SignalrService,
+    private patientProfileService: PatientProfileService
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +49,14 @@ export class AddPatientRequestComponent implements OnInit, OnChanges {
       if (!this.helperId && params['helperId']) {
         this.helperId = +params['helperId'];
       }
+
+      if (!this.userId && params['userId']) {
+        this.userId = params['userId'];
+      }
+
+      if (!this.service && params['service']) {
+        this.service = params['service'];
+      }
       this.patchInputs();
     });
     this.requestForm = this.fb.group({
@@ -52,7 +66,6 @@ export class AddPatientRequestComponent implements OnInit, OnChanges {
       price: [null, Validators.required],
     });
     this.patchInputs();
-    // Fetch DisabledId for the current user
     this.userProfileService.getDisabledIdForCurrentUser().subscribe({
       next: (id) => this.disabledId = id,
       error: () => this.errorMsg = 'Could not fetch your Disabled ID.'
@@ -66,12 +79,10 @@ export class AddPatientRequestComponent implements OnInit, OnChanges {
   }
 
   patchInputs() {
-    // No-op for now
   }
 
   get f() { return this.requestForm.controls; }
 
-  // Add a method to check datetime validity
   isDateTimeInvalid(): boolean {
     const start = this.requestForm.value.start;
     const end = this.requestForm.value.end;
@@ -109,6 +120,17 @@ export class AddPatientRequestComponent implements OnInit, OnChanges {
         this.requestForm.reset();
         this.submitted = false;
         this.loading = false;
+        // Notify the helper
+        this.patientProfileService.getMyDisabledProfile().subscribe({
+          next: (profile) => {
+            const patientName = profile.user.fullName;
+            console.log(this.userId);
+            if (this.userId) {
+              const message = `${patientName} has added a request to your service(${this.service}).`;
+              this.signalrService.sendNotificationToClient(message, this.userId.toString());
+            }
+          }
+        });
       },
       error: (err) => {
         this.errorMsg = 'Failed to submit request. Please try again.';

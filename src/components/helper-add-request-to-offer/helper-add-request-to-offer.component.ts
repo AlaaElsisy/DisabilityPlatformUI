@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GetloggineduserDataService } from 'core/services/getloggineduser-data.service';
 import { HelperRequestsService } from 'core/services/helper-requests.service';
 import { ToastrService } from 'ngx-toastr';
+import { SignalrService } from '../../app/services/signalr.service';
+import { DisabledOfferService } from '../../app/services/disabled-offer.service';
+import { DisabledDataService } from 'core/services/disabled-data.service';
 
 @Component({
   selector: 'app-helper-add-request-to-offer',
@@ -18,15 +21,36 @@ export class HelperAddRequestToOfferComponent implements OnInit {
   private readonly _getlogginedUser = inject(GetloggineduserDataService);
   private readonly _HelperRequestsService = inject(HelperRequestsService);
   private readonly _toster=inject(ToastrService)
+  private readonly _signalrService = inject(SignalrService);
+  private readonly _disabledOfferService = inject(DisabledOfferService);
+  private readonly _disabledDataService = inject(DisabledDataService);
 
   offerId!: number;
   helperId!: number;
   addRequestForm!: FormGroup;
  test():void{
-  console.log(this.addRequestForm.value)
   this._HelperRequestsService.AddRequestToOffer(this.addRequestForm.value).subscribe({
     next:(res)=>{
        this._toster.success('request added successfully')
+       this._disabledOfferService.getById(this.offerId).subscribe({
+         next: (offer) => {
+           const disabledId = offer.disabledId;
+           const offerDescription = offer.description;
+           this._disabledDataService.getDisabledDate(disabledId).subscribe({
+             next: (disabledData) => {
+               const patientUserId = disabledData.userId;
+               // Fetch helper name
+               this._getlogginedUser.getuserData().subscribe({
+                 next: (helperProfile) => {
+                   const helperName = helperProfile.user.fullName;
+                   const message = `${helperName} has added a request to your offer: '${offerDescription}'.`;
+                   this._signalrService.sendNotificationToClient(message, patientUserId);
+                 }
+               });
+             }
+           });
+         }
+       });
        this._router.navigate([`/provider/applyoffer/${this.offerId}`]);
           console.log('Request added succesfully:', res);
     },error:(err)=> {
@@ -42,13 +66,10 @@ export class HelperAddRequestToOfferComponent implements OnInit {
         const idParam = parameters.get('id');
         if (idParam !== null) {
           this.offerId = +idParam;
-          console.log('Offer ID:', this.offerId);
 
           this._getlogginedUser.getuserData().subscribe({
             next: (res) => {
               this.helperId = res.id;
-              console.log('Helper ID:', this.helperId);
-
 
               this.addRequestForm = new FormGroup({
                 applicationDate: new FormControl(new Date().toISOString()),

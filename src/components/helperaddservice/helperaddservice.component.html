@@ -6,27 +6,63 @@
     <input type="text" id="description" name="description" class="form-control" 
            formControlName="description" placeholder="Enter service description">
   </div>
-  
+   <div *ngIf="addHelperService.get('description')?.hasError('required')&&addHelperService.get('description')?.touched">
+<div class="alert alert-danger w-50">
+   description is required
+  </div>
+   </div>
+   <div *ngIf="addHelperService.get('description')?.hasError('minlength')&&addHelperService.get('description')?.touched">
+<div class="alert alert-danger w-50">
+   min length must be over ten char
+  </div>
+   </div>
   <div class="form-field">
     <label for="pricePerHour">price Per Hour</label>
     <input type="number" id="pricePerHour" name="pricePerHour" class="form-control" 
            formControlName="pricePerHour" placeholder="Enter price">
   </div>
-  
+   <div *ngIf="addHelperService.get('pricePerHour')?.hasError('required')&&addHelperService.get('pricePerHour')?.touched">
+<div class="alert alert-danger w-50">
+   price is required
+  </div>
+   </div>
   <div class="date-fields">
     <div class="form-field">
-      <label for="availableDateFrom">available Date From</label>
-      <input type="datetime-local" id="availableDateFrom" name="availableDateFrom" class="form-control" 
-             formControlName="availableDateFrom">
+        <label for="availableDateFrom">Available Date From</label>
+        <input type="datetime-local" id="availableDateFrom" name="availableDateFrom" class="form-control" 
+               formControlName="availableDateFrom">
     </div>
     
     <div class="form-field">
-      <label for="availableDateTo">available Date to</label>
-      <input type="datetime-local" id="availableDateTo" name="availableDateTo" class="form-control" 
-             formControlName="availableDateTo">
+        <label for="availableDateTo">Available Date To</label>
+        <input type="datetime-local" id="availableDateTo" name="availableDateTo" class="form-control" 
+               formControlName="availableDateTo">
     </div>
-  </div>
+
   
+   
+</div>
+<div class="w-50">
+   <div *ngIf="addHelperService.hasError('required') && (addHelperService.get('availableDateFrom')?.touched || addHelperService.get('availableDateTo')?.touched)"
+         class="alert alert-danger">
+        Both dates are required
+    </div>
+
+    <div *ngIf="addHelperService.hasError('fromBeforeNow') && addHelperService.get('availableDateFrom')?.touched"
+         class="alert alert-danger">
+        Date From must be after current time
+    </div>
+
+    <div *ngIf="addHelperService.hasError('toBeforeNow') && addHelperService.get('availableDateTo')?.touched"
+         class="alert alert-danger">
+        Date To must be after current time
+    </div>
+
+    <div *ngIf="addHelperService.hasError('toBeforeFrom') && addHelperService.get('availableDateTo')?.touched && addHelperService.get('availableDateFrom')?.touched"
+         class="alert alert-danger">
+        Date To must be after Date From
+    </div>
+</div>
   <div class="id-fields">
     
     
@@ -40,7 +76,7 @@
 
     <select class="form-select form-control" formControlName="serviceCategoryId" aria-label="Default select example">
   
-      <option class="">Open this select menu</option>
+      <option selected class="">Open this select menu</option>
       @for (cat of Allcategories; track $index) {
     <option [value]='cat.id'>{{cat.name}}</option>
                                        }
@@ -50,7 +86,7 @@
 
   </div>
   
- <button type="submit" class="submit-button mt-3">
+ <button type="submit" class="submit-button mt-3 " (click)="test()">
   {{ isEditMode ? 'Update' : 'Add' }}
   @if (isloading) {
     <i class="fas fa-spin fa-spinner"></i>
