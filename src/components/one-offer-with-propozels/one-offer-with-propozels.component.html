@@ -49,7 +49,7 @@
     <div class="Under-data my-3"></div>
 
     <div class="offer-footer">
-      <div class="user-info" (click)="gotoPatientProfile(item.disabled.id)">
+      <div class="user-info" (click)="gotoPatientProfile(item.disabled.userId)">
         <img
           [src]="item.disabled.profileImage || './hero.jpg'"
           alt="Profile image"
@@ -152,7 +152,7 @@
 
     <div
       class="provider-info mt-2"
-      (click)="gotoproviderProfile(request.providerData.id)"
+      (click)="gotoproviderProfile(request.providerData.userId)"
     >
       <strong>Provider:</strong> {{ request.providerData.fullName }} -
       {{ request.providerData.zone }}, {{ request.providerData.address }}

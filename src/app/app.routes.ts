@@ -116,11 +116,7 @@ export const routes: Routes = [
       { path: 'chat', component: ChatbotComponent, title: 'chat' },
 
 
-      {
-  path: 'user-view-profile',
-  component: UserProfileViewComponent
-  ,canActivate:[authGuardGuard,roleGuardsGuard]
-}
+
 
 
     ]
@@ -129,13 +125,6 @@ export const routes: Routes = [
   path: 'user-view-profile',
   component: UserProfileViewComponent
 
-},
-
-  { path: '**', component: NotfoundComponent },
-      {
-  path: 'user-view-profile',
-  component: UserProfileViewComponent
-   ,canActivate:[authGuardGuard,roleGuardsGuard]
 },
 
   { path: '**', component: NotfoundComponent }

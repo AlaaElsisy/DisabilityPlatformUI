@@ -104,13 +104,13 @@ this.statusFilter?.trim() === '' ? undefined : this.statusFilter,
 openDeleteModal(id: number) {
   this.selectedRequestIdToDelete = id;
   this.showDeleteModal = true;
-  document.body.style.overflow = 'hidden';
+document.body.classList.add('modal-open');
 }
 
 closeDeleteModal() {
   this.selectedRequestIdToDelete = null;
   this.showDeleteModal = false;
-  document.body.style.overflow = '';
+document.body.classList.remove('modal-open');
 }
 
 confirmDelete(): void {
@@ -140,7 +140,7 @@ handleOutsideClick(event: MouseEvent) {
       next: (details) => {
         this.selectedRequestDetails = details;
         this.showDetailsModal = true;
-        document.body.style.overflow = 'hidden';
+document.body.classList.add('modal-open');
       },
       error: (err) => {
         console.error('Failed to load details:', err);
@@ -229,13 +229,13 @@ canDelete(request: any): boolean {
 openCancelModal(request: any) {
   this.selectedRequestToCancel = request;
   this.showCancelModal = true;
-  document.body.style.overflow = 'hidden';
+document.body.classList.add('modal-open');
 }
 
 closeCancelModal() {
   this.selectedRequestToCancel = null;
   this.showCancelModal = false;
-  document.body.style.overflow = '';
+document.body.classList.remove('modal-open');
 }
 
 confirmCancelRequest(request: any) {
@@ -302,9 +302,10 @@ this.router.navigate(['/payment']);
   });
 }
 
-gotoproviderProfile(userId: string): void {
+gotoPatientProfile(userId: string): void {
+  console.log(userId);
   this.router.navigate(['/user-view-profile'], {
-    queryParams: { userId, role: 'Helper' }
+    queryParams: { userId, role: 'helper' }
   });
 }
 
@@ -314,7 +315,7 @@ gotoproviderProfile(userId: string): void {
 closeCompleteModal() {
   this.selectedRequestToComplete = null;
   this.showCompleteModal = false;
-  document.body.style.overflow = '';
+document.body.classList.remove('modal-open');
 }
 
 canCancel(request: any): boolean {
