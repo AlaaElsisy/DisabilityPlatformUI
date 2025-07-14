@@ -387,6 +387,20 @@ select, input {
   color: #333;
 }
 .status-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 12px;
+  
+  font-size: 1rem;
+  font-weight: 600;
+  background: #e3f0fb;
+  color: #0876CD;
+  margin-right: 8px;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+
+/* .status-badge {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -397,35 +411,26 @@ select, input {
   text-transform: capitalize;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   color: white;
-}
+} */
 
-.status-badge.pending {
-   background: linear-gradient(90deg, #ffb347, #ffcc80);
-  color: white;
-}
+.status-badge.pending { background: #fff3cd; color: #856404; }
 
-.status-badge.accepted {
-  background: linear-gradient(90deg, #0876CD, #42a5f5);
-  color: white;
-}
+.status-badge.accepted { background: #d4edda; color: #218838; }
 
-.status-badge.completed {
-  background: linear-gradient(90deg, #43a047, #a5d6a7);
-  color: white;
-}
-.status-badge.rejected {
-  background: linear-gradient(90deg, #bdbdbd, #757575);
-  color: white;
-}
-.status-badge.cancelled {
-  background: linear-gradient(90deg, #e53935, #ff7043);
-  color: white;
-}
+.status-badge.completed { background: #cce5ff; color: #004085; }
+.status-badge.rejected { background: #f8d7da; color: #721c24; }
+.status-badge.cancelled { background: #f8d7da; color: #721c24; }
+
 
 .service-card {
   position: relative;
 }
 
+.status-container {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
 
 .no-offers {
   text-align: center;
