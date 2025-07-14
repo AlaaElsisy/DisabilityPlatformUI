@@ -57,12 +57,12 @@
 
     <button
   class="apply-btn"
-  [disabled]="item.offer.status !== 'Pending'"
-  [title]="item.offer.status !== 'Pending' ? 'You can only apply to pending offers' : ''"
+  [disabled]="item.offer.status !== 'Open'"
+  [title]="item.offer.status !== 'Open' ? 'You can only apply to pending offers' : ''"
   (click)="Apply()"
 >
   <i class="fas fa-paper-plane me-2"></i>
-  {{ item.offer.status === 'Pending' ? 'Apply Now' : 'Unavailable' }}
+  {{ item.offer.status === 'Open' ? 'Apply Now' : 'Unavailable' }}
   </button>
 
     </div>

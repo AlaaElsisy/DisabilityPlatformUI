@@ -56,14 +56,14 @@ export class ChatbotComponent {
     "After a service is completed, the patient is prompted to make a secure payment using Stripe. Payments are recorded in a dedicated table with details including the sender and receiver user IDs, amount, status (Paid, Pending, Failed), and method (Stripe). Payments are linked to either a public or direct service request.",
     "All users can update their profile information at any time. Patients can update their medical condition and emergency contact details. Helpers can edit their service descriptions, availability times, and pricing. This allows both roles to manage their information flexibly."
   ];
-isChatOpen = false;
+  isChatOpen = false;
 
-toggleChat(): void {
-  this.isChatOpen = !this.isChatOpen;
-  if (this.isChatOpen) {
-    setTimeout(() => this.scrollToBottom(), 100);
+  toggleChat(): void {
+    this.isChatOpen = !this.isChatOpen;
+    if (this.isChatOpen) {
+      setTimeout(() => this.scrollToBottom(), 100);
+    }
   }
-}
 
 
   private isGreeting(message: string): boolean {
@@ -200,12 +200,12 @@ toggleChat(): void {
   }
 
 
-formatMessage(text: string): string {
+  formatMessage(text: string): string {
 
-  return text
-    .replace(/\n/g, '<br>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/`(.*?)`/g, '<code>$1</code>');
-}
+    return text
+      .replace(/\n/g, '<br>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/`(.*?)`/g, '<code>$1</code>');
+  }
 }
