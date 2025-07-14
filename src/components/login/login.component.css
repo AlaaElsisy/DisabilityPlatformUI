@@ -85,7 +85,7 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover:not(:disabled) {
+.login-btn:hover:not(:disabled) {
   background-color: #1c4f90;
 }
 
@@ -134,4 +134,30 @@ button:disabled {
   .right-panel {
     padding: 20px;
   }
+}
+.go-home-icon {
+  font-size: 20px;
+  text-decoration: none;
+  color: #555;
+  margin-bottom: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+
+.go-home-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.go-home-icon:hover {
+  /* color: #000; */
+}
+.go-home-btn:hover {
+      color: #2b6cb0;
 }
