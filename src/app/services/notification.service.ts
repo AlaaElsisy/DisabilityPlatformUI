@@ -15,8 +15,10 @@ export class NotificationService {
 
   constructor(private http: HttpClient) {}
 
-  getNotifications(userId: string): Observable<Notification[]> {
-    const params = new HttpParams().set('userId', userId);
+  getNotifications(userId: string, pageNumber:number): Observable<Notification[]> {
+    const params = new HttpParams().set('userId', userId)
+    .set('pageNumber', pageNumber.toString());
+
     return this.http.get<Notification[]>(this.baseUrl, { params });
   }
 }

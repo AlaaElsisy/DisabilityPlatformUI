@@ -117,24 +117,24 @@ toggleChat(): void {
       return;
     }
 
-   
+
     this.messages.push({
       text: q,
       sender: 'user',
       timestamp: new Date()
     });
 
-  
+
     this.userMessage = '';
     this.scrollToBottom();
 
- 
+
     if (this.isGreeting(q)) {
       this.addBotMessage(this.getGreetingResponse());
       return;
     }
 
- 
+
     this.loadingRef.nativeElement.style.display = "block";
     this.scrollToBottom();
 
@@ -199,9 +199,9 @@ toggleChat(): void {
     }, 100);
   }
 
- 
+
 formatMessage(text: string): string {
- 
+
   return text
     .replace(/\n/g, '<br>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')

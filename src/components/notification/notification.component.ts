@@ -12,13 +12,21 @@ import { Notification } from '../../app/models/notification.model';
 export class NotificationsComponent implements OnInit {
   notifications: Notification[] = [];
   userId = localStorage.getItem('userId') || '';
+  pageNumber: number = 1;
 
   constructor(private notificationService: NotificationService) {}
 
    ngOnInit(): void {
     const userId = this.userId;
-    this.notificationService.getNotifications(userId).subscribe(data => {
+    this.notificationService.getNotifications(userId,this.pageNumber).subscribe(data => {
       this.notifications = data.sort((a, b) => new Date(b.notificationDateTime).getTime() - new Date(a.notificationDateTime).getTime());
     });
+
   }
+     loadMore(): void {
+      this.pageNumber++;
+      this.notificationService.getNotifications(this.userId, this.pageNumber).subscribe(data => {
+        this.notifications = [...this.notifications, ...data].sort((a, b) => new Date(b.notificationDateTime).getTime() - new Date(a.notificationDateTime).getTime());
+      });
+    }
 }
