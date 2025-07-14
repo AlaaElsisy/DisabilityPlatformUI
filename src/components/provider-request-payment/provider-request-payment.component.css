@@ -161,6 +161,14 @@
   color: #e53935;
 }
 
+.form-error {
+  color: #e53935;
+  font-size: 0.98rem;
+  margin-top: 4px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
 @media (max-width: 900px) {
   .payment-card {
     max-width: 99vw;
