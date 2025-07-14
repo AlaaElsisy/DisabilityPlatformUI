@@ -130,3 +130,29 @@ button[type='submit']:hover {
   display: flex;
   flex-direction: column;
 }
+.go-home-icon {
+  display: inline-block;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.go-home-icon:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.go-home-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 16px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.go-home-btn:hover {
+  text-decoration: underline;
+}
