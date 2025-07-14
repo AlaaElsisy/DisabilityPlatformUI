@@ -12,5 +12,6 @@ export interface HelperProfile {
   createdAt: string;
  }
   bio: string | null;
+  balance?: number; // Helper's current balance in EGP
 
 }

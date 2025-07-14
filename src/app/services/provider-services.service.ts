@@ -8,7 +8,7 @@ import { ProviderService, ProviderServiceQuery, ProviderServicePagedResult } fro
   providedIn: 'root',
 })
 export class ProviderServicesService {
-  private apiUrl = `${environment.apiBaseUrl}/HelperService/paged`;
+  private apiUrl = `${environment.apiBaseUrl}/HelperService/paged?status=Pending`;
 
   constructor(private http: HttpClient) {}
 
@@ -23,7 +23,7 @@ export class ProviderServicesService {
     if (query.maxBudget !== undefined && query.maxBudget !== null) params = params.set('MaxBudget', query.maxBudget);
     if (query.sortBy) params = params.set('SortBy', query.sortBy);
     return this.http.get<ProviderServicePagedResult>(this.apiUrl, { params });
-  }
+  } 
 }
 
 

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { HelperRequestService } from 'app/services/helper-request.service';
 import { DisabledOfferService } from '@services/disabled-offer.service';
 import { PaymentDataService } from '@services/payment/payment-data.service';
+
 import { SignalrService } from '@services/signalr.service';
 import { ToastrService } from 'ngx-toastr';
 @Component({
@@ -36,6 +37,7 @@ export class PaymentComponent implements OnInit {
   helperName: string = '';
   serviceName: string = '';
   paymentResult: any = null;
+  isProcessing: boolean = false;
 
 constructor(private router: Router, private paymentService: PaymentService, private paymentDataService: PaymentDataService, private signalrService: SignalrService, private _toster: ToastrService ) {}
 
@@ -67,6 +69,9 @@ if (!state) {
       return;
     }
 
+    this.isProcessing = true;
+    this.paymentResult = null;
+
    const paymentRequest = {
   Amount: this.payment.amount,
   Currency: 'egp',
@@ -77,30 +82,30 @@ if (!state) {
 
     this.paymentService.chargeCard(paymentRequest).subscribe({
       next: (res: any) => {
+        this.isProcessing = false;
         this.paymentResult = { 
           success: res.success, 
           message: res.message,
           paymentId: res.paymentId 
         };
         
-     if (res.success) {
+      if (res.success) {
   this.paymentService.getDisabledRequestById(this.payment.disabledRequestId!).subscribe({
     next: (disabledRequest: any) => {
       console.log(' Disabled Request:', disabledRequest); 
 
       const requestId = disabledRequest.id;
       const helperServiceId = disabledRequest.helperServiceId;
-      const helperUserId = disabledRequest.helperUserId;
 
-      if (!requestId || !helperServiceId || !helperUserId) {
-        console.error('Missing requestId, helperServiceId, or helperUserId');
+      if (!requestId) {
+        console.error(' Request ID is null or invalid');
         return;
       }
 
-      const message = `The service “${disabledRequest.serviceDescription}” has been completed and paid by ${this.patientName}. Thank you for your support!`;
-      this.signalrService.sendNotificationToClient(message, helperUserId)
-        .then(() => console.log("Notification sent to helper after completion"))
-        .catch(err => console.error("Failed to send notification", err));
+      if (!helperServiceId) {
+        console.error(' helperServiceId is null or invalid');
+        return;
+      }
 
       this.paymentService.patchRequestStatus(requestId, '3').subscribe({
         next: () => {
@@ -129,6 +134,7 @@ if (!state) {
         }
       },
       error: (err) => {
+        this.isProcessing = false;
         this.paymentResult = { 
           success: false, 
           message: err.error?.message || 'Payment failed. Please try again.' 
