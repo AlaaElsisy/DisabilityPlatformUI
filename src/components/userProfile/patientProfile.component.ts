@@ -6,6 +6,7 @@ import { UserProfileService } from '@services/user-self-profile.service';
 import { HelperProfile } from 'app/models/helper-profile.model';
 import { PatientProfile } from 'app/models/patient-profile.model';
 import { environment } from 'environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-profile',
@@ -26,7 +27,17 @@ export class UserProfileComponent implements OnInit {
   previewImageUrl: string = '';
 successMessage: string = '';
 
-  constructor(private userProfileService: UserProfileService, private fb: FormBuilder) {}
+  showWithdrawModal: boolean = false;
+  withdrawAmount: number = 200;
+  withdrawError: string = '';
+  withdrawSuccess: string = '';
+  isWithdrawing: boolean = false;
+  
+  bankAccountNumber: string = '';
+  bankName: string = '';
+  accountHolderName: string = '';
+
+  constructor(private userProfileService: UserProfileService, private fb: FormBuilder, private router: Router) {}
 
   formatDateOnly(date: any): string {
     return new Date(date).toISOString().split('T')[0];
@@ -47,6 +58,10 @@ successMessage: string = '';
 
         this.previewImageUrl = this.userProfile?.user?.profileImage ?? '';
         this.buildForm(); 
+        // Reset withdrawal state
+        this.withdrawError = '';
+        this.withdrawSuccess = '';
+        this.isWithdrawing = false;
       },
       error: (err) => {
         this.errorMessage = err.message || 'Failed to load user profile';
@@ -180,5 +195,60 @@ continueSaving(data: any) {
     });
   }
 }
+
+  // Withdrawal modal logic
+  openWithdrawModal() {
+    // Navigate to the withdrawal payment page in the provider section
+    this.router.navigate(['/provider/withdrawal-payment']);
+  }
+  closeWithdrawModal() {
+    this.showWithdrawModal = false;
+    this.withdrawError = '';
+    this.withdrawSuccess = '';
+  }
+  handleWithdraw() {
+    if (!this.helperProfile || typeof this.helperProfile.balance !== 'number') {
+      this.withdrawError = 'Balance not available.';
+      return;
+    }
+    if (this.withdrawAmount < 200) {
+      this.withdrawError = 'Minimum withdrawal amount is 200 EGP.';
+      return;
+    }
+    if (this.withdrawAmount > this.helperProfile.balance) {
+      this.withdrawError = 'Insufficient balance.';
+      return;
+    }
+    if (!this.bankAccountNumber || !this.bankName || !this.accountHolderName) {
+      this.withdrawError = 'Please fill in all bank account details.';
+      return;
+    }
+    this.isWithdrawing = true;
+    this.userProfileService.withdraw(
+      this.withdrawAmount, 
+      this.bankAccountNumber, 
+      this.bankName, 
+      this.accountHolderName
+    ).subscribe({
+      next: (res) => {
+        this.withdrawSuccess = 'Withdrawal processed successfully!';
+        this.withdrawError = '';
+        // Update balance locally
+        if (this.helperProfile) {
+          this.helperProfile.balance = (this.helperProfile.balance || 0) - this.withdrawAmount;
+        }
+        setTimeout(() => {
+          this.closeWithdrawModal();
+        }, 2000);
+      },
+      error: (err) => {
+        this.withdrawError = err?.error?.message || 'Withdrawal failed.';
+        this.withdrawSuccess = '';
+      },
+      complete: () => {
+        this.isWithdrawing = false;
+      }
+    });
+  }
 
 }

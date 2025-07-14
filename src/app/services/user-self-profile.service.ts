@@ -56,4 +56,21 @@ export class UserProfileService {
   updateHelperProfile(data: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/Helper`, data);
   }
+
+ 
+
+  withdraw(amount: number, bankAccountNumber: string, bankName: string, accountHolderName: string): Observable<any> {
+    const userId = this.getUserId();
+    if (!userId) {
+      return throwError(() => new Error('User ID is missing'));
+    }
+    return this.http.post(`${environment.apiBaseUrl}/Helper/withdraw`, {
+      userId,
+      amount,
+      bankAccountNumber,
+      bankName,
+      accountHolderName,
+      currency: 'egp'
+    });
+  }
 }

@@ -36,6 +36,7 @@ import { ProviderRequestPaymentComponent } from 'components/provider-request-pay
 
 import { UserProfileComponent } from 'components/userProfile/patientProfile.component';
 import { UserProfileViewComponent } from 'components/user-profile-view/user-profile-view.component';
+import { WithdrawalPaymentComponent } from './components/withdrawal-payment/withdrawal-payment.component';
 
 
 import { ProviderOrdersComponent } from 'components/provider-orders/provider-orders.component';
@@ -74,6 +75,7 @@ export const routes: Routes = [
 
 
    { path: 'profile', component: UserProfileComponent, title: 'My Profile' },
+   { path: 'withdrawal-payment', component: WithdrawalPaymentComponent, title: 'Withdraw Funds' },
 
      {
        path: 'userprofile',
