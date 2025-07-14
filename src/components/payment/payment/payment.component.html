@@ -1,102 +1,89 @@
 
 
-  <section class="checkout-container my-5">
-  <div>
-    <h2 class="checkout-title">Checkout</h2>
-
-    <form class="checkout-form" #paymentForm="ngForm" (ngSubmit)="submitPayment()">
-
-  
+  <section class="payment-main-bg">
+  <div class="payment-card">
+    <h2 class="payment-title">💳 Secure Payment</h2>
+    <p style="color: #444; margin-bottom: 28px; text-align: center; font-size: 1.08rem;">Complete your transaction safely</p>
+    <form class="payment-form" #paymentForm="ngForm" (ngSubmit)="submitPayment()">
       <div class="form-section">
-        <h3 class="section-title">Payment Details</h3>
-
-    
+        <label class="form-label">Card Number</label>
         <input type="text"
-               placeholder="Card Number"
+               placeholder="1234 5678 9012 3456"
                name="cardNumber"
                [(ngModel)]="payment.cardNumber"
                required
                pattern="^[0-9]{16}$"
                #cardNumber="ngModel"
-               class="form-input mb-2">
-        <div *ngIf="cardNumber.invalid && cardNumber.touched" class="text-red-500 text-sm">
-          <div *ngIf="cardNumber.errors?.['required']">Card number is required</div>
-          <div *ngIf="cardNumber.errors?.['pattern']">Card number must be 16 digits</div>
+               class="form-input">
+        <div *ngIf="cardNumber.invalid && cardNumber.touched" class="form-error">
+          <span *ngIf="cardNumber.errors?.['required']">Card number is required</span>
+          <span *ngIf="cardNumber.errors?.['pattern']">Card number must be 16 digits</span>
         </div>
-
-       
-        <div class="input-row">
-
-            <div class="col-4">
-        <input type="number"
-              placeholder="MM"
-              name="expMonth"
-              [(ngModel)]="payment.expMonth"
-              required
-              min="1"
-              max="12"
-              #expMonth="ngModel"
-              class="form-input">
-
-     
-            <div *ngIf="expMonth.touched && expMonth.invalid" class="text-red-500 text-xs">
-              <div *ngIf="expMonth.errors?.['required']">Expiration month is required</div>
-              <div *ngIf="expMonth.errors?.['min'] || expMonth.errors?.['max']">Month must be between 1 and 12</div>
-            </div>
-
-</div>
-
-    <div class="col-4">
+      </div>
+      <div class="form-row">
+        <div class="form-section">
+          <label class="form-label">MM</label>
+          <input type="number"
+                 placeholder="MM"
+                 name="expMonth"
+                 [(ngModel)]="payment.expMonth"
+                 required
+                 min="1"
+                 max="12"
+                 #expMonth="ngModel"
+                 class="form-input">
+          <div *ngIf="expMonth.touched && expMonth.invalid" class="form-error">
+            <span *ngIf="expMonth.errors?.['required']">Expiration month is required</span>
+            <span *ngIf="expMonth.errors?.['min'] || expMonth.errors?.['max']">Month must be between 1 and 12</span>
+          </div>
+        </div>
+        <div class="form-section">
+          <label class="form-label">YY</label>
           <input type="number"
                  placeholder="YY"
                  name="expYear"
                  [(ngModel)]="payment.expYear"
                  required
                  min="25"
-                 #expYear="ngModel">
-            <div *ngIf="expYear.touched && expYear.invalid" class="text-red-500 text-xs">
-              <div *ngIf="expYear.errors?.['required']">Expiration year is required</div>
-              <div *ngIf="expYear.errors?.['min']">Year must be 25 or later</div>
-            </div>
-</div>
-     <div class="col-4">
-      
-     
+                 #expYear="ngModel"
+                 class="form-input">
+          <div *ngIf="expYear.touched && expYear.invalid" class="form-error">
+            <span *ngIf="expYear.errors?.['required']">Expiration year is required</span>
+            <span *ngIf="expYear.errors?.['min']">Year must be 25 or later</span>
+          </div>
+        </div>
+        <div class="form-section">
+          <label class="form-label">CVC</label>
           <input type="text"
                  placeholder="CVC"
                  name="cvc"
                  [(ngModel)]="payment.cvc"
                  required
                  pattern="^[0-9]{3,4}$"
-                 #cvc="ngModel">
-          <div *ngIf="cvc.invalid && cvc.touched" class="text-red-500 text-xs">
-            <div *ngIf="cvc.errors?.['required']">CVC is required</div>
-            <div *ngIf="cvc.errors?.['pattern']">CVC must be 3 or 4 digits</div>
+                 #cvc="ngModel"
+                 class="form-input">
+          <div *ngIf="cvc.invalid && cvc.touched" class="form-error">
+            <span *ngIf="cvc.errors?.['required']">CVC is required</span>
+            <span *ngIf="cvc.errors?.['pattern']">CVC must be 3 or 4 digits</span>
           </div>
-
         </div>
-</div>
-      
-       
-      
       </div>
-
-      
-      <div class="form-section">
-        <h3 class="section-title">Summary</h3>
-        <div class="summary-item"><span>Patient Name:</span><span>{{ patientName || 'N/A' }}</span></div>
-        <div class="summary-item"><span>Helper Name:</span><span>{{ helperName || 'N/A' }}</span></div>
-        <div class="summary-item"><span>Service:</span><span>{{ serviceName || 'N/A' }}</span></div>
-        <div class="summary-item total"><span>Total:</span><span>${{ payment.amount || '0.00' }}</span></div>
-      </div>
-
-  
-      <button type="submit" class="checkout-button" [disabled]="paymentForm.invalid">Pay Now</button>
-
+      <button type="submit" class="payment-btn" [disabled]="paymentForm.invalid">
+        Pay Now
+      </button>
       <div *ngIf="paymentResult" class="mt-4 text-sm text-center" [ngClass]="{'text-green-500': paymentResult.success, 'text-red-500': !paymentResult.success}">
         {{ paymentResult.message }}
       </div>
-
     </form>
+    <div class="payment-summary">
+      <h3 class="summary-title">Summary</h3>
+      <div class="summary-row"><span class="summary-label">Patient Name:</span><span class="summary-value">{{ patientName || 'N/A' }}</span></div>
+      <div class="summary-row"><span class="summary-label">Helper Name:</span><span class="summary-value">{{ helperName || 'N/A' }}</span></div>
+      <div class="summary-row">
+        <span class="summary-label">Service:</span>
+        <span class="summary-value">{{ serviceName || 'N/A' }}</span>
+      </div>
+      <div class="summary-row total-row"><span class="summary-label total-label">Total:</span><span class="summary-value total-value">${{ payment.amount || '0.00' }}</span></div>
+    </div>
   </div>
 </section>
