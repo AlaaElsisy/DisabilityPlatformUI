@@ -58,10 +58,10 @@
           <i class="fa-solid fa-arrow-up-right-from-square"></i> Proposals
         </button>
         <div class="action-group">
-          <button *ngIf="service.status !== 1" class="action-btn edit" (click)="editService(service.id)">
+          <button *ngIf="service.status == 0" class="action-btn edit" (click)="editService(service.id)">
             <i class="far fa-edit"></i>
           </button>
-          <button *ngIf="service.status !== 1" class="action-btn delete" (click)="deleteService(service.id)">
+          <button *ngIf="service.status === 0" class="action-btn delete" (click)="deleteService(service.id)">
             <i class="far fa-trash-alt"></i>
           </button>
         </div>

@@ -30,7 +30,13 @@ updateService(id: number, data: object, headers: any): Observable<any> {
 updateStatus(id: number, status: number, headers: any): Observable<any> {
   return this._httpclient.patch(`https://localhost:7037/api/HelperService/service/status?requestId=${id}&status=${status}`, null, { headers });
 }
-
-  }
+updateRequestStatus(requestId: number, status: string, headers: any): Observable<any> {
+  return this._httpclient.patch(
+    `https://localhost:7037/api/DisabledRequest/status?requestId=${requestId}&status=${status}`,
+    null,
+    { headers }
+  );
+}
+ }
 
   
