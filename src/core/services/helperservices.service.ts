@@ -27,6 +27,9 @@ export class HelperservicesService {
 updateService(id: number, data: object, headers: any): Observable<any> {
   return this._httpclient.put(`https://localhost:7037/api/HelperService/service/${id}`, data, { headers });
 }
+updateStatus(id: number, status: number, headers: any): Observable<any> {
+  return this._httpclient.patch(`https://localhost:7037/api/HelperService/service/status?requestId=${id}&status=${status}`, null, { headers });
+}
 
   }
 
