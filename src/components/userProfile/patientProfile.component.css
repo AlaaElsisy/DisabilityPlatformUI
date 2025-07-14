@@ -266,6 +266,7 @@ hr {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  column-gap: 4rem; 
 }
 .balance-icon {
   display: flex;
