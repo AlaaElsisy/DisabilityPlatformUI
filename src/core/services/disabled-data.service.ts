@@ -20,5 +20,11 @@ export class DisabledDataService {
 return this._httpclient.get(`https://localhost:7037/api/Helper/${id}`, {headers});
  
   }
+
+  getDisabledDataByUserId(userId:string):Observable<any>{
+ const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this._httpclient.get(`https://localhost:7037/api/UserProfile/patient?userId=${userId}`, {headers})
+  }
   
 }

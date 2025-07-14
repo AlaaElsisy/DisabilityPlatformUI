@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProviderOrdersServicesService } from 'core/services/provider-orders-services.service';
 import { IproviderOrders } from 'core/interfaces/iprovider-orders';
 import { HelperservicesService } from 'core/services/helperservices.service';
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SignalrService } from 'app/services/signalr.service';
 import { DisabledDataService } from 'core/services/disabled-data.service';
+import { IDisabledData } from 'core/interfaces/idisabled-data';
 
 @Component({
   standalone: true,
@@ -22,10 +23,11 @@ export class ProviderOrdersComponent implements OnInit {
   private _helperService = inject(HelperservicesService);
   private signalrService = inject(SignalrService);
   private disabledDataService = inject(DisabledDataService);
-
+private readonly route=inject(Router)
   Orders: IproviderOrders[] = [];
-  filteredOrders: IproviderOrders[] = [];
-  paginatedOrders: IproviderOrders[] = [];
+  OrdersWithDisabledData: { order: IproviderOrders; data: IDisabledData }[] = [];
+  filteredOrders: { order: IproviderOrders; data: IDisabledData }[] = [];
+  paginatedOrders: { order: IproviderOrders; data: IDisabledData }[] = [];
 
   public _service!: Ihelperservices;
   totalOrders!: number;
@@ -61,7 +63,30 @@ export class ProviderOrdersComponent implements OnInit {
               this.Orders = res.items;
               this.totalOrders = res.totalCount;
               this.isAcceptedAlready = this.Orders.some(order => order.status.toLowerCase() === 'accepted');
-              this.filterOrders();
+
+              this.Orders.forEach(order => {
+                this.disabledDataService.getDisabledDataByUserId(order.userId).subscribe({
+                  next: (response: any) => {
+                    const data: IDisabledData = {
+                      id: response.id,
+                      medicalConditionDescription: response.medicalConditionDescription,
+                      disabilityType: response.disabilityType,
+                      emergencyContactName: response.emergencyContactName,
+                      emergencyContactPhone: response.emergencyContactPhone,
+                      emergencyContactRelation: response.emergencyContactRelation,
+                      userId: response.userId,
+                      fullName: response.user.fullName,
+                      address: response.user.address,
+                      zone: response.user.zone,
+                      dateOfBirth: response.user.dateOfBirth,
+                      gender: response.user.gender,
+                      profileImage: response.user.profileImage
+                    };
+                    this.OrdersWithDisabledData.push({ order, data });
+                    this.filterOrders();
+                  }
+                });
+              });
             },
             error(err) {
               console.log(err);
@@ -74,10 +99,13 @@ export class ProviderOrdersComponent implements OnInit {
 
   filterOrders(): void {
     const term = this.searchTerm.toLowerCase();
-    this.filteredOrders = this.Orders.filter(order =>
+    this.filteredOrders = this.OrdersWithDisabledData.filter(({ order, data }) =>
       order.description.toLowerCase().includes(term) ||
       order.status.toLowerCase().includes(term) ||
-      order.price.toString().includes(term)
+      order.price.toString().includes(term) ||
+      data.fullName?.toLowerCase().includes(term) ||
+      data.zone?.toLowerCase().includes(term) ||
+      data.address?.toLowerCase().includes(term)
     );
     this.totalPages = Math.ceil(this.filteredOrders.length / this.pageSize);
     this.paginatedOrders = this.filteredOrders.slice((this.page - 1) * this.pageSize, this.page * this.pageSize);
@@ -95,7 +123,6 @@ export class ProviderOrdersComponent implements OnInit {
     this.showConfirmModal = true;
   }
 
-
   confirmAccept(event?: Event): void {
     if (event) event.stopPropagation();
     if (this.selectedOrderId != null) {
@@ -103,36 +130,31 @@ export class ProviderOrdersComponent implements OnInit {
 
       this._ProviderOrdersServicesService.changeServiceStatus(acceptedId, 1).subscribe({
         next: () => {
-          const otherOrders = this.Orders.filter(o => o.id !== acceptedId);
-          otherOrders.forEach((order) => {
-            this._ProviderOrdersServicesService.changeServiceStatus(order.id, 2).subscribe();
+          const otherOrders = this.OrdersWithDisabledData.filter(o => o.order.id !== acceptedId);
+          otherOrders.forEach((o) => {
+            this._ProviderOrdersServicesService.changeServiceStatus(o.order.id, 2).subscribe();
 
-            // Notify rejected users
-            if (order.userId) {
-              this.signalrService.sendNotificationToClient(`Your order(${order.description}) was not accepted.`, order.userId);
-
+            if (o.order.userId) {
+              this.signalrService.sendNotificationToClient(`Your order(${o.order.description}) was not accepted.`, o.order.userId);
             }
           });
 
           this._ProviderOrdersServicesService.changeHelperServiceStatus(this.serviceId, 1).subscribe();
 
-          this.Orders = this.Orders.map(order => {
-            if (order.id === acceptedId) {
-              return { ...order, status: 'Accepted' };
+          this.OrdersWithDisabledData = this.OrdersWithDisabledData.map(o => {
+            if (o.order.id === acceptedId) {
+              return { ...o, order: { ...o.order, status: 'Accepted' } };
             } else {
-              return { ...order, status: 'Rejected' };
+              return { ...o, order: { ...o.order, status: 'Rejected' } };
             }
           });
 
           this.isAcceptedAlready = true;
           this.filterOrders();
 
-          // Notify accepted user
-          const acceptedOrder = this.Orders.find(o => o.id === acceptedId);
-          if (acceptedOrder && acceptedOrder.userId) {
-
-            this.signalrService.sendNotificationToClient(`Your order(${acceptedOrder.description}) has been accepted!`, acceptedOrder.userId);
-
+          const accepted = this.OrdersWithDisabledData.find(o => o.order.id === acceptedId);
+          if (accepted?.order.userId) {
+            this.signalrService.sendNotificationToClient(`Your order(${accepted.order.description}) has been accepted!`, accepted.order.userId);
           }
         },
         complete: () => {
@@ -146,5 +168,11 @@ export class ProviderOrdersComponent implements OnInit {
   cancelAccept(): void {
     this.showConfirmModal = false;
     this.selectedOrderId = null;
+  }
+
+   gotoPatientProfile(userId: string): void {
+    this.route.navigate(['/user-view-profile'], {
+      queryParams: { userId, role: 'patient' },
+    });
   }
 }
