@@ -10,15 +10,14 @@
           <i class="fas fa-money-bill-wave"></i> {{ _service.pricePerHour }} EGP/hour
         </span>
         <span class="meta-item">
-          <i class="fas fa-calendar-alt"></i> 
+          <i class="fas fa-calendar-alt"></i>
           {{ _service.availableDateFrom | date }} - {{ _service.availableDateTo | date }}
         </span>
       </div>
     </div>
   </div>
 
-  <!-- Orders Header -->
-  <div class="section-header d-flex justify-content-between align-items-center flex-wrap">
+  <div class="section-header d-flex justify-content-between align-items-center flex-wrap mt-4">
     <div>
       <h2>Service Orders</h2>
       <p class="subtitle">Manage incoming service requests</p>
@@ -29,25 +28,29 @@
     </div>
   </div>
 
-  <!-- 🔍 Filter Input -->
+  <!-- Search Box -->
   <div class="form-group mb-3">
     <input type="text"
            class="form-control"
-           placeholder="Search by description, status, or price..."
+           placeholder="Search by name, zone, status or price..."
            [(ngModel)]="searchTerm"
            (input)="filterOrders()" />
   </div>
 
   <!-- Orders List -->
   <div *ngIf="paginatedOrders.length > 0; else noOrders" class="orders-list">
-    <div *ngFor="let order of paginatedOrders; let i = index" class="order-card"
-         [class.highlight]="order.status.toLowerCase() === 'pending'">
+    <div *ngFor="let item of paginatedOrders; let i = index"
+         class="order-card"
+         [class.highlight]="item.order.status.toLowerCase() === 'pending'">
+
       <div class="order-header">
         <div class="order-title">
-          <span class="order-number">#{{ (page - 1) * pageSize + i + 1 }}</span>
-          <h4>{{ order.description }}</h4>
+          <span class="order-number">#{{ i + 1 }}</span>
+          <h4>{{ item.order.description }}</h4>
         </div>
-        <span class="order-status" [ngClass]="'status-' + order.status.toLowerCase()">{{ order.status }}</span>
+        <span class="order-status" [ngClass]="'status-' + item.order.status.toLowerCase()">
+          {{ item.order.status }}
+        </span>
       </div>
 
       <div class="order-timeline">
@@ -55,21 +58,30 @@
           <i class="fas fa-clock"></i>
           <div>
             <small>Start Date</small>
-            <p>{{ order.start | date: 'medium' }}</p>
+            <p>{{ item.order.start | date: 'medium' }}</p>
           </div>
         </div>
         <div class="timeline-item">
           <i class="fas fa-flag-checkered"></i>
           <div>
             <small>End Date</small>
-            <p>{{ order.end | date: 'medium' }}</p>
+            <p>{{ item.order.end | date: 'medium' }}</p>
           </div>
         </div>
         <div class="timeline-item">
           <i class="fas fa-calendar-plus"></i>
           <div>
             <small>Requested On</small>
-            <p>{{ order.requestDate | date: 'medium' }}</p>
+            <p>{{ item.order.requestDate | date: 'medium' }}</p>
+          </div>
+        </div>
+        <div class="timeline-item  " (click)="gotoPatientProfile(item.data.userId)">
+          <div class="userImage">
+            <img [src]="item.data.profileImage||'./Avatar.jpg'" class="w-100" alt="">
+          </div>
+          <div>
+            <small>Ordered By</small>
+            <p>{{ item.data.fullName }} - {{ item.data.zone || 'No Zone' }}</p>
           </div>
         </div>
       </div>
@@ -77,22 +89,30 @@
       <div class="order-footer">
         <div class="order-price">
           <span>Total Price</span>
-          <h3>{{ order.price }} EGP</h3>
+          <h3>{{ item.order.price }} EGP</h3>
         </div>
-        <button *ngIf="!isAcceptedAlready" class="action-btn accept-btn" (click)="openModal(order.id)">
+        <button *ngIf="!isAcceptedAlready"
+                class="action-btn accept-btn"
+                (click)="openModal(item.order.id)">
           <i class="fas fa-check-circle"></i> Accept
         </button>
       </div>
+
     </div>
   </div>
 
-  <!-- Pagination Controls -->
-  <div *ngIf="totalPages > 1" class="pagination-controls mt-3 d-flex justify-content-between align-items-center">
-    <button class="btn btn-outline-primary" [disabled]="page === 1" (click)="changePage(-1)">
+  <!-- Pagination -->
+  <div *ngIf="totalPages > 1"
+       class="pagination-controls mt-3 d-flex justify-content-between align-items-center">
+    <button class="btn btn-outline-primary"
+            [disabled]="page === 1"
+            (click)="changePage(-1)">
       <i class="fas fa-chevron-left"></i> Prev
     </button>
     <span>Page {{ page }} of {{ totalPages }}</span>
-    <button class="btn btn-outline-primary" [disabled]="page === totalPages" (click)="changePage(1)">
+    <button class="btn btn-outline-primary"
+            [disabled]="page === totalPages"
+            (click)="changePage(1)">
       Next <i class="fas fa-chevron-right"></i>
     </button>
   </div>
@@ -102,7 +122,7 @@
     <div class="empty-state">
       <img src="./no order.png" alt="No orders">
       <h3>No Orders Yet</h3>
-      <p>You don't have any service requests at this time</p>
+      <p>You don't have any service requests at this time.</p>
     </div>
   </ng-template>
 
@@ -118,4 +138,5 @@
       </div>
     </div>
   </div>
+
 </div>
