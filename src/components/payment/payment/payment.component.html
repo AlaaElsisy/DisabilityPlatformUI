@@ -23,20 +23,20 @@
       <div class="form-row">
         <div class="form-section">
           <label class="form-label">MM</label>
-          <input type="number"
-                 placeholder="MM"
-                 name="expMonth"
-                 [(ngModel)]="payment.expMonth"
-                 required
-                 min="1"
-                 max="12"
-                 #expMonth="ngModel"
-                 class="form-input">
+        <input type="number"
+              placeholder="MM"
+              name="expMonth"
+              [(ngModel)]="payment.expMonth"
+              required
+              min="1"
+              max="12"
+              #expMonth="ngModel"
+              class="form-input">
           <div *ngIf="expMonth.touched && expMonth.invalid" class="form-error">
             <span *ngIf="expMonth.errors?.['required']">Expiration month is required</span>
             <span *ngIf="expMonth.errors?.['min'] || expMonth.errors?.['max']">Month must be between 1 and 12</span>
-          </div>
-        </div>
+            </div>
+</div>
         <div class="form-section">
           <label class="form-label">YY</label>
           <input type="number"
@@ -50,8 +50,8 @@
           <div *ngIf="expYear.touched && expYear.invalid" class="form-error">
             <span *ngIf="expYear.errors?.['required']">Expiration year is required</span>
             <span *ngIf="expYear.errors?.['min']">Year must be 25 or later</span>
-          </div>
-        </div>
+            </div>
+</div>
         <div class="form-section">
           <label class="form-label">CVC</label>
           <input type="text"

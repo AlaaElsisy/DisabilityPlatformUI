@@ -11,8 +11,8 @@ export class HelperoffersService {
   GetAlloffrers():Observable<any>{
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
-    return this._httpclient.get("https://localhost:7037/api/DisabledOffer?Status=Pending",{headers} );
-    
+    return this._httpclient.get("https://localhost:7037/api/DisabledOffer?Status=Open",{headers} );
+
   }
   constructor() { }
 }

@@ -115,7 +115,7 @@ export const routes: Routes = [
 
 
       { path: 'test', component: TestNotificationComponent, title: 'test' },
-      
+
 
 
 
@@ -126,7 +126,7 @@ export const routes: Routes = [
   {
   path: 'user-view-profile',
   component: UserProfileViewComponent
-
+  
 },
 
 
