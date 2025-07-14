@@ -218,6 +218,9 @@
 
       <label for="end">End Date:</label>
       <input id="end" type="date" [(ngModel)]="selectedRequestToEdit.end" name="end" required />
+           <div *ngIf="dateError" class="date-error-msg">
+             {{ dateError }}
+                </div>
 
       <label for="price">Price (EGP):</label>
       <input id="price" type="number" [(ngModel)]="selectedRequestToEdit.price" name="price" />

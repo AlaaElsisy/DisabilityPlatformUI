@@ -867,4 +867,9 @@ body.modal-open {
   justify-content: center;
   z-index: 9999 !important;
 }
+.date-error-msg {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
 

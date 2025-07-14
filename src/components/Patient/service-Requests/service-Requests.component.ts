@@ -45,6 +45,7 @@ selectedRequestDetails: DisabledRequestwithdetails | null = null;
 showDetailsModal: boolean = false;
 showCompleteModal = false;
 selectedRequestToComplete: any = null;
+dateError: string | null = null;
 
 
 
@@ -177,6 +178,7 @@ submitEdit() {
     console.error('No request selected for edit');
     return;
   }
+
   if (!this.selectedRequestToEdit.description || 
       !this.selectedRequestToEdit.start || 
       !this.selectedRequestToEdit.end) {
@@ -184,26 +186,30 @@ submitEdit() {
     return;
   }
 
-const updatedRequest = {
-  id: this.selectedRequestToEdit.id,
-  description: this.selectedRequestToEdit.description?.trim(),
-  start: new Date(this.selectedRequestToEdit.start).toISOString(),
-  end: new Date(this.selectedRequestToEdit.end).toISOString(),
-  price: this.selectedRequestToEdit.price ?? 0,
-  disabledId: this.selectedRequestToEdit.disabledId,
-  requestDate: new Date(this.selectedRequestToEdit.requestDate).toISOString() ,
-  status: this.selectedRequestToEdit.status,
-  helperServiceId: this.selectedRequestToEdit.helperServiceId ?? 1
-};
+  const startDate = new Date(this.selectedRequestToEdit.start);
+  const endDate = new Date(this.selectedRequestToEdit.end);
 
+  if (endDate < startDate) {
+    this.dateError = 'End date must be after start date.';
+    return;
+  } else {
+    this.dateError = null;
+  }
 
-
-  console.log('Submitting:', updatedRequest);
-console.log(JSON.stringify(updatedRequest, null, 2));
+  const updatedRequest = {
+    id: this.selectedRequestToEdit.id,
+    description: this.selectedRequestToEdit.description?.trim(),
+    start: startDate.toISOString(),
+    end: endDate.toISOString(),
+    price: this.selectedRequestToEdit.price ?? 0,
+    disabledId: this.selectedRequestToEdit.disabledId,
+    requestDate: new Date(this.selectedRequestToEdit.requestDate).toISOString(),
+    status: this.selectedRequestToEdit.status,
+    helperServiceId: this.selectedRequestToEdit.helperServiceId ?? 1
+  };
 
   this.requestService.updateRequest(updatedRequest).subscribe({
     next: () => {
-     // alert('Request updated successfully!');
       this._toster.success('Request updated successfully!', 'Update Successful', {
         positionClass: 'toast-top-center'
       });
@@ -211,14 +217,13 @@ console.log(JSON.stringify(updatedRequest, null, 2));
       this.closeEditModal();
     },
     error: (err) => {
-      console.error("Update failed:", err);
-     // alert('Error updating request. Please try again.');
       this._toster.error('Error updating request. Please try again.', 'Update Failed', {
         positionClass: 'toast-top-center'
       });
     }
   });
 }
+
 
 closeEditModal() {
   this.selectedRequestToEdit = null;
