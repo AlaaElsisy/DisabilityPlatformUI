@@ -41,10 +41,11 @@ constructor(private toastr: ToastrService) {}
       this.toastr.info(notification.message, 'Notification');
     });
 
-    this.hubConnection.on('ReceivedPersonalNotification', (notification: Notification, userId: string) => {
-      console.log(`Personal notification for ${userId}:`, notification);
-      this.toastr.info(notification.message, 'Personal Notification');
-    });
+   this.hubConnection.on('ReceivedPersonalNotification', (message: string, userId: string) => {
+  console.log(`Notification message:`, message);
+  this.toastr.info(message, 'Personal Notification');
+});
+
   }
 
   onNotification(callback: (message: string) => void) {

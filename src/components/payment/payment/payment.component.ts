@@ -56,10 +56,11 @@ if (!state) {
   this.payment.amount = state.amount || 0;
   this.payment.disabledRequestId = state.disabledRequestId ?? null;
   this.payment.helperRequestId = state.helperRequestId ?? null;
+    const userId = localStorage.getItem('userId');
+  if (userId) {
+    this.signalrService.startConnection(userId);
 }
-
-
-
+}
 
   async submitPayment() {
     if (!this.payment.cardNumber || !this.payment.expMonth || !this.payment.expYear || !this.payment.cvc || !this.payment.amount) {
@@ -89,46 +90,51 @@ if (!state) {
           paymentId: res.paymentId 
         };
         
-      if (res.success) {
+    if (res.success) {
   this.paymentService.getDisabledRequestById(this.payment.disabledRequestId!).subscribe({
     next: (disabledRequest: any) => {
-      console.log(' Disabled Request:', disabledRequest); 
+      console.log('Disabled Request:', disabledRequest);
 
       const requestId = disabledRequest.id;
       const helperServiceId = disabledRequest.helperServiceId;
+      const helperUserId = disabledRequest.helperUserId; 
 
-      if (!requestId) {
-        console.error(' Request ID is null or invalid');
+      if (!requestId || !helperServiceId || !helperUserId) {
+        console.error('Missing request ID, service ID, or helper user ID');
         return;
       }
 
-      if (!helperServiceId) {
-        console.error(' helperServiceId is null or invalid');
-        return;
+
+      const message = `${this.patientName} has completed the payment for ${this.serviceName}.`;
+
+      if (this.signalrService.isConnected()) {
+        this.signalrService.sendNotificationToClient(message, helperUserId)
+          .then(() => console.log(" Payment notification sent to helper"))
+          .catch(err => console.error(" Error sending notification", err));
       }
 
       this.paymentService.patchRequestStatus(requestId, '3').subscribe({
         next: () => {
-          console.log(" Request status updated to Completed");
+          console.log("Request status updated to Completed");
 
           this.paymentService.updateServiceStatus(helperServiceId, 3).subscribe({
             next: () => {
-              console.log(" Service marked as Completed");
+              console.log("Service marked as Completed");
               this.resetForm();
-              this.router.navigate(['/patient-serviceRequests']); 
+              this.router.navigate(['/patient-serviceRequests']);
               this._toster.success('Payment processed successfully.');
-
             },
-            error: err => console.error(" Error updating service status", err)
+            error: err => console.error("Error updating service status", err)
           });
         },
-        error: err => console.error(" Error updating request status:", err)
+        error: err => console.error("Error updating request status:", err)
       });
     },
     error: (err) => {
       console.error("Error fetching disabled request by ID:", err);
     }
   });
+
 
           this.resetForm();
         }
