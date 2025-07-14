@@ -29,39 +29,41 @@ export class ProviderservicesComponent implements OnInit {
   private readonly _helperservicesService = inject(HelperservicesService);
 
   ngOnInit(): void {
-  const token = localStorage.getItem('token');
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`,
-  });
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
 
-  this._getLoggingHelper.getuserData().subscribe({
-    next: (value) => {
-      this.userid = value.id;
+    this._getLoggingHelper.getuserData().subscribe({
+      next: (value) => {
+        this.userid = value.id;
+       this._helperservicesService.gethelprservices(this.userid, headers).subscribe({
+  next: (res) => {
+    const now = new Date();
 
-      this._helperservicesService.gethelprservices(this.userid, headers).subscribe({
-        next: (res) => {
-          const now = new Date();
-          this.AllServices = res;
-          this.AllServices.forEach(service => {
-            const endDate = new Date(service.availableDateTo);
-            if (endDate < now && service.status !== 2 && service.status !== 3) {
-              this._helperservicesService.updateStatus(service.id, 2, headers).subscribe({
-                next: () => {
-                  service.status = 2; 
-                  console.log(`Service ${service.id} marked as cancelled`);
-                },
-                error: (err) => console.error(`Failed to update service ${service.id}`, err)
-              });
-            }
-          });
-        },
-        error: (err) => console.log(err)
-      });
-    },
-    error: (err) => console.log(err)
-  });
-}
+    this.AllServices = res.map((service: Ihelperservices) => {
+      const availableTo = new Date(service.availableDateTo);
 
+      const noRequests = !service.disabledRequests || service.disabledRequests.length === 0;
+      // const allPending = service.disabledRequests?.every(p => p.status === 'pending');
+
+      if (availableTo < now && (noRequests && service.status !== 2)) {
+      this._helperservicesService.updateStatus(service.id, 2, headers).subscribe({
+          next: () => console.log(`Updated status of service ${service.id} to cancelled.`),
+          error: (err) => console.error(`Failed to update status of service ${service.id}`, err)
+        });
+      }
+
+      return service;
+    });
+  },
+  error: (err) => console.log(err)
+});
+
+      },
+      error: (err) => console.log(err)
+    });
+  }
 
   getStatusText(status: number): string {
     switch (status) {

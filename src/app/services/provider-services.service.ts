@@ -8,7 +8,7 @@ import { ProviderService, ProviderServiceQuery, ProviderServicePagedResult } fro
   providedIn: 'root',
 })
 export class ProviderServicesService {
-  private apiUrl = `${environment.apiBaseUrl}/HelperService/paged`;
+  private apiUrl = `${environment.apiBaseUrl}/HelperService/paged?status=pending`;
 
   constructor(private http: HttpClient) {}
 
